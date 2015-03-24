@@ -6,5 +6,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'CREE.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^$', views.login, name='login'),
+    url(r'^$', views.home, name='home'),
+    url(r'^revision-medica/(?P<paciente>[\w\-]+)/$', views.revisionMedica, name='revision_medica'),
+    url(r'^agregar-paciente/$', views.agregar_paciente, name='agrega_paciente'),
 )

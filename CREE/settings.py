@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'preconsulta',
+    'userprofiles',
+    'catalogos',
     'django_extensions',
 )
 
@@ -63,7 +65,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'CREE',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'rootu',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -74,7 +76,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Merida'
 
 USE_I18N = True
 

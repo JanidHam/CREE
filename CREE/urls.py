@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from preconsulta import urls
+from userprofiles import urls
 
 urlpatterns = patterns('',
     # Examples:
@@ -9,4 +10,5 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^preconsulta/', include('preconsulta.urls')),
+    url(r'^login/', include('userprofiles.urls')),
 )

@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser
 # Create your models here.
 class UserProfile(AbstractBaseUser):
 	idUser = models.IntegerField(primary_key=True)
-	userName = models.CharField(verbose_name='Usuario', unique=True, max_length=50)
+	username = models.CharField(verbose_name='Usuario', unique=True, max_length=50)
 	nombre = models.CharField(verbose_name='Nombre', max_length=80)
 	apellidoP = models.CharField(verbose_name='ApellidoPaterno', max_length=80)
 	apellidoM = models.CharField(verbose_name='ApellidoMaterno', max_length=80)
@@ -12,7 +12,7 @@ class UserProfile(AbstractBaseUser):
 
 	is_active = models.BooleanField(default=True)
 
-	USERNAME_FIELD = 'userName'
+	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = ['nombre', 'apellidoP']
 
 	def __unicode__(self):
