@@ -121,7 +121,7 @@ class CartaConsetimiento(models.Model):
 	codigopostal = models.IntegerField()
 	#Relaciones con otras tablas	
 	estadoprocedente = models.ForeignKey(Estado, related_name='cartaconsentimiento_estadoprocedente')
-	#municipio = models.ForeignKey(Municipio, related_name='cartaconsentimiento_municipio')
+	municipio = models.ForeignKey(Municipio, related_name='cartaconsentimiento_municipio')
 	doctor = models.ForeignKey(UserProfile, related_name='cartaconsentimiento_doctor')
 	expediente = models.ForeignKey(Expediente, related_name='cartaconsentimiento_expediente')
 

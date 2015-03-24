@@ -2,7 +2,7 @@ from django.shortcuts import render, render_to_response, RequestContext, redirec
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse, Http404
 from .models import Paciente, HojaPrevaloracion
-from catalogos import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree
+from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree
 import sys
 # Create your views here.
 def home(request):
