@@ -128,26 +128,11 @@
 	
 	{% for paciente in pacientes %}	
 		<a href="revision-medica/{{paciente.curp}}/">
-			<div class="showback" style="background: #9DF898;" data-correspondio="{{paciente.correspondio}}" data-curp="{{paciente.curp}}">
+			<div class="showback {{paciente.correspondio}}" data-correspondio="{{paciente.correspondio}}" data-curp="{{paciente.curp}}" id="{{paciente.curp}}">
 			{{paciente.nombre}} - {{paciente.apellidoP}}
 			</div>
 		</a>
 	{% endfor %}
-	<div class="showback" style="background: #F27F7F;">
-		<span class="label label-info">Janid Ham</span>
-	</div>
-	<div class="showback" style="background: #83E8F6">
-		<a href="">Janid Ham</a>
-	</div>
-	<div class="showback" style="background: #83E8F6">
-		<span class="label label-info">Janid Ham</span>
-		<span class="label label-info">Campeche</span>
-	</div>
+	
 </div>
-<script>
-{% for paciente in pacientes %}	
-var DOMAIN = "{{ paciente.curp }}";
-console.log(DOMAIN);
-{% endfor %}
-</script>
 {% endblock content %}

@@ -5,7 +5,7 @@
 {% block title %} Prevaloracion Medica - Paciente {% endblock title %}
 
 {% block filesJS %}
-	<script src="{% static "preconsulta/assets/js/prevaloracion.js" %}"></script>
+	<script src="{% static "preconsulta/assets/js/revision_medica.js" %}"></script>
 {% endblock filesJS %}
 
 {% block filesCSS %}
@@ -40,7 +40,7 @@
 						<div class="col-lg-4">
 							<div class="input-group">
 								<span class="input-group-addon" style="background-color: #FFF;">
-									<input type="checkbox" aria-label="..." value="{{servicio.id}}" name="type">
+									<input type="checkbox" aria-label="..." value="{{servicio.id}}" name="servicios">
 								</span>
 								<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
 							</div><!-- /input-group -->
@@ -58,17 +58,21 @@
 						<div class="col-lg-4">
 							<div class="input-group">
 								<span class="input-group-addon" style="background-color: #FFF;">
-									<input type="checkbox" aria-label="..." value="{{programa.id}}" name="type">
+									<input type="checkbox" aria-label="..." value="{{programa.id}}" name="programas">
 								</span>
 								<input type="text" class="form-control" aria-label="..." placeholder="{{programa.programa}}"  disabled>
 							</div><!-- /input-group -->
 						</div>
 					{% endfor %}						
 				</div>
-					<button class="btn btn-theme" id="AgregarPaciente"><i class="fa fa-heart"></i> Guardar</button>
+					<button class="btn btn-theme" id="RevisionPaciente"><i class="fa fa-heart"></i> Guardar</button>
 			</form>
 		</div><!-- /form-panel -->
 	</div><!-- /col-lg-12 -->
 </div>
 <!-- End form oculto para agregar pacientes nuevos-->
+<script>
+var CURP = "{{ curp }}";
+console.log(CURP);
+</script>
 {% endblock content %}

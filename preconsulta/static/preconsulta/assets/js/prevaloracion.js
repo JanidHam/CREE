@@ -53,10 +53,10 @@ function addPaciente() {
       escolaridad : $escolaridadInput.val(),
       usuario : "JanidH",
     }   
-    //cleanForm();
+    cleanForm();
     //console.log(datos);
     socket.emit('nuevo_paciente', datosPaciente);
-    //show_hideForm();
+    show_hideForm();
   }
 
   return false;
@@ -64,12 +64,27 @@ function addPaciente() {
 
 function showPaciente(data) {
   var data = JSON.parse(data);
-  console.log(data);
+  //console.log(data);
   if (data.isOk == "ok") {
     var listapacientes = $('#listPacientes');
-    listapacientes.prepend('<div class="showback" style="background: #9DF898;" data-correspondio="' + data.correspondio + '" data-curp="' + data.curp + '">"' + data.nombre + ' - ' + data.apellidoP + '</div>');
+    listapacientes.prepend('<a href="revision-medica/'+ data.curp + '/"> <div class="showback None" data-correspondio="' + data.correspondio + '" data-curp="' + data.curp + '" id="' + data.curp + '">' + data.nombre + ' - ' + data.apellidoP + '</div></a>');
     alert("Paciente agregado con exito.");
   }
+}
+
+function updateEstatusPaciente(data) {
+  var data = JSON.parse(data);
+  //console.log(data);  
+  if (data.isOk == "ok") {
+    
+    var correspondio = "True";
+    if (!data.correspondio)
+      correspondio = "False";
+
+    $paciente = $('#' + data.curp).attr('class', 'showback ' + correspondio);
+    //console.log($paciente);
+    //console.log($('#' + data.curp).attr('class'));
+  } 
 }
 
 function show_hideForm() {
@@ -201,6 +216,8 @@ function getEdad(fecha) {
 
 // Eventos
 socket.on('mostrar_paciente', showPaciente );
+
+socket.on('correspondio_paciente', updateEstatusPaciente );
 
 $showForm.click( show_hideForm )
 

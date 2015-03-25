@@ -3,6 +3,8 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Paciente)
+admin.site.register(Expediente)
+admin.site.register(HojaPrevaloracion)
 """
 admin.site.register(Estado)
 admin.site.register(Municipio)

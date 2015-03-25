@@ -1,3 +1,15 @@
 .formOculto {
 	display: none;
 }
+
+div .True {
+	background: #9DF898;
+}
+
+div .False {
+	background: red;
+}
+
+div .None {
+	background: yellow;
+}

@@ -1,7 +1,8 @@
+from django.db import IntegrityError, transaction
 from django.shortcuts import render, render_to_response, RequestContext, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse, Http404
-from .models import Paciente, HojaPrevaloracion
+from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal
 from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree
 import sys
 # Create your views here.
@@ -19,41 +20,59 @@ def home(request):
 def revisionMedica(request, paciente):
 	servicios = ServicioCree.objects.filter(is_active=True)
 	programas = ProgramaCree.objects.filter(is_active=True)
-	contexto = {'servicios' : servicios, 'programas' : programas}
+	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente}
 	return render_to_response('preconsulta/BasePrevaloracionMedica.html', contexto, context_instance=RequestContext(request))
 
-def addHojaPrevaloracion(request, curp):
+@csrf_exempt
+def addHojaPrevaloracion(request):
 	if request.POST:
-		try:			
-			mensaje = "Error al crear la hoja de prevaloracion"			
-			paciente = Paciente.objects.get(curp=curp)
-			
-			servicios = request.POST.getlist('servicios[]')
-			if len(servicios) > 0:
-				HojaPrevaloracion.objects.create(
-					motivoconsulta = request.POST['movitoConsulta'],
-					diagnosticonosologico = request.POST['diagnosticoNosologico'],
-					diagnosticonosologico2 = request.POST['diagnosticoNosologico2'],
-					canalizacion = request.POST['canalizacion'],
-					edad = request.POST['edad'],
-					ocupacion_id = paciente.ocupacion.id,
-					referidopor_id = paciente.referidopor.id,
-					escolaridad_id = paciente.escolaridad.id,
-					doctor = request.POST['doctor'],
-					psicologo = 1,
+		try:
+			correspondio = False
+			with transaction.atomic():				
+				mensaje = "Error al crear la hoja de prevaloracion"
+				paciente = Paciente.objects.get(curp=request.POST['curp'])
 
-					)
+				servicios = request.POST.getlist('servicios')
 
-				#for t in tasks:
-				#	encuesta.preguntas.add(t)
+				if len(servicios) > 0:
+					paciente.correspondio = True
+					paciente.save()
 
-			mensaje = "ok"
+					expendiete = Expediente.objects.create(
+						claveexpediente = "0011-15",
+						paciente_id = paciente.id,
+						fechaalta = "2015-03-30",
+						)
+
+					hojaPreValoracion = HojaPrevaloracion.objects.create(
+						motivoconsulta = request.POST['motivoConsulta'],
+						diagnosticonosologico = request.POST['diagnosticoNosologico'],
+						diagnosticonosologico2 = request.POST['diagnosticoNosologicoBreve'],
+						canalizacion = request.POST['canalizacion'],
+						edad = paciente.edad,
+						ocupacion_id = paciente.ocupacion.id,
+						referidopor_id = paciente.referidopor.id,
+						escolaridad_id = paciente.escolaridad.id,
+						doctor_id = 1,
+						psicologo_id = 1,
+						expediente_id = expendiete.id
+						)
+					correspondio = True
+					#for servicio in servicios:						
+					#	encuesta.preguntas.add(t)
+				else:
+					print paciente.correspondio
+					paciente.correspondio = False
+					paciente.save()
+
+				mensaje = "ok"
 
 		except Exception:
 			print sys.exc_info()
 			mensaje = "Error al crear la hoja de prevaloracion"		
-		response = JsonResponse({'nombre' : request.POST['nombre'],'apellidoP' : request.POST['apellidoP'],
-		 'curp' : request.POST['curp'], 'correspondio' : 'None', 'isOk' : mensaje})
+		
+		response = JsonResponse({'curp' : request.POST['curp'], 'correspondio' : correspondio,
+								'isOk' : mensaje})
 		return HttpResponse(response.content)
 	else:
 		raise Http404
