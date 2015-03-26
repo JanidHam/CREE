@@ -43,6 +43,8 @@ class Expediente(models.Model):
 	fechacreacion = models.DateField(auto_now=True)
 	fechaalta = models.DateField(blank=True)
 	#fechaalta = models.DateField(auto_now=True)
+	def __unicode__(self):
+		return self.claveexpediente + " " + self.paciente.nombre + " " + self.paciente.apellidoP
 
 #Aqui empiezan los modelos relacionados con los expedientes
 class HojaPrevaloracion(models.Model):

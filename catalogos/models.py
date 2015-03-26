@@ -96,3 +96,10 @@ class Referidopor(models.Model):
 	def __unicode__(self):
 		return self.descripcion
 #Fin de los catalogos para expedientes
+
+class ConsecutivoExpendiente(models.Model):
+	consecutivo = models.IntegerField()
+	anio_actual = models.IntegerField()
+
+	def __unicode__(self):
+		return str(self.consecutivo) + " - " + str(self.anio_actual)

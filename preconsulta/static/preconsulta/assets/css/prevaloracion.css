@@ -1,15 +1,28 @@
 .formOculto {
 	display: none;
 }
+a {
+	color: #FFF !important;
+}
+
+a .logout {
+	background-color: #28B62C !important;
+	border-color: #23A127 !important;
+}
 
 div .True {
-	background: #9DF898;
+	background: #2AC36C;
 }
 
 div .False {
-	background: red;
+	background: #E74C3C;
 }
 
 div .None {
-	background: yellow;
+	background: #F4BE3A;
+}
+span .pacientes {
+	background-color: #75CAEB;
+	color: #FFF;
+	font-size: 1.5em !important;
 }

@@ -1,0 +1,37 @@
+{% extends 'preconsulta/index.html' %}
+
+{% load staticfiles %}
+
+{% block title %} Prevaloracion Medica - {{curp}} {% endblock title %}
+
+{% block filesJS %}
+	<script src="{% static "preconsulta/assets/js/revision_medica.js" %}"></script>
+{% endblock filesJS %}
+
+{% block filesCSS %}
+	<link rel="stylesheet" type="text/css" href="{% static "preconsulta/assets/css/prevaloracion.css" %}"/>
+{% endblock filesCSS %}
+
+{% block content %}
+<!-- Start form oculto para agregar pacientes nuevos-->
+<div class="row mt" id="form">
+	<div class="col-lg-12">
+		<div class="form-panel">
+			<h4 class="mb">Formulario revision psicologica</h4>
+			<form class="form-horizontal tasi-form" role="form">
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<textarea class="form-control" id="motivoConsulta" placeholder="MOTIVO DE CONSULTA" rows="5"></textarea>
+					</div>					
+				</div>				
+					<button class="btn btn-theme" id="RevisionPaciente"><i class="fa fa-heart"></i> Guardar</button>
+			</form>
+		</div><!-- /form-panel -->
+	</div><!-- /col-lg-12 -->
+</div>
+<!-- End form oculto para agregar pacientes nuevos-->
+<script>
+var CURP = "{{ curp }}";
+console.log(CURP);
+</script>
+{% endblock content %}

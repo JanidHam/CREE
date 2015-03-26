@@ -29,7 +29,7 @@ var isHombre = "HOMBRE",
     isMujer  = "MUJER";
 
 //Funciones
-function addPaciente() {  
+function addPaciente() {
   if (validForm()) {
     var datosPaciente = {
       curp : $curpInput.val(),
@@ -37,8 +37,8 @@ function addPaciente() {
       apellidoP : $apellidoPInput.val(),
       apellidoM : $apellidoMInput.val(),
       edad : $edadInput.val(),
-      genero : "1",//$generoInput.val(),
-      fechaN : "2015-03-19",//$fechaInput.val(),
+      genero : getGeneroInt($generoInput.val()),//"1",//$generoInput.val(),
+      fechaN : $fechaInput.val(),//"2015-03-19",//$fechaInput.val(),
       telCasa : $telefonoInput.val(),
       celular : $celularInput.val(),
       estado : $estadoInput.val(),
@@ -74,7 +74,7 @@ function showPaciente(data) {
 
 function updateEstatusPaciente(data) {
   var data = JSON.parse(data);
-  //console.log(data);  
+  console.log(data);  
   if (data.isOk == "ok") {
     
     var correspondio = "True";
@@ -82,7 +82,7 @@ function updateEstatusPaciente(data) {
       correspondio = "False";
 
     $paciente = $('#' + data.curp).attr('class', 'showback ' + correspondio);
-    //console.log($paciente);
+    console.log($paciente);
     //console.log($('#' + data.curp).attr('class'));
   } 
 }
@@ -140,9 +140,9 @@ function fillDataCurp() {
   if ($curpInput.val() !== '') {
     if ($curpInput.val().length > 17) {
       //var fechaNacimientoShort = $curpInput.val().substring(4,10);
-      var fechaNacimiento = curp2date($curpInput.val());
+      var fechaNacimiento = curp2date($curpInput.val(), true);
       var genero          = getGenero($curpInput.val().substring(10,11));
-      var edad            = getEdad(fechaNacimiento);
+      var edad            = getEdad(curp2date($curpInput.val(), false));
 
       $curpInput.val($curpInput.val().toUpperCase());
       $generoInput.val(genero);
@@ -170,7 +170,14 @@ function getGenero(letra) {
     return isMujer;
 }
 
-function curp2date(curp) {
+function getGeneroInt(genero) {
+  if (genero === isHombre)
+    return 1;
+  else if (genero === isMujer)
+    return 0;
+}
+
+function curp2date(curp, isInput) {
   var m = curp.match( /^\w{4}(\w{2})(\w{2})(\w{2})/ );
   
   var anyo = parseInt(m[1],10)+1900;
@@ -180,8 +187,10 @@ function curp2date(curp) {
   if( anyo < 1950 ) { anyo += 100; }
   if (dia < 10) { dia = '0' + dia };
   if (mes < 10) { mes = '0' + mes };
-  
-  return dia + '-' + mes + '-' + anyo;
+  if (isInput)
+    return anyo + '-' + mes + '-' + dia;
+  else
+    return dia + '-' + mes + '-' + anyo;
 }
 
 function getEdad(fecha) {

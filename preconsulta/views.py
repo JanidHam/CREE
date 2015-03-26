@@ -4,6 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse, Http404
 from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal
 from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree
+from .utils import getUpdateConsecutiveExpendiete
+from datetime import date
 import sys
 # Create your views here.
 def home(request):
@@ -12,16 +14,38 @@ def home(request):
 	referidospor = Referidopor.objects.all()
 	municipios = Municipio.objects.all()
 	estados = Estado.objects.all()
-	pacientes = Paciente.objects.all().order_by('-id')
+	pacientes = Paciente.objects.all().filter(fechacreacion=date.today()).order_by('-id')
 	contexto = {'ocupaciones' : ocupaciones, 'escolaridades' : escoliridades, 'referidospor' : referidospor,
 	            'municipios' : municipios, 'estados' : estados, 'pacientes' : pacientes}
-	return render_to_response('preconsulta/BasePrevaloracion.html', contexto, context_instance=RequestContext(request))
+	return render_to_response('preconsulta/Prevaloracion.html', contexto, context_instance=RequestContext(request))
 
 def revisionMedica(request, paciente):
 	servicios = ServicioCree.objects.filter(is_active=True)
 	programas = ProgramaCree.objects.filter(is_active=True)
 	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente}
-	return render_to_response('preconsulta/BasePrevaloracionMedica.html', contexto, context_instance=RequestContext(request))
+	return render_to_response('preconsulta/PrevaloracionMedica.html', contexto, context_instance=RequestContext(request))
+
+def psicologicaPrevaloracion(request, paciente):
+	return render_to_response('preconsulta/PrevaloracionPsicologica.html', context_instance=RequestContext(request))
+
+def addPsicologiaHojaPrevaloracion(request):
+	if request.POST:
+		try:
+			with transaction.atomic():
+				mensaje = "Error al actualizar la hoja de prevaloracion"
+
+				paciente = Paciente.objects.get(curp=request.POST['curp'])
+				expediente = Expediente.objects.get(paciente__id=paciente.id)
+
+		except Exception:
+			print sys.exc_info()
+			mensaje = "Error al crear la hoja de prevaloracion"		
+		
+		response = JsonResponse({'curp' : request.POST['curp'], 'correspondio' : correspondio,
+								'isOk' : mensaje})
+		return HttpResponse(response.content)
+	else:
+		raise Http404
 
 @csrf_exempt
 def addHojaPrevaloracion(request):
@@ -33,13 +57,15 @@ def addHojaPrevaloracion(request):
 				paciente = Paciente.objects.get(curp=request.POST['curp'])
 
 				servicios = request.POST.getlist('servicios')
+				programas = request.POST.getlist('programas')
 
 				if len(servicios) > 0:
 					paciente.correspondio = True
 					paciente.save()
-
+					
+					claveExpediente = getUpdateConsecutiveExpendiete()
 					expendiete = Expediente.objects.create(
-						claveexpediente = "0011-15",
+						claveexpediente = claveExpediente,
 						paciente_id = paciente.id,
 						fechaalta = "2015-03-30",
 						)
@@ -57,6 +83,14 @@ def addHojaPrevaloracion(request):
 						psicologo_id = 1,
 						expediente_id = expendiete.id
 						)
+
+					hojaFrontal = HojaFrontal.objects.create(
+						edad = paciente.edad,
+						diagnosticonosologico = request.POST['diagnosticoNosologico'],
+						usuario = 1,
+						expediente_id = expendiete.id
+						)
+
 					correspondio = True
 					#for servicio in servicios:						
 					#	encuesta.preguntas.add(t)
