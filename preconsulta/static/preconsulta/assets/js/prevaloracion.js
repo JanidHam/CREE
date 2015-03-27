@@ -1,5 +1,11 @@
 //Variables globales
+try {
 var socket = io.connect("http://localhost:3000");
+} catch(err) {
+  socket = null;
+  //Ya se maneja el error si no esta corriendo el servidor de nodeJS, falta mostrar un mensaje
+  //de error para informar que no se guardaran los cambios
+}
 
 var $sendPaciente = $('#AgregarPaciente');
 
@@ -73,8 +79,8 @@ function showPaciente(data) {
 }
 
 function updateEstatusPaciente(data) {
-  var data = JSON.parse(data);
-  console.log(data);  
+  //var data = JSON.parse(data);
+  //console.log(data);  
   if (data.isOk == "ok") {
     
     var correspondio = "True";
@@ -224,12 +230,13 @@ function getEdad(fecha) {
 }
 
 // Eventos
-socket.on('mostrar_paciente', showPaciente );
-
-socket.on('correspondio_paciente', updateEstatusPaciente );
 
 $showForm.click( show_hideForm )
 
 $sendPaciente.click( addPaciente )
 
 $curpInput.focusout( fillDataCurp )
+
+socket.on('mostrar_paciente', showPaciente );
+
+socket.on('correspondio_paciente', updateEstatusPaciente );

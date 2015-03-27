@@ -149,6 +149,7 @@ class EstudioSocioE1(models.Model):
 	motivoestudio = models.ForeignKey(MotivoEstudioSE, related_name='estudiosocioe1_escolaridad')
 	expediente = models.ForeignKey(Expediente, related_name='estudiosocioe1_expediente')
 	usuariocreacion = models.ForeignKey(UserProfile, related_name='estudiosocioe1_usuario')
+	#Faltan las relaciones de los miembros de la familia
 
 class EstructuraFamiliaESE1(models.Model):
 	nombrefamiliar = models.CharField(max_length=200)

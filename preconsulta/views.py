@@ -26,8 +26,15 @@ def revisionMedica(request, paciente):
 	return render_to_response('preconsulta/PrevaloracionMedica.html', contexto, context_instance=RequestContext(request))
 
 def psicologicaPrevaloracion(request, paciente):
-	return render_to_response('preconsulta/PrevaloracionPsicologica.html', context_instance=RequestContext(request))
+	contexto = {'curp' : paciente}
+	return render_to_response('preconsulta/PrevaloracionPsicologica.html', contexto, context_instance=RequestContext(request))
 
+def estudioSPrevaloracion(request, paciente):
+	ocupaciones = Ocupacion.objects.all()
+	contexto = {'ocupaciones' : ocupaciones,'curp' : paciente}
+	return render_to_response('preconsulta/PrevaloracionEstudioS.html', contexto, context_instance=RequestContext(request))
+
+@csrf_exempt
 def addPsicologiaHojaPrevaloracion(request):
 	if request.POST:
 		try:
@@ -35,14 +42,19 @@ def addPsicologiaHojaPrevaloracion(request):
 				mensaje = "Error al actualizar la hoja de prevaloracion"
 
 				paciente = Paciente.objects.get(curp=request.POST['curp'])
-				expediente = Expediente.objects.get(paciente__id=paciente.id)
+				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
+				hojaPrev = HojaPrevaloracion.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
+				
+				hojaPrev.psicologia = request.POST['psicologia']
+				hojaPrev.psicologo_id = request.POST['usuario']
+				hojaPrev.save()
 
+				mensaje = "ok"
 		except Exception:
 			print sys.exc_info()
-			mensaje = "Error al crear la hoja de prevaloracion"		
-		
-		response = JsonResponse({'curp' : request.POST['curp'], 'correspondio' : correspondio,
-								'isOk' : mensaje})
+			mensaje = "Error al actualizar la hoja de prevaloracion"
+		print mensaje
+		response = JsonResponse({'isOk' : mensaje})
 		return HttpResponse(response.content)
 	else:
 		raise Http404
@@ -87,7 +99,7 @@ def addHojaPrevaloracion(request):
 					hojaFrontal = HojaFrontal.objects.create(
 						edad = paciente.edad,
 						diagnosticonosologico = request.POST['diagnosticoNosologico'],
-						usuario = 1,
+						usuario_id = 1,
 						expediente_id = expendiete.id
 						)
 

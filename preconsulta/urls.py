@@ -9,8 +9,10 @@ urlpatterns = patterns('',
     url(r'^$', views.home, name='home'),
     
     url(r'^revision-medica/(?P<paciente>[\w\-]+)/$', views.revisionMedica, name='revision_medica'),
-    url(r'^psicologia/(?P<paciente>[\w\-]+)/$', views.psicologicaPrevaloracion, name='picologica_prevaloracion'),
+    url(r'^revision-psicologica/(?P<paciente>[\w\-]+)/$', views.psicologicaPrevaloracion, name='revision_psicologica'),
+    url(r'^revision-estudio-socioeconomico/(?P<paciente>[\w\-]+)/$', views.estudioSPrevaloracion, name='revision_estudio_socioeconomico'),
 
     url(r'^agregar-paciente/$', views.agregar_paciente, name='agrega_paciente'),
     url(r'^agregar-hoja-prevaloracion/$', views.addHojaPrevaloracion, name='agregar_hoja_prevaloracion'),
+    url(r'^agregar-hoja-prevaloracion-psicologia/$', views.addPsicologiaHojaPrevaloracion, name='agregar_hoja_prevaloracion_psicologica'),
 )

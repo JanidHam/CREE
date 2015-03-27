@@ -1,11 +1,11 @@
-{% extends 'preconsulta/index.html' %}
+{% extends 'preconsulta/base.html' %}
 
 {% load staticfiles %}
 
 {% block title %} Prevaloracion Medica - {{curp}} {% endblock title %}
 
 {% block filesJS %}
-	<script src="{% static "preconsulta/assets/js/revision_medica.js" %}"></script>
+	<script src="{% static "preconsulta/assets/js/revision_psicologica.js" %}"></script>
 {% endblock filesJS %}
 
 {% block filesCSS %}
@@ -21,7 +21,7 @@
 			<form class="form-horizontal tasi-form" role="form">
 				<div class="form-group">
 					<div class="col-lg-12">					
-						<textarea class="form-control" id="motivoConsulta" placeholder="MOTIVO DE CONSULTA" rows="5"></textarea>
+						<textarea class="form-control" id="psicologia" placeholder="PSICOLOGIA" rows="5"></textarea>
 					</div>					
 				</div>				
 					<button class="btn btn-theme" id="RevisionPaciente"><i class="fa fa-heart"></i> Guardar</button>

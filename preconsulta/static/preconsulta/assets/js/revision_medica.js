@@ -1,6 +1,11 @@
 //Variables globales
+try {
 var socket = io.connect("http://localhost:3000");
-
+} catch(err) {
+  socket = null;
+  //Ya se maneja el error si no esta corriendo el servidor de nodeJS, falta mostrar un mensaje
+  //de error para informar que no se guardaran los cambios
+}
 var $sendRevision = $('#RevisionPaciente');
 
 var $form    = $('#form'),
@@ -27,7 +32,7 @@ function sendDataRevision() {
 	}
 	
 	socket.emit('addHojaPrevaloracion', datosRevision);
-	window.location.replace("http://localhost:8000/preconsulta/");
+	//window.location.replace("http://localhost:8000/preconsulta/");
 	return false;
 }
 
@@ -49,6 +54,18 @@ function getCheckedProgramas() {
     return programas;
 }
 
+function checkIsDataIsCorrect(data) {
+	var data = JSON.parse(data);
+	if (data.isOk == "ok") {
+		socket.emit('dataIsSaveSucces_revision_medica', data);
+		window.location.replace("http://localhost:8000/preconsulta/");
+	} else {
+		alert(data.isOk);
+	}
+}
+
 //Eventos
 
 $sendRevision.click( sendDataRevision )
+
+socket.on('addHojaPrevaloracion_Respuesta', checkIsDataIsCorrect );
