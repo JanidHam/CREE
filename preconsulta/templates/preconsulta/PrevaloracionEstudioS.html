@@ -9,7 +9,7 @@
 {% endblock filesJS %}
 
 {% block filesCSS %}
-	<link rel="stylesheet" type="text/css" href="{% static "preconsulta/assets/css/prevaloracion.css" %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static "preconsulta/assets/css/prevaloracion-estudio-economico.css" %}"/>
 {% endblock filesCSS %}
 
 {% block content %}
@@ -22,45 +22,215 @@
 				<div class="form-group">
 					<div class="col-lg-12">
 						<div class="col-lg-3">
-							<input type="tel" class="form-control" id="nombreEntrevistado" placeholder="Nombre Entrevistado">
+							<span id="helpBlock" class="help-block text-uppercase">Estado Civil</span>
+							<input type="text" class="form-control text-uppercase" id="estadoCivil" placeholder="Estado Civil Paciente">
 						</div>
 						<div class="col-lg-3">
-							<input type="tel" class="form-control" id="apellidoEntrevistado" placeholder="apelldio Entrevistado">
-						</div>
-						<div class="col-lg-3">
-							<select class="form-control" id="estadoCivil">	
-								<option value="SOLTERO"> SOLTERO </option>
-								<option value="CASADO"> CASADO </option>
-								<option value="VIUDO"> VIUDO </option>
-							</select>
-						</div>
-						<div class="col-lg-3">
-							<select class="form-control" id="motivoEstudio">	
-								<option value="RUTINA"> RUTINA </option>
-							</select>
+							<span id="helpBlock" class="help-block text-uppercase">Consultorio</span>
+							<input type="text" class="form-control text-uppercase" id="consultorio" placeholder="Consultorio" value="">
 						</div>
 					</div>			
 				</div>
-				<h4 class="mb">Estructura Familiar</h4>
+				<div class="form-group">
+					<div class="col-lg-12">
+						<div class="col-lg-3">
+							<input type="text" class="form-control text-uppercase" id="nombreEntrevistado" placeholder="Nombre Entrevistado">
+						</div>
+						<div class="col-lg-3">
+							<input type="text" class="form-control text-uppercase" id="apellidoEntrevistado" placeholder="apelldio Entrevistado">
+						</div>
+						<div class="col-lg-3">
+							<div class="input-group">									
+								<span class="input-group-addon">Estado Civil</span>
+								<select class="form-control" id="estadoCivil">	
+									<option value="SOLTERO"> SOLTERO </option>
+									<option value="CASADO"> CASADO </option>
+									<option value="VIUDO"> VIUDO </option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="input-group">									
+								<span class="input-group-addon">Motivo Estudio</span>
+							<select class="form-control" id="motivoEstudio">
+								{% for motivo in motivosEsutdio %}				
+									<option value="{{motivo.id}}"> {{motivo.motivoestudio}} </option>
+								{% endfor %}
+							</select>
+						</div>
+						</div>
+					</div>			
+				</div>
+				<h4 class="mb page-header">Situacion Economica</h4>
+				<div class="form-group">
+					<div class="col-lg-12">
+						<div class="col-lg-4">
+							<div class="panel panel-default">
+								<div class="panel-heading">INGRESOS</div>
+								<div class="panel-body">
+									{% for ingreso in ingresos %}
+										<div class="input-group">									
+											<span class="input-group-addon">$</span>
+											<input type="text" class="form-control" name="ingresos" id="{{ingreso.id}}" placeholder="{{ingreso.descripcion}}">
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>	
+						<div class="col-lg-4">
+							<div class="panel panel-default">
+								<div class="panel-heading">EGRESOS</div>
+								<div class="panel-body">
+									{% for egreso in egresos %}
+										<div class="input-group">									
+											<span class="input-group-addon">$</span>
+											<input type="text" class="form-control" name="egresos" id="{{egreso.id}}" placeholder="{{egreso.descripcion}}">
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="input-group">									
+								<span class="input-group-addon">$</span>
+								<input type="text" class="form-control" name="egresos" id="deficit" placeholder="DEFICIT">
+							</div>
+							<div class="input-group">									
+								<span class="input-group-addon">$</span>
+								<input type="text" class="form-control" name="egresos" id="excedente" placeholder="EXCEDENTE">
+							</div>
+						</div>
+					</div>		
+				</div>				
+				<div class="col-lg-12 page-header">
+					<div class="col-lg-4">
+						<h4 class="mb">Caracteristicas de la Vivienda</h4>
+					</div>
+					<div class="col-lg-8">
+					<select class="form-control" id="tipoVivienda">
+						{% for tipo in tipoVivienda %}
+						<option value="{{tipo.id}}"> {{tipo.vivienda}} </option>
+						{% endfor %}
+					</select>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="col-lg-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Componentes de la Vivienda</div>
+							<div class="panel-body">			
+								{% for componente in componentesVivienda %}
+								<div class="input-group">
+									<span class="input-group-addon add-on-white">
+										<input type="checkbox" aria-label="..." value="{{componente.id}}" name="componentesVivienda">
+									</span>
+									<input type="text" class="form-control" aria-label="..." placeholder="{{componente.componente}}"  disabled>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Servicios de la Vivienda</div>
+							<div class="panel-body">					
+								{% for servicio in servicioVivienda %}
+								<div class="input-group">
+									<span class="input-group-addon add-on-white">
+										<input type="checkbox" aria-label="..." value="{{servicio.id}}" name="serviciosVivienda">
+									</span>
+									<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Tenencia de la Vivienda</div>
+							<div class="panel-body">				
+								{% for tenencia in tenenciaVivienda %}
+								<div class="input-group">
+									<span class="input-group-addon add-on-white">
+										<input type="checkbox" aria-label="..." value="{{tenencia.id}}" name="tenenciasVivienda">
+									</span>
+									<input type="text" class="form-control" aria-label="..." placeholder="{{tenencia.tenencia}}"  disabled>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>					
+				</div>				
+				<div class="col-lg-12">
+					<div class="col-lg-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Componentes de la Vivienda</div>
+							<div class="panel-body">			
+								{% for construccion in construccionVivienda %}
+								<div class="input-group">
+									<span class="input-group-addon add-on-white">
+										<input type="checkbox" aria-label="..." value="{{construccion.id}}" name="construccionVivienda">
+									</span>
+									<input type="text" class="form-control" aria-label="..." placeholder="{{construccion.componente}}"  disabled>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Barreras Internas Vivienda</div>
+							<div class="panel-body">					
+								{% for bInternas in barrerasInternasVivienda %}
+								<div class="input-group">
+									<span class="input-group-addon add-on-white">
+										<input type="checkbox" aria-label="..." value="{{bInternas.id}}" name="barrerasInternasVivienda">
+									</span>
+									<input type="text" class="form-control" aria-label="..." placeholder="{{bInternas.barrera}}"  disabled>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Barreras Externas Vivienda</div>
+							<div class="panel-body">				
+								{% for bExternas in barrerasExternasVivienda %}
+								<div class="input-group">
+									<span class="input-group-addon add-on-white">
+										<input type="checkbox" aria-label="..." value="{{bExternas.id}}" name="tenenciasVivienda">
+									</span>
+									<input type="text" class="form-control" aria-label="..." placeholder="{{bExternas.barrera}}"  disabled>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>					
+				</div>		
+				<h4 class="mb page-header">Estructura Familiar</h4>
 				<div id="estructura-familiar">
 					<div class="form-group" id="form-estructura">
 						<div class="col-lg-12">
 							<div class="col-lg-4">
-								<input type="tel" class="form-control" id="nombreFamiliar" placeholder="Nombre Familiar">
+								<input type="tel" class="form-control text-uppercase" id="nombreFamiliar" placeholder="Nombre Familiar">
 							</div>
 							<div class="col-lg-2">
-								<select class="form-control" id="parentesco">	
-									<option value="PADRE"> PADRE </option>
-									<option value="MADRE"> MADRE </option>
-									<option value="HIJO"> HIJO </option>
-									<option value="HERMANO"> HERMANO </option>
-									<option value="HERMANA"> HERMANA </option>
-									<option value="TIO"> TIO </option>
-									<option value="TIA"> TIA </option>
-								</select>
+								<div class="input-group">									
+									<span class="input-group-addon">Parentesco</span>
+									<select class="form-control" id="parentesco">	
+										<option value="PADRE"> PADRE </option>
+										<option value="MADRE"> MADRE </option>
+										<option value="HIJO"> HIJO </option>
+										<option value="HERMANO"> HERMANO </option>
+										<option value="HERMANA"> HERMANA </option>
+										<option value="TIO"> TIO </option>
+										<option value="TIA"> TIA </option>
+									</select>
+								</div>
 							</div>
 							<div class="col-lg-2">
-								<input type="tel" class="form-control" id="edad" placeholder="Edad">
+								<input type="tel" class="form-control text-uppercase" id="edad" placeholder="Edad">
 							</div>
 							<div class="col-lg-2">
 								<select class="form-control" id="estadoCivilFamiliar">	

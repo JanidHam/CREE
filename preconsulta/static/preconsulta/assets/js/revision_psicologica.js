@@ -9,12 +9,14 @@ var socket = io.connect("http://localhost:3000");
 var $sendRevision = $('#RevisionPaciente');
 
 var $form    = $('#form'),
-	$psicologia = $('#psicologia');
+	$psicologia = $('#psicologia'),
+	$diagnosticoNosologicoBreve = $('#diagnosticoNosologicoBreve');
 
 //Funciones
 function sendDataRevision() {
 	var datosRevision = {
 		psicologia : $psicologia.val(),
+		diagnosticoNosologicoBreve : $diagnosticoNosologicoBreve.val(),
 		curp : CURP,
 		usuario : 2,
 	}

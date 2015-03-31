@@ -24,34 +24,66 @@ class ClasificacionEconomica(models.Model):
 	clasificacion = models.CharField(max_length=20)
 	is_active = models.BooleanField(default=True)
 
+	def __unicode__(self):
+		return self.clasificacion
+
 class MotivoEstudioSE(models.Model):
 	motivoestudio = models.CharField(max_length=255)
 	is_active = models.BooleanField(default=True)
+
+	def __unicode__(self):
+		return self.motivoestudio
 
 class TipoVivienda(models.Model):
 	vivienda = models.CharField(max_length=255)
 	is_active = models.BooleanField(default=True)
 
+	def __unicode__(self):
+		return self.vivienda
+
 class ComponenteVivienda(models.Model):
 	componente = models.CharField(max_length=255)
 	is_active = models.BooleanField(default=True)
+
+	def __unicode__(self):
+		return self.componente
 
 class ServicioVivienda(models.Model):
 	servicio = models.CharField(max_length=255)
 	is_active = models.BooleanField(default=True)
 
+	def __unicode__(self):
+		return self.servicio
+
 class TenenciaVivienda(models.Model):
 	tenencia = models.CharField(max_length=255)
 	is_active = models.BooleanField(default=True)
+
+	def __unicode__(self):
+		return self.tenencia
 
 class ConstruccionVivienda(models.Model):
 	componente = models.CharField(max_length=255)
 	is_active = models.BooleanField(default=True)
 
+	def __unicode__(self):
+		return self.componente
+
 class BarreraArquitectonicaVivienda(models.Model):
 	barrera = models.CharField(max_length=255)
 	tipo = models.CharField(max_length=15)
 	is_active = models.BooleanField(default=True)
+
+	def __unicode__(self):
+		return self.tipo + ": " + self.barrera
+
+class IngresosEgresos(models.Model):
+	descripcion = models.CharField(max_length=80)
+	tipo = models.CharField(max_length=15)
+	is_active = models.BooleanField(default=True)
+
+	def __unicode__(self):
+		return self.tipo + ": " + self.descripcion
 #Fin de los catalogos del proceso de prevaloracion
 
 """

@@ -42,6 +42,7 @@ class Expediente(models.Model):
 	is_active = models.BooleanField(default=True)
 	fechacreacion = models.DateField(auto_now=True)
 	fechaalta = models.DateField(blank=True)
+	servicios = models.ManyToManyField(ServicioCree, through='ServicioExpediente')
 	#fechaalta = models.DateField(auto_now=True)
 	def __unicode__(self):
 		return self.claveexpediente + " " + self.paciente.nombre + " " + self.paciente.apellidoP
@@ -51,7 +52,7 @@ class HojaPrevaloracion(models.Model):
 	motivoconsulta = models.TextField()
 	diagnosticonosologico = models.TextField()
 	psicologia = models.TextField(blank=True)
-	diagnosticonosologico2 = models.TextField()
+	diagnosticonosologico2 = models.TextField(blank=True)
 	canalizacion = models.TextField()
 	fechacreacion = models.DateField(auto_now=True)
 	edad = models.IntegerField()
@@ -62,6 +63,16 @@ class HojaPrevaloracion(models.Model):
 	doctor = models.ForeignKey(UserProfile, related_name='hojaprevaloracion_doctor')
 	psicologo = models.ForeignKey(UserProfile, related_name='hojaprevaloracion_psicologo')
 	expediente = models.ForeignKey(Expediente, related_name='hojaprevaloracion_expediente')
+
+class ServicioExpediente(models.Model):
+	expediente = models.ForeignKey(Expediente)
+	servicio = models.ForeignKey(ServicioCree)
+	is_active = models.BooleanField(default=True)
+	hojaPrevaloracion = models.ForeignKey(HojaPrevaloracion)
+	fechaBaja = models.DateField(blank=True)
+
+	def __unicode__(self):
+		return self.servicio.servicio + " - " + self.expediente.claveexpediente
 
 class HojaFrontal(models.Model):
 	edad = models.IntegerField()
@@ -174,4 +185,13 @@ class EstudioSocioE2(models.Model):
 	tenenciavivienda = models.ManyToManyField(TenenciaVivienda, related_name='estudiosocioe2_tenencia')
 	construccionvivienda = models.ManyToManyField(ConstruccionVivienda, related_name='estudiosocioe2_construccion')
 	barreravivienda = models.ManyToManyField(BarreraArquitectonicaVivienda, related_name='estudiosocioe2_barrera')
+	ingresos_egresos = models.ManyToManyField(IngresosEgresos, through='EstudioSocioE2IngresosServicios')
+
+class EstudioSocioE2IngresosServicios(models.Model):
+	ingreso_egreso = models.ForeignKey(IngresosEgresos)
+	estudio = models.ForeignKey(EstudioSocioE2)
+	monto = models.IntegerField()	
+
+	def __unicode__(self):
+		return self.ingreso_egregso.tipo + ": " + self.ingreso_egregso.descripcion + str(monto)
 #Fin de los modelos relacionados con los expedientes

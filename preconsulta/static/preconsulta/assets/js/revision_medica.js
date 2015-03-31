@@ -11,8 +11,7 @@ var $sendRevision = $('#RevisionPaciente');
 var $form    = $('#form'),
 	$canalizacion               = $('#canalizacion'),
 	$motivoConsulta             = $('#motivoConsulta'),
-	$diagnosticoNosologico      = $('#diagnosticoNosologico'),
-	$diagnosticoNosologicoBreve = $('#diagnosticoNosologicoBreve');
+	$diagnosticoNosologico      = $('#diagnosticoNosologico');
 
 
 
@@ -24,8 +23,7 @@ function sendDataRevision() {
 	var datosRevision = {
 		canalizacion : $canalizacion.val(),
 		motivoConsulta : $motivoConsulta.val(),
-		diagnosticoNosologico : $diagnosticoNosologico.val(),
-		diagnosticoNosologicoBreve : $diagnosticoNosologicoBreve.val(),
+		diagnosticoNosologico : $diagnosticoNosologico.val(),		
 		servicios : serviciostemp,
 		programas : programastemp,
 		curp : CURP,
