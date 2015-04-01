@@ -2,7 +2,7 @@ from django.db import IntegrityError, transaction
 from django.shortcuts import render, render_to_response, RequestContext, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse, Http404
-from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente
+from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosServicios
 from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda
 from .utils import getUpdateConsecutiveExpendiete
 from datetime import date
@@ -88,21 +88,43 @@ def addEstudioSocioeconomico(request):
 	if request.POST:
 		try:
 			with transaction.atomic():
-				mensaje = "Error al los estudios socio economicos"
+				mensaje = "Error al crear los estudios socio economicos"
 
-				paciente = Paciente.objects.get(curp=request.POST['curp'])
+				paciente   = Paciente.objects.get(curp=request.POST['curp'])
 				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
-				hojaPrev = HojaPrevaloracion.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
 				
-				hojaPrev.diagnosticonosologico2 = request.POST['diagnosticoNosologicoBreve']
-				hojaPrev.psicologia = request.POST['psicologia']
-				hojaPrev.psicologo_id = request.POST['usuario']
-				hojaPrev.save()
+				ingresos     = request.POST.getlist('ingresos')
+				egresos      = request.POST.getlist('egresos')
+				serviciosV   = request.POST.getlist('servicios')
+				construccion = request.POST.getlist('construccion')
+				tenencias    = request.POST.getlist('tenencias')
+				barrerasI    = request.POST.getlist('barrerasI')
+				barrerasE    = request.POST.getlist('barrerasE')
+
+				estudio1 = EstudioSocioE1.objects.create(
+					edad = paciente.edad,
+					estadocivil = request.POST['estadoCivil'],
+					consultorio = request.POST['consultorio'],
+					nombreentevistado = request.POST['nombreEntrevistado'],
+					apellidosentevistado = request.POST['apellidoEntrevistado'],
+					calle = paciente.calle,
+					entrecalles = paciente.entrecalles,
+					colonia = paciente.colonia,
+					numerocasa = paciente.numerocasa,
+					codigopostal = paciente.codigopostal,
+					clasificacion_id = 1,#request.POST['clasificacion'],
+					ocupacion_id = paciente.ocupacion.id,
+					escolaridad_id = paciente.escolaridad.id,
+					servicio_id = 1,#request.POST['servicio'],
+					motivoestudio_id = request.POST['motivoEstudio'],
+					expediente_id = expediente.id,
+					usuariocreacion_id = 1,#request.POST['usuario'],
+					)
 
 				mensaje = "ok"
 		except Exception:
 			print sys.exc_info()
-			mensaje = "Error al actualizar la hoja de prevaloracion"
+			mensaje = "Error al crear los estudios socio economicos"
 		print mensaje
 		response = JsonResponse({'isOk' : mensaje})
 		return HttpResponse(response.content)

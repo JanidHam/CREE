@@ -21,10 +21,10 @@
 			<form class="form-horizontal tasi-form" role="form">
 				<div class="form-group">
 					<div class="col-lg-12">
-						<div class="col-lg-3">
+						<!-- <div class="col-lg-3">
 							<span id="helpBlock" class="help-block text-uppercase">Estado Civil</span>
 							<input type="text" class="form-control text-uppercase" id="estadoCivil" placeholder="Estado Civil Paciente">
-						</div>
+						</div> -->
 						<div class="col-lg-3">
 							<span id="helpBlock" class="help-block text-uppercase">Consultorio</span>
 							<input type="text" class="form-control text-uppercase" id="consultorio" placeholder="Consultorio" value="">
@@ -93,11 +93,11 @@
 						<div class="col-lg-4">
 							<div class="input-group">									
 								<span class="input-group-addon">$</span>
-								<input type="text" class="form-control" name="egresos" id="deficit" placeholder="DEFICIT">
+								<input type="text" class="form-control" id="deficit" placeholder="DEFICIT">
 							</div>
 							<div class="input-group">									
 								<span class="input-group-addon">$</span>
-								<input type="text" class="form-control" name="egresos" id="excedente" placeholder="EXCEDENTE">
+								<input type="text" class="form-control" id="excedente" placeholder="EXCEDENTE">
 							</div>
 						</div>
 					</div>		
@@ -164,7 +164,7 @@
 				<div class="col-lg-12">
 					<div class="col-lg-4">
 						<div class="panel panel-default">
-							<div class="panel-heading">Componentes de la Vivienda</div>
+							<div class="panel-heading">Construccion de la Vivienda</div>
 							<div class="panel-body">			
 								{% for construccion in construccionVivienda %}
 								<div class="input-group">
@@ -199,7 +199,7 @@
 								{% for bExternas in barrerasExternasVivienda %}
 								<div class="input-group">
 									<span class="input-group-addon add-on-white">
-										<input type="checkbox" aria-label="..." value="{{bExternas.id}}" name="tenenciasVivienda">
+										<input type="checkbox" aria-label="..." value="{{bExternas.id}}" name="barrerasExternasVivienda">
 									</span>
 									<input type="text" class="form-control" aria-label="..." placeholder="{{bExternas.barrera}}"  disabled>
 								</div>
@@ -207,13 +207,20 @@
 							</div>
 						</div>
 					</div>					
-				</div>		
-				<h4 class="mb page-header">Estructura Familiar</h4>
+				</div>
+				<div class="col-lg-12 page-header">
+					<div class="col-lg-3">
+						<h4 class="mb">Estructura Familiar</h4>
+					</div>
+					<div class="col-lg-1">
+						<button type="button" class="btn btn-round btn-warning" id="addEstructuraFamiliar"><i class="fa fa-heart"></i> Agregar</button>
+					</div>
+				</div>				
 				<div id="estructura-familiar">
 					<div class="form-group" id="form-estructura">
 						<div class="col-lg-12">
 							<div class="col-lg-4">
-								<input type="tel" class="form-control text-uppercase" id="nombreFamiliar" placeholder="Nombre Familiar">
+								<input type="text" class="form-control text-uppercase" id="nombreFamiliar" placeholder="Nombre Familiar">
 							</div>
 							<div class="col-lg-2">
 								<div class="input-group">									
@@ -230,7 +237,7 @@
 								</div>
 							</div>
 							<div class="col-lg-2">
-								<input type="tel" class="form-control text-uppercase" id="edad" placeholder="Edad">
+								<input type="text" class="form-control text-uppercase" id="edadFamiliar" placeholder="Edad">
 							</div>
 							<div class="col-lg-2">
 								<select class="form-control" id="estadoCivilFamiliar">	
@@ -257,6 +264,6 @@
 <!-- End form oculto para agregar pacientes nuevos-->
 <script>
 var CURP = "{{ curp }}";
-console.log(CURP);
+//console.log(CURP);
 </script>
 {% endblock content %}

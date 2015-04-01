@@ -42,6 +42,12 @@ a, a:hover, a:focus {
     height: 100%;
 }
 
+.logOut {
+    /*background-color: #28B62C !important;
+    border-color: #23A127 !important;*/
+    margin-top: 10px !important;
+}
+
 /* Bootstrap Modifications */
 .modal-header {
 	background: #68dff0;
