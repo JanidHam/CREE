@@ -48,7 +48,7 @@
             </div>
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
-                    <li><button class="btn btn-danger logOut" href="login.html">Salir</button></li>
+                    <li><button class="btn btn-danger logOut" id="logout">Salir</button></li>
             	</ul>
             </div>
         </header>
@@ -64,7 +64,7 @@
               <ul class="sidebar-menu" id="nav-accordion">
               
               	  <p class="centered"><a href="profile.html"><img src="{% static "preconsulta/images/avatar.jpeg" %}" class="img-circle" width="60"></a></p>
-              	  <h5 class="centered">Janid Ham</h5>
+              	  <h5 class="centered">{{ user }}</h5>
               	  	
                   <li class="mt">
                       <a class="active" href="index.html">
@@ -177,6 +177,20 @@
     <script type="text/javascript" src="{% static "preconsulta/assets/js/gritter/js/jquery.gritter.js" %}"></script>
     <script type="text/javascript" src="{% static "preconsulta/assets/js/gritter-conf.js" %}"></script>	   
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+
+    <script type="text/javascript">
+      var $logout = $('#logout');
+
+      var usuario = "{{ request.user }}";
+
+      //console.log(usuario);
+
+      function logout() {
+        window.location.replace("http://localhost:8000/login/logout/");
+      }
+
+      $logout.click( logout )
+    </script>
 
     {% block filesJS %}{% endblock filesJS %}
           

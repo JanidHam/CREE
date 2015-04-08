@@ -166,6 +166,7 @@ class EstructuraFamiliaESE1(models.Model):
 	nombrefamiliar = models.CharField(max_length=200)
 	apellidosfamiliar = models.CharField(max_length=200)
 	parentesco = models.CharField(max_length=20)
+	estadocivil = models.CharField(max_length=20)
 	#Relaciones con otras tablas	
 	estudiose = models.ForeignKey(EstudioSocioE1, related_name='estructurafamiliar_estadoprocedente')
 	ocupacion = models.ForeignKey(Ocupacion, related_name='estructurafamiliar_ocupacion')

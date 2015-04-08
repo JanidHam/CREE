@@ -128,8 +128,18 @@
 <div class="form-panel">
 	<h4><i class="fa fa-angle-right"></i> Lista de pacientes de hoy</h4>
 	<div class="lst-pacientes" id="listPacientes">
-	{% for paciente in pacientes %}	
-		<a href="revision-medica/{{paciente.curp}}/">
+	{% for paciente in pacientes %}
+			{% if grupo == "informacion" %}
+				<a href="#">
+			{% elif grupo == "revisionMedica"%}
+				<a href="revision-medica/{{paciente.curp}}/">					
+			{% elif grupo == "revisionPsicologica"%}
+				<a href="revision-psicologica/{{paciente.curp}}/">
+			{% elif grupo == "trabajoSocial"%}
+				<a href="revision-estudio-socioeconomico/{{paciente.curp}}/">
+			{% else %}
+				<a href="#">
+			{% endif %}					
 			<div class="showback {{paciente.correspondio}}" data-correspondio="{{paciente.correspondio}}" data-curp="{{paciente.curp}}" id="{{paciente.curp}}">
 			{{paciente.nombre}} - {{paciente.apellidoP}}
 			</div>
@@ -137,4 +147,8 @@
 	{% endfor %}
 	</div>
 </div>
+<script>
+var grupo = "{{ grupo }}";
+console.log(grupo);
+</script>
 {% endblock content %}

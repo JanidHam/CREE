@@ -1,44 +1,73 @@
 from django.db import IntegrityError, transaction
 from django.shortcuts import render, render_to_response, RequestContext, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
-from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosServicios
+from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosServicios, EstructuraFamiliaESE1
 from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda
 from .utils import getUpdateConsecutiveExpendiete
+from .decorators import redirect_view
+from django.contrib.auth.models import Group
 from datetime import date
 import sys
+
 # Create your views here.
 SERVICIO_ESTUDIO_SOCIOECONOMICO1 = "PRECONSULTA"
 SERVICIO_PSICOLOGIA = "PSICOLOGIA"
+CONSULTORIO = 1
 INGRESO = "INGRESO"
 EGRESO = "EGRESO"
 EXTERNAS = "EXTERNAS"
 INTERNAS = "INTERNAS"
 
-
+@redirect_view
 def home(request):
+	#pdb.set_trace()
 	ocupaciones = Ocupacion.objects.all()
 	escoliridades = Escolaridad.objects.all()
 	referidospor = Referidopor.objects.all()
 	municipios = Municipio.objects.all()
 	estados = Estado.objects.all()
 	pacientes = Paciente.objects.all().order_by('-id')
+	grupo = ""
+	try:
+		request.user.groups.get(name='Informacion')
+		grupo = "informacion"
+	except Group.DoesNotExist:
+		try:
+			request.user.groups.get(name='RevisionMedica')
+			grupo = "revisionMedica"
+		except Group.DoesNotExist:
+			try:
+				request.user.groups.get(name='RevisionPsicologica')
+				grupo = "revisionPsicologica"
+			except Group.DoesNotExist:
+				try:
+					request.user.groups.get(name='TrabajoSocial')
+					grupo = "trabajoSocial"
+				except Group.DoesNotExist:
+					grupo = ""
+					
 	contexto = {'ocupaciones' : ocupaciones, 'escolaridades' : escoliridades, 'referidospor' : referidospor,
-	            'municipios' : municipios, 'estados' : estados, 'pacientes' : pacientes}
+	            'municipios' : municipios, 'estados' : estados, 'pacientes' : pacientes, 'grupo': grupo}
 	return render_to_response('preconsulta/Prevaloracion.html', contexto, context_instance=RequestContext(request))
 
+@login_required(login_url='/login/')
 def revisionMedica(request, paciente):
 	servicios = ServicioCree.objects.filter(is_active=True)
 	programas = ProgramaCree.objects.filter(is_active=True)
 	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente}
 	return render_to_response('preconsulta/PrevaloracionMedica.html', contexto, context_instance=RequestContext(request))
 
+@login_required(login_url='/login/')
 def psicologicaPrevaloracion(request, paciente):
 	contexto = {'curp' : paciente}
 	return render_to_response('preconsulta/PrevaloracionPsicologica.html', contexto, context_instance=RequestContext(request))
 
+@login_required(login_url='/login/')
 def estudioSPrevaloracion(request, paciente):
 	ocupaciones = Ocupacion.objects.filter(is_active=True)
+	escolaridades = Escolaridad.objects.filter(is_active=True)
 	motivosEstudio = MotivoEstudioSE.objects.filter(is_active=True)
 	ingresos = IngresosEgresos.objects.filter(tipo=INGRESO, is_active=True)
 	egresos = IngresosEgresos.objects.filter(tipo=EGRESO, is_active=True)
@@ -54,7 +83,7 @@ def estudioSPrevaloracion(request, paciente):
 	'ingresos' : ingresos, 'tipoVivienda' : tipoVivienda, 'componentesVivienda' : componenteVivienda, 
 	'servicioVivienda' : servicioVivienda, 'tenenciaVivienda' : tenenciaVivienda, 
 	'construccionVivienda' : construccionVivienda, 'barrerasInternasVivienda' : barrerasInternasVivienda,
-	'barrerasExternasVivienda' : barrerasExternasVivienda, 'curp' : paciente}
+	'barrerasExternasVivienda' : barrerasExternasVivienda, 'escolaridades' : escolaridades, 'curp' : paciente}
 	return render_to_response('preconsulta/PrevaloracionEstudioS.html', contexto, context_instance=RequestContext(request))
 
 @csrf_exempt
@@ -93,6 +122,8 @@ def addEstudioSocioeconomico(request):
 				paciente   = Paciente.objects.get(curp=request.POST['curp'])
 				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
 				
+				estructuraFamiliar = request.POST.getlist('EstructuraF')
+				
 				ingresos     = request.POST.getlist('ingresos')
 				egresos      = request.POST.getlist('egresos')
 				serviciosV   = request.POST.getlist('servicios')
@@ -104,7 +135,7 @@ def addEstudioSocioeconomico(request):
 				estudio1 = EstudioSocioE1.objects.create(
 					edad = paciente.edad,
 					estadocivil = request.POST['estadoCivil'],
-					consultorio = request.POST['consultorio'],
+					consultorio = CONSULTORIO,#request.POST['consultorio'],
 					nombreentevistado = request.POST['nombreEntrevistado'],
 					apellidosentevistado = request.POST['apellidoEntrevistado'],
 					calle = paciente.calle,
@@ -120,7 +151,17 @@ def addEstudioSocioeconomico(request):
 					expediente_id = expediente.id,
 					usuariocreacion_id = 1,#request.POST['usuario'],
 					)
-
+				for estructura in estructuraFamiliar:
+					print estructura
+					EstructuraFamiliaESE1.objects.create(
+						nombrefamiliar = estructura[0],
+						apellidosfamiliar = estructura[1],
+						parentesco = estructura[2],
+						estadocivil = estructura[3],
+						estudiose_id = estudio1.id,
+						ocupacion_id = estructura[4],
+						escolaridad_id = estructura[5],
+						)
 				mensaje = "ok"
 		except Exception:
 			print sys.exc_info()

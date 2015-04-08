@@ -3,12 +3,12 @@ from django.contrib.auth.models import AbstractBaseUser
 
 # Create your models here.
 class UserProfile(AbstractBaseUser):
-	idUser = models.IntegerField(primary_key=True)
+	idUser = models.AutoField(primary_key=True)
 	username = models.CharField(verbose_name='Usuario', unique=True, max_length=50)
 	nombre = models.CharField(verbose_name='Nombre', max_length=80)
 	apellidoP = models.CharField(verbose_name='ApellidoPaterno', max_length=80)
 	apellidoM = models.CharField(verbose_name='ApellidoMaterno', max_length=80)
-	pictureProfile = models.ImageField(verbose_name='PictureProfile', upload_to='imagesProfiles')
+	pictureProfile = models.ImageField(verbose_name='PictureProfile', upload_to='imagesProfiles', blank=True)
 
 	is_active = models.BooleanField(default=True)
 

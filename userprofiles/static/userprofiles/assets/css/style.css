@@ -21,6 +21,7 @@ body {
 
 ul li {
     list-style: none;
+    color: red;
 }
 
 a, a:hover, a:focus {

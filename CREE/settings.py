@@ -29,6 +29,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#AUTH_USER_MODEL = 'userprofiles.UserProfile'
+
 
 # Application definition
 
@@ -78,7 +80,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-MX'
 
 TIME_ZONE = 'America/Merida'
 
