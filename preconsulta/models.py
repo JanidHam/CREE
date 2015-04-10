@@ -160,7 +160,9 @@ class EstudioSocioE1(models.Model):
 	motivoestudio = models.ForeignKey(MotivoEstudioSE, related_name='estudiosocioe1_escolaridad')
 	expediente = models.ForeignKey(Expediente, related_name='estudiosocioe1_expediente')
 	usuariocreacion = models.ForeignKey(UserProfile, related_name='estudiosocioe1_usuario')
-	#Faltan las relaciones de los miembros de la familia
+
+	def __unicode__(self):
+		return str(self.pk) + " - " + self.expediente.claveexpediente
 
 class EstructuraFamiliaESE1(models.Model):
 	nombrefamiliar = models.CharField(max_length=200)
@@ -172,9 +174,12 @@ class EstructuraFamiliaESE1(models.Model):
 	ocupacion = models.ForeignKey(Ocupacion, related_name='estructurafamiliar_ocupacion')
 	escolaridad = models.ForeignKey(Escolaridad, related_name='estructurafamiliar_escolaridad')
 
+	def __unicode__(self):
+		return str(self.estudiose.id) + " - " + self.estudiose.expediente.claveexpediente
+
 class EstudioSocioE2(models.Model):
-	deficit = models.IntegerField()
-	excedente = models.IntegerField()
+	deficit = models.IntegerField(blank=True)
+	excedente = models.IntegerField(blank=True)
 	datosignificativo = models.TextField()
 	diagnosticoplansocial = models.TextField()
 	#Relaciones con otras tablas	
@@ -187,6 +192,9 @@ class EstudioSocioE2(models.Model):
 	construccionvivienda = models.ManyToManyField(ConstruccionVivienda, related_name='estudiosocioe2_construccion')
 	barreravivienda = models.ManyToManyField(BarreraArquitectonicaVivienda, related_name='estudiosocioe2_barrera')
 	ingresos_egresos = models.ManyToManyField(IngresosEgresos, through='EstudioSocioE2IngresosServicios')
+
+	def __unicode__(self):
+		return str(self.pk) + " - " + self.estudiose.expediente.claveexpediente
 
 class EstudioSocioE2IngresosServicios(models.Model):
 	ingreso_egreso = models.ForeignKey(IngresosEgresos)

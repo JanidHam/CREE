@@ -365,7 +365,7 @@ ul.sidebar-menu li a{
     text-decoration: none;
     display: block;
     padding: 15px 0 15px 10px;
-    font-size: 12px;
+    font-size: 1.2em;
     outline: none;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -375,7 +375,7 @@ ul.sidebar-menu li a{
 }
 
 ul.sidebar-menu li a.active, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
-    background: #68dff0;
+    background: #6E898D;
     color: #fff;
     display: block;
 

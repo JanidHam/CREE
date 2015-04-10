@@ -10,6 +10,8 @@ from .decorators import redirect_view
 from django.contrib.auth.models import Group
 from datetime import date
 import sys
+import json
+#import pdb
 
 # Create your views here.
 SERVICIO_ESTUDIO_SOCIOECONOMICO1 = "PRECONSULTA"
@@ -28,7 +30,7 @@ def home(request):
 	referidospor = Referidopor.objects.all()
 	municipios = Municipio.objects.all()
 	estados = Estado.objects.all()
-	pacientes = Paciente.objects.all().order_by('-id')
+	pacientes = Paciente.objects.all()
 	grupo = ""
 	try:
 		request.user.groups.get(name='Informacion')
@@ -118,11 +120,11 @@ def addEstudioSocioeconomico(request):
 		try:
 			with transaction.atomic():
 				mensaje = "Error al crear los estudios socio economicos"
-
+				#pdb.set_trace()
 				paciente   = Paciente.objects.get(curp=request.POST['curp'])
 				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
 				
-				estructuraFamiliar = request.POST.getlist('EstructuraF')
+				estructuraFamiliar = request.POST.getlist('EstructuraF')				
 				
 				ingresos     = request.POST.getlist('ingresos')
 				egresos      = request.POST.getlist('egresos')
@@ -131,7 +133,11 @@ def addEstudioSocioeconomico(request):
 				tenencias    = request.POST.getlist('tenencias')
 				barrerasI    = request.POST.getlist('barrerasI')
 				barrerasE    = request.POST.getlist('barrerasE')
-
+				print len(estructuraFamiliar)
+				for x in estructuraFamiliar:				 	
+				 	tmp = json.loads(x)
+				 	print tmp['nombreF']
+				
 				estudio1 = EstudioSocioE1.objects.create(
 					edad = paciente.edad,
 					estadocivil = request.POST['estadoCivil'],
@@ -151,22 +157,35 @@ def addEstudioSocioeconomico(request):
 					expediente_id = expediente.id,
 					usuariocreacion_id = 1,#request.POST['usuario'],
 					)
-				for estructura in estructuraFamiliar:
-					print estructura
+				for i in estructuraFamiliar:
+					estructura = json.loads(i)
 					EstructuraFamiliaESE1.objects.create(
-						nombrefamiliar = estructura[0],
-						apellidosfamiliar = estructura[1],
-						parentesco = estructura[2],
-						estadocivil = estructura[3],
+						nombrefamiliar = estructura['nombreF'],
+						apellidosfamiliar = estructura['apellidosF'],
+						parentesco = estructura['parentescoF'],
+						estadocivil = estructura['estadoCivilF'],
 						estudiose_id = estudio1.id,
-						ocupacion_id = estructura[4],
-						escolaridad_id = estructura[5],
+						ocupacion_id = estructura['ocupacionF'],
+						escolaridad_id = estructura['escolaridadF'],
 						)
+
+				estudio2 = EstudioSocioE2.objects.create(
+					deficit = request.POST['deficit'],
+					excedente = request.POST['excedente'],
+					datosignificativo = request.POST['datosSignificativos'],
+					diagnosticoplansocial = request.POST['diagnosticoPlanS'],
+					estudiose_id = estudio1.id,
+					usuariocreacion_id = 1,
+					vivienda_id = request.POST['tipoVivienda']					
+					)
+				for i in ingresos:
+					ingreso = json.loads(i)
+					estudio2.ingreso_egreso.add(ingreso_egreso_id=ingreso['id'], estudio_id=estudio2.id, monto=ingreso['valor'])
 				mensaje = "ok"
 		except Exception:
 			print sys.exc_info()
 			mensaje = "Error al crear los estudios socio economicos"
-		print mensaje
+		
 		response = JsonResponse({'isOk' : mensaje})
 		return HttpResponse(response.content)
 	else:
@@ -183,7 +202,7 @@ def addHojaPrevaloracion(request):
 
 				servicios = request.POST.getlist('servicios')
 				programas = request.POST.getlist('programas')
-
+				print servicios
 				if len(servicios) > 0:
 					paciente.correspondio = True
 					paciente.save()

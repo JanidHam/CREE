@@ -1,3 +1,13 @@
+/*$(document).on('ready', main_discusiones);
+
+function main_discusiones() {
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if(settings.type == "POST"){
+                xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
+            }
+        }
+    });*/
 //Variables globales
 try {
 	var socket = io.connect("http://localhost:3000");
@@ -11,14 +21,16 @@ var $sendRevision   = $('#RevisionPaciente');
 var $addEstructuraF = $('#addEstructuraFamiliar');
 
 var $form    = $('#form'),
-	$deficit              = $('#deficit'),
-	$excedente            = $('#excedente'),
-	$estadoCivil          = $('#estadoCivil'),
-	//$consultorio          = $('#consultorio'),
-	$tipoVivienda         = $('#tipoVivienda'),
-	$motivoEstudio        = $('#motivoEstudio'),
-	$nombreEntrevistado   = $('#nombreEntrevistado'),
-	$apellidoEntrevistado = $('#apellidoEntrevistado');
+    $deficit              = $('#deficit'),
+    $excedente            = $('#excedente'),
+    $estadoCivil          = $('#estadoCivil'),
+    //$consultorio        = $('#consultorio'),
+    $tipoVivienda         = $('#tipoVivienda'),
+    $motivoEstudio        = $('#motivoEstudio'),
+    $diagnosticoPlanS     = $('#diagnosticoPlanS'),
+    $nombreEntrevistado   = $('#nombreEntrevistado'),
+    $datosSignificativos  = $('#datosSignificativos'),
+    $apellidoEntrevistado = $('#apellidoEntrevistado');
 
 
 //Funciones
@@ -34,9 +46,8 @@ function addEstructuraFamiliar() {
 }
 
 function sendDataRevision() {
-
 	var datosRevision = {
-		//consultorio : $consultorio.val(),
+		//consultorio : $consultorio.val(),        
 		nombreEntrevistado : $nombreEntrevistado.val(),
 		apellidoEntrevistado : $apellidoEntrevistado.val(),
 		motivoEstudio : $motivoEstudio.val(),
@@ -53,8 +64,10 @@ function sendDataRevision() {
 		barrerasI : getBarrerasInternasVivienda(),
 		curp : CURP,
         EstructuraF : getEstructuraFamiliar(),
+        diagnosticoPlanS : $diagnosticoPlanS,
+        datosSignificativos : $datosSignificativos,
 	}
-
+    //$.post('guardar-encuesta-contestada/', { 'fecha': idinput.val(), 'tasks[]': tasks, 'tasksP[]': tasksPreguntas }, actualizar_encuestas);
 	try {
 		socket.emit('addEstudioSEconomico', datosRevision);
 	} catch(err) {
@@ -77,10 +90,10 @@ function getEstructuraFamiliar() {
 
     for (var i = 0; i < $estructuraFNombre.length; i++) {
         if ($estructuraFNombre[i].value !== "") {
-            estructura.push({'nombreF': $estructuraFNombre[i].value, 'apellidosF': $estructuraFApellidos[i].value,
+            estructura.push(JSON.stringify({'nombreF': $estructuraFNombre[i].value, 'apellidosF': $estructuraFApellidos[i].value,
                              'parentescoF': $estructuraFParentesco[i].value, 'edadF': $estructuraFEdad[i].value,
                              'estadoCivilF': $estructuraFEstadoCivil[i].value,'ocupacionF': $estructuraFOcupacion[i].value,
-                             'escolaridadF': $estructuraFEscolaridad[i].value});
+                             'escolaridadF': $estructuraFEscolaridad[i].value }));
         }
     }
     console.log(estructura);
@@ -92,10 +105,13 @@ function getIngresos() {
     $ingresos = $('input:text[name=ingresos]');
 
     for (var i = 0; i < $ingresos.length; i++) {
-    	if ($ingresos[i].value !== "") 
-    		ingresos.push({'id': $ingresos[i].attributes.item(2).value, 'valor' : $ingresos[i].value });    	
+    	if ($ingresos[i].value !== "")
+            //ingresos.push([$ingresos[i].attributes.item(2).value, $ingresos[i].value]);
+            //ingresos.push($ingresos[i].attributes.item(2).value);
+            //ingresos.push($ingresos[i].value);
+    		ingresos.push(JSON.stringify({'id' : $ingresos[i].attributes.item(2).value, 'valor' : $ingresos[i].value }));
     };
-    //console.log(ingresos);
+    console.log(ingresos);
     return ingresos;
 }
 
@@ -105,7 +121,7 @@ function getEgresos() {
 
     for (var i = 0; i < $egresos.length; i++) {
     	if ($egresos[i].value !== "") 
-    		egresos.push({'id': $egresos[i].attributes.item(2).value, 'valor' : $egresos[i].value });    	
+    		egresos.push(JSON.stringify({'id': $egresos[i].attributes.item(2).value, 'valor' : $egresos[i].value }));
     };
     //console.log(egresos);
     return egresos;
@@ -177,4 +193,4 @@ $sendRevision.click( sendDataRevision )
 
 $addEstructuraF.click( addEstructuraFamiliar )
 
-socket.on('addHojaPrevaloracion_Respuesta', checkIsDataIsCorrect );
+//socket.on('addHojaPrevaloracion_Respuesta', checkIsDataIsCorrect );

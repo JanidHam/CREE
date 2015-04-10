@@ -72,9 +72,23 @@ function showPaciente(data) {
   var data = JSON.parse(data);
   //console.log(data);
   if (data.isOk == "ok") {
-    var listapacientes = $('#listPacientes');
-    listapacientes.prepend('<a href="revision-medica/'+ data.curp + '/"> <div class="showback None" data-correspondio="' + data.correspondio + '" data-curp="' + data.curp + '" id="' + data.curp + '">' + data.nombre + ' - ' + data.apellidoP + '</div></a>');
-    alert("Paciente agregado con exito.");
+    var listapacientes = $('#listPacientes');    
+    listapacientes.append('<a href="' + setURLByRol(data.curp) + '/"> <div class="showback None" data-correspondio="' + data.correspondio + '" data-curp="' + data.curp + '" id="' + data.curp + '">' + data.nombre + ' - ' + data.apellidoP + '</div></a>');
+    //alert("Paciente agregado con exito.");
+  }
+}
+
+function setURLByRol(curp) {
+  if (grupo === "informacion") {
+    return "#";
+  } else if(grupo === "revisionMedica") {
+      return "revision-medica/" + curp;
+  } else if (grupo === "revisionPsicologica") {
+      return "revision-psicologica/" + curp;
+  } else if (grupo === "trabajoSocial") {
+      return "revision-estudio-socioeconomico/" + curp;
+  } else {
+      return "#";
   }
 }
 

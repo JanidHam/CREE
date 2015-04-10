@@ -83,7 +83,7 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('addEstudioSEconomico', function(data) {
-		var values = querystring.stringify(data);
+		var values = querystring.stringify(data);		
 		var options = {
 			hostname : 'localhost',
 			port : '8000',
