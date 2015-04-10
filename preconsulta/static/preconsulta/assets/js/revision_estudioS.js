@@ -27,7 +27,9 @@ var $form    = $('#form'),
     //$consultorio        = $('#consultorio'),
     $tipoVivienda         = $('#tipoVivienda'),
     $motivoEstudio        = $('#motivoEstudio'),
+    $cantidadBanios       = $('#cantidadBanios'),
     $diagnosticoPlanS     = $('#diagnosticoPlanS'),
+    $cantidadRecamaras    = $('#cantidadRecamaras'),
     $nombreEntrevistado   = $('#nombreEntrevistado'),
     $datosSignificativos  = $('#datosSignificativos'),
     $apellidoEntrevistado = $('#apellidoEntrevistado');
@@ -62,10 +64,13 @@ function sendDataRevision() {
 		tenencias : getTenenciasVivienda(),
 		barrerasE : getBarrerasExternasVivienda(),
 		barrerasI : getBarrerasInternasVivienda(),
+        componentes : getComponentesVivienda(),
 		curp : CURP,
         EstructuraF : getEstructuraFamiliar(),
         diagnosticoPlanS : $diagnosticoPlanS,
         datosSignificativos : $datosSignificativos,
+        cantidadBanios: $cantidadBanios.val(),
+        cantidadRecamaras: $cantidadRecamaras.val(),
 	}
     //$.post('guardar-encuesta-contestada/', { 'fecha': idinput.val(), 'tasks[]': tasks, 'tasksP[]': tasksPreguntas }, actualizar_encuestas);
 	try {

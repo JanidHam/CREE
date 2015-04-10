@@ -1,6 +1,15 @@
+.badge {
+	font-size: 1em !important;
+}
+
 .formOculto {
 	display: none;
 }
+
+.mt {
+	margin-top: 0px !important;
+}
+
 a {
 	color: #FFF !important;
 }

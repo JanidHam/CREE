@@ -9,7 +9,7 @@ admin.site.register(EstudioSocioE1)
 admin.site.register(HojaPrevaloracion)
 admin.site.register(ServicioExpediente)
 admin.site.register(EstructuraFamiliaESE1)
-admin.site.register(EstudioSocioE2IngresosServicios)
+admin.site.register(EstudioSocioE2IngresosEgresos)
 """
 admin.site.register(Estado)
 admin.site.register(Municipio)

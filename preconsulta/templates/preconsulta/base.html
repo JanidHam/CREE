@@ -69,6 +69,9 @@
                       <a class="active" href="/preconsulta/">
                           <i class="fa fa-tasks"></i>
                           <span>Pacientes hoy</span>
+                          {% if pacientes %}
+                            <span class="badge">{{ pacientes|length }}</span>
+                          {% endif %}
                       </a>
                   </li>
               </ul>

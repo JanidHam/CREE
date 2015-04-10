@@ -3,7 +3,7 @@ from django.shortcuts import render, render_to_response, RequestContext, redirec
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
-from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosServicios, EstructuraFamiliaESE1
+from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1
 from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda
 from .utils import getUpdateConsecutiveExpendiete
 from .decorators import redirect_view
@@ -129,14 +129,11 @@ def addEstudioSocioeconomico(request):
 				ingresos     = request.POST.getlist('ingresos')
 				egresos      = request.POST.getlist('egresos')
 				serviciosV   = request.POST.getlist('servicios')
-				construccion = request.POST.getlist('construccion')
-				tenencias    = request.POST.getlist('tenencias')
-				barrerasI    = request.POST.getlist('barrerasI')
-				barrerasE    = request.POST.getlist('barrerasE')
-				print len(estructuraFamiliar)
-				for x in estructuraFamiliar:				 	
-				 	tmp = json.loads(x)
-				 	print tmp['nombreF']
+				componentesV   = request.POST.getlist('componentes')
+				construccionV = request.POST.getlist('construccion')
+				tenenciasV    = request.POST.getlist('tenencias')
+				barrerasIV    = request.POST.getlist('barrerasI')
+				barrerasEV    = request.POST.getlist('barrerasE')						
 				
 				estudio1 = EstudioSocioE1.objects.create(
 					edad = paciente.edad,
@@ -157,6 +154,7 @@ def addEstudioSocioeconomico(request):
 					expediente_id = expediente.id,
 					usuariocreacion_id = 1,#request.POST['usuario'],
 					)
+
 				for i in estructuraFamiliar:
 					estructura = json.loads(i)
 					EstructuraFamiliaESE1.objects.create(
@@ -174,13 +172,38 @@ def addEstudioSocioeconomico(request):
 					excedente = request.POST['excedente'],
 					datosignificativo = request.POST['datosSignificativos'],
 					diagnosticoplansocial = request.POST['diagnosticoPlanS'],
+					cantidadbanios = request.POST['cantidadBanios'],
+					cantidadrecamaras = request.POST['cantidadRecamaras'],
 					estudiose_id = estudio1.id,
 					usuariocreacion_id = 1,
 					vivienda_id = request.POST['tipoVivienda']					
 					)
+
 				for i in ingresos:
 					ingreso = json.loads(i)
-					estudio2.ingreso_egreso.add(ingreso_egreso_id=ingreso['id'], estudio_id=estudio2.id, monto=ingreso['valor'])
+					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=ingreso['id'], estudio_id=estudio2.id, monto=ingreso['valor'])
+				for i in egresos:
+					egreso = json.loads(i)
+					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=egreso['id'], estudio_id=estudio2.id, monto=egreso['valor'])
+				for i in serviciosV:
+					servicio = ServicioVivienda.objects.filter(id=i)
+					estudio2.serviciovivienda.add(servicio)
+				for i in componentesV:
+					componente = ComponenteVivienda.objects.filter(id=i)
+					estudio2.componentevivienda.add(componente)
+				for i in construccionV:
+					contruccion = ConstruccionVivienda.objects.filter(id=i)
+					estudio2.construccionvivienda.objects.filter(id=i)
+				for i in tenenciasV:
+					tenencia = TenenciaVivienda.objects.filter(id=i)
+					estudio2.tenenciavivienda.add(tenencia)
+				for i in barrerasIV:
+					barreraI = BarreraArquitectonicaVivienda.objects.filter(id=i)
+					estudio2.barreravivienda.add(barreraI)
+				for i in barrerasEV:
+					barreraE = BarreraArquitectonicaVivienda.objects.filter(id=i)
+					estudio2.barreravivienda.add(barreraE)				
+
 				mensaje = "ok"
 		except Exception:
 			print sys.exc_info()
@@ -262,9 +285,8 @@ def addHojaPrevaloracion(request):
 	else:
 		raise Http404
 
-@csrf_exempt
 def agregar_paciente(request):
-	if request.POST:
+	if request.is_ajax():
 		#paciente = Paciente.objects().filter(curp=request.POST['curp'])
 		try:			
 			mensaje = "Error al crear el parciente"			
@@ -293,17 +315,12 @@ def agregar_paciente(request):
 				#correspondio = request.POST[''],
 				creadopor = request.POST['usuario'],
 				)
-			#paciente = serializers.serialize('json', Paciente.objects.get(curp=request.POST['curp']))			
-			#paciente = Paciente.objects.get(curp=request.POST['curp'])
-			#json.dumps({'paciente' : paciente})
-			#response = JsonResponse({'nombrePaciente': 'Nuevo',
-			#						'apellidoP' : 'Paciente'})
+			
 			mensaje = "ok"
 		except Exception:
 			print sys.exc_info()
 			mensaje = "Error al crear el parciente"
-		#json.dumps({'paciente' : paciente, 'isOk' : mensaje})
-		#response = JsonResponse(paciente)
+		
 		response = JsonResponse({'nombre' : request.POST['nombre'],'apellidoP' : request.POST['apellidoP'],
 		 'curp' : request.POST['curp'], 'correspondio' : 'None', 'isOk' : mensaje})
 		return HttpResponse(response.content)

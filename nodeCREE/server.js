@@ -4,7 +4,7 @@ var io = require('socket.io').listen(server);
 var querystring = require('querystring');
 
 io.on('connection', function(socket) {
-	socket.on('nuevo_paciente', function(data) {
+	/*socket.on('nuevo_paciente', function(data) {
 		var values = querystring.stringify(data);
 		var options = {
 			hostname : 'localhost',
@@ -26,6 +26,10 @@ io.on('connection', function(socket) {
 		});
 		request.write(values);
 		request.end();
+	});
+	*/
+	socket.on('nuevo_paciente', function(data) {
+		io.emit('mostrar_paciente', data);		
 	});
 
 	socket.on('addHojaPrevaloracion', function(data) {

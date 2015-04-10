@@ -13,8 +13,8 @@ class Paciente(models.Model):
 	edad = models.IntegerField()
 	genero = models.IntegerField()
 	fechanacimiento = models.DateField()
-	telefonocasa = models.IntegerField(blank=True)
-	telefonocelular = models.IntegerField(blank=True)
+	telefonocasa = models.CharField(max_length=20, blank=True)
+	telefonocelular = models.CharField(max_length=20, blank=True)
 	#Relaciones con otras tablas	
 	estadoprocedente = models.ForeignKey(Estado, related_name='paciente_estadoprocedente')
 	municipio = models.ForeignKey(Municipio, related_name='paciente_municipio')
@@ -152,6 +152,7 @@ class EstudioSocioE1(models.Model):
 	colonia = models.CharField(max_length=200)
 	numerocasa = models.CharField(max_length=20)
 	codigopostal = models.IntegerField()
+	motivoclasificacion = models.CharField(max_length=200, blank=True)
 	#Relaciones con otras tablas	
 	clasificacion = models.ForeignKey(ClasificacionEconomica, related_name='estudiosocioe1_estadoprocedente')
 	ocupacion = models.ForeignKey(Ocupacion, related_name='estudiosocioe1_ocupacion')
@@ -182,6 +183,8 @@ class EstudioSocioE2(models.Model):
 	excedente = models.IntegerField(blank=True)
 	datosignificativo = models.TextField()
 	diagnosticoplansocial = models.TextField()
+	cantidadbanios = models.IntegerField()
+	cantidadrecamaras = models.IntegerField()
 	#Relaciones con otras tablas	
 	estudiose = models.ForeignKey(EstudioSocioE1, related_name='estudiosocioe2_estadoprocedente')
 	usuariocreacion = models.ForeignKey(UserProfile, related_name='estudiosocioe2_usuario')
@@ -191,12 +194,12 @@ class EstudioSocioE2(models.Model):
 	tenenciavivienda = models.ManyToManyField(TenenciaVivienda, related_name='estudiosocioe2_tenencia')
 	construccionvivienda = models.ManyToManyField(ConstruccionVivienda, related_name='estudiosocioe2_construccion')
 	barreravivienda = models.ManyToManyField(BarreraArquitectonicaVivienda, related_name='estudiosocioe2_barrera')
-	ingresos_egresos = models.ManyToManyField(IngresosEgresos, through='EstudioSocioE2IngresosServicios')
+	ingresos_egresos = models.ManyToManyField(IngresosEgresos, through='EstudioSocioE2IngresosEgresos')
 
 	def __unicode__(self):
 		return str(self.pk) + " - " + self.estudiose.expediente.claveexpediente
 
-class EstudioSocioE2IngresosServicios(models.Model):
+class EstudioSocioE2IngresosEgresos(models.Model):
 	ingreso_egreso = models.ForeignKey(IngresosEgresos)
 	estudio = models.ForeignKey(EstudioSocioE2)
 	monto = models.IntegerField()	

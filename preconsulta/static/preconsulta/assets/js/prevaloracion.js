@@ -1,3 +1,14 @@
+$(document).on('ready', main_discusiones);
+
+function main_discusiones() {
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if(settings.type == "POST"){
+        xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
+      }
+    }
+  });
+}
 //Variables globales
 try {
 var socket = io.connect("http://localhost:3000");
@@ -36,12 +47,12 @@ var isHombre = "HOMBRE",
 
 //Funciones
 function addPaciente() {
-  if (validForm()) {
+  if (validForm()) {    
     var datosPaciente = {
-      curp : $curpInput.val(),
-      nombre : $nombreInput.val(),
-      apellidoP : $apellidoPInput.val(),
-      apellidoM : $apellidoMInput.val(),
+      curp : $curpInput.val().toUpperCase(),
+      nombre : $nombreInput.val().toUpperCase(),
+      apellidoP : $apellidoPInput.val().toUpperCase(),
+      apellidoM : $apellidoMInput.val().toUpperCase(),
       edad : $edadInput.val(),
       genero : getGeneroInt($generoInput.val()),//"1",//$generoInput.val(),
       fechaN : $fechaInput.val(),//"2015-03-19",//$fechaInput.val(),
@@ -49,31 +60,40 @@ function addPaciente() {
       celular : $celularInput.val(),
       estado : $estadoInput.val(),
       localidad : $localidadInput.val(),
-      calle : $calleInput.val(),
-      entreCalles : $entreCalleInput.val(),
-      colonia : $coloniaInput.val(),
-      numCasa : $numCasaInput.val(),
+      calle : $calleInput.val().toUpperCase(),
+      entreCalles : $entreCalleInput.val().toUpperCase(),
+      colonia : $coloniaInput.val().toUpperCase(),
+      numCasa : $numCasaInput.val().toUpperCase(),
       codigoPostal : $codigoPostalInput.val(),
       referidopor : $referidoporInput.val(),
       ocupacion : $ocupacionInput.val(),
       escolaridad : $escolaridadInput.val(),
-      usuario : "JanidH",
+      usuario : user.toUpperCase(),
     }   
     cleanForm();
     //console.log(datos);
-    socket.emit('nuevo_paciente', datosPaciente);
+    $.post('/preconsulta/agregar-paciente/', datosPaciente , succesPaciente);
+    //socket.emit('nuevo_paciente', datosPaciente);
     show_hideForm();
   }
 
   return false;
 }
 
-function showPaciente(data) {
+function succesPaciente(data) {
+  console.log(data);
   var data = JSON.parse(data);
-  //console.log(data);
+  console.log(data);
+  if (data.isOk == "ok") {
+    socket.emit('nuevo_paciente', data);
+  }
+}
+
+function showPaciente(data) {
+  console.log("Socket");    
   if (data.isOk == "ok") {
     var listapacientes = $('#listPacientes');    
-    listapacientes.append('<a href="' + setURLByRol(data.curp) + '/"> <div class="showback None" data-correspondio="' + data.correspondio + '" data-curp="' + data.curp + '" id="' + data.curp + '">' + data.nombre + ' - ' + data.apellidoP + '</div></a>');
+    listapacientes.append('<a href="' + setURLByRol(data.curp) + '/"> <div class="showback None" data-correspondio="' + data.correspondio + '" data-curp="' + data.curp + '" id="' + data.curp + '">' + data.nombre + ' ' + data.apellidoP + '</div></a>');
     //alert("Paciente agregado con exito.");
   }
 }
