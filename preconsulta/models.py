@@ -30,7 +30,8 @@ class Paciente(models.Model):
 	#Otros datos
 	#correspondio = models.BooleanField()
 	correspondio = models.NullBooleanField()
-	creadopor = models.CharField(max_length=255)
+	usuariocreacion = models.ForeignKey(UserProfile, related_name='paciente_usuario')
+	#creadopor = models.CharField(max_length=255)
 	fechacreacion = models.DateField(auto_now=True)
 
 	def __unicode__(self):
@@ -187,7 +188,7 @@ class EstudioSocioE2(models.Model):
 	cantidadrecamaras = models.IntegerField()
 	#Relaciones con otras tablas	
 	estudiose = models.ForeignKey(EstudioSocioE1, related_name='estudiosocioe2_estadoprocedente')
-	usuariocreacion = models.ForeignKey(UserProfile, related_name='estudiosocioe2_usuario')
+	#usuariocreacion = models.ForeignKey(UserProfile, related_name='estudiosocioe2_usuario')
 	vivienda = models.ForeignKey(TipoVivienda, related_name='estudiosocioe2_vivienda')
 	componentevivienda = models.ManyToManyField(ComponenteVivienda, related_name='estudiosocioe2_componente')
 	serviciovivienda = models.ManyToManyField(ServicioVivienda, related_name='estudiosocioe2_servicio')

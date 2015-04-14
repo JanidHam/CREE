@@ -63,7 +63,7 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
               	  <p class="centered"><a href="profile.html"><img src="{% static "preconsulta/images/avatar.jpeg" %}" class="img-circle" width="60"></a></p>
-              	  <h5 class="centered">{{ user }}</h5>
+              	  <h5 class="centered">{{ user.first_name }} {{ user.last_name }}</h5>
               	  	
                   <li class="mt">
                       <a class="active" href="/preconsulta/">

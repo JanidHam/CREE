@@ -18,7 +18,7 @@ function sendDataRevision() {
 		psicologia : $psicologia.val(),
 		diagnosticoNosologicoBreve : $diagnosticoNosologicoBreve.val(),
 		curp : CURP,
-		usuario : 2,
+		//usuario : 2,
 	}
 	
 	socket.emit('addPsicologiaHojaPrevaloracion', datosRevision);

@@ -6,7 +6,7 @@
 	display: none;
 }
 
-.mt {
+.mt , .mb {
 	margin-top: 0px !important;
 }
 

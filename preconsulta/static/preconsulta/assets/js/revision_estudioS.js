@@ -48,10 +48,11 @@ function addEstructuraFamiliar() {
 }
 
 function sendDataRevision() {
+    getDeficitExcedente();
 	var datosRevision = {
 		//consultorio : $consultorio.val(),        
-		nombreEntrevistado : $nombreEntrevistado.val(),
-		apellidoEntrevistado : $apellidoEntrevistado.val(),
+		nombreEntrevistado : $nombreEntrevistado.val().toUpperCase(),
+		apellidoEntrevistado : $apellidoEntrevistado.val().toUpperCase(),
 		motivoEstudio : $motivoEstudio.val(),
 		estadoCivil : $estadoCivil.val(),
 		deficit : $deficit.val(),
@@ -67,20 +68,38 @@ function sendDataRevision() {
         componentes : getComponentesVivienda(),
 		curp : CURP,
         EstructuraF : getEstructuraFamiliar(),
-        diagnosticoPlanS : $diagnosticoPlanS,
-        datosSignificativos : $datosSignificativos,
+        diagnosticoPlanS : $diagnosticoPlanS.val().toUpperCase(),
+        datosSignificativos : $datosSignificativos.val().toUpperCase(),
         cantidadBanios: $cantidadBanios.val(),
         cantidadRecamaras: $cantidadRecamaras.val(),
 	}
     //$.post('guardar-encuesta-contestada/', { 'fecha': idinput.val(), 'tasks[]': tasks, 'tasksP[]': tasksPreguntas }, actualizar_encuestas);
-	try {
+	/*try {
 		socket.emit('addEstudioSEconomico', datosRevision);
 	} catch(err) {
 	  alert("No se encuentra disponible el servicio.");
-	}
+	}*/
 	
 	
 	return false;
+}
+
+function getDeficitExcedente() {
+    $ingresos = $('input:text[name=ingresos]');
+    $egresos = $('input:text[name=egresos]');
+    var Total = 0;
+    for (var i = 0; i < $ingresos.length; i++) {
+        if ($ingresos[i].value !== "")
+            Total += parseInt($ingresos[i].value);
+    };
+    for (var i = 0; i < $egresos.length; i++) {
+        if ($egresos[i].value !== "")
+            Total -= parseInt($egresos[i].value)
+    };
+    if (Total >= 0)
+        $excedente.val(Total);
+    else
+        $deficit.val(Total);
 }
 
 function getEstructuraFamiliar() {
@@ -95,13 +114,13 @@ function getEstructuraFamiliar() {
 
     for (var i = 0; i < $estructuraFNombre.length; i++) {
         if ($estructuraFNombre[i].value !== "") {
-            estructura.push(JSON.stringify({'nombreF': $estructuraFNombre[i].value, 'apellidosF': $estructuraFApellidos[i].value,
+            estructura.push(JSON.stringify({'nombreF': $estructuraFNombre[i].value.toUpperCase(), 'apellidosF': $estructuraFApellidos[i].value.toUpperCase(),
                              'parentescoF': $estructuraFParentesco[i].value, 'edadF': $estructuraFEdad[i].value,
                              'estadoCivilF': $estructuraFEstadoCivil[i].value,'ocupacionF': $estructuraFOcupacion[i].value,
                              'escolaridadF': $estructuraFEscolaridad[i].value }));
         }
     }
-    console.log(estructura);
+    //console.log(estructura);
     return estructura;
 }
 
@@ -116,7 +135,7 @@ function getIngresos() {
             //ingresos.push($ingresos[i].value);
     		ingresos.push(JSON.stringify({'id' : $ingresos[i].attributes.item(2).value, 'valor' : $ingresos[i].value }));
     };
-    console.log(ingresos);
+    //console.log(ingresos);
     return ingresos;
 }
 

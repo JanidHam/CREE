@@ -13,6 +13,36 @@
 {% endblock filesCSS %}
 
 {% block content %}
+<!-- WEATHER-2 PANEL -->
+<div class="col-lg-4 col-md-4 col-sm-4 mb">
+	<div class="weather-2 pn">
+		<div class="weather-2-header">
+			<div class="row">
+				<div class="col-sm-6 col-xs-6">
+					<p>NEW YORK</p>
+				</div>
+				<div class="col-sm-6 col-xs-6 goright">
+					<p class="small">Thu Apr 14, 2014</p>
+				</div>
+			</div>
+		</div><!-- /weather-2 header -->
+		<div class="row centered">
+			<img src="{% static "preconsulta/images/avatar.jpeg" %}" class="img-circle" width="120">			
+		</div>
+		<div class="row data">
+			<div class="col-sm-6 col-xs-6 goleft">
+				<h4><b>16 ºC</b></h4>
+				<h6>21º max</h6>
+				<h6>8º min</h6>
+			</div>
+			<div class="col-sm-6 col-xs-6 goright">
+				<h5><i class="fa fa-sun-o fa-2x"></i></h5>
+				<h6><b>Sunny</b></h6>
+				<h5>7:15 am</h5>
+			</div>
+		</div>
+	</div>
+</div><! --/col-md-4 -->
 <!-- Start form oculto para agregar pacientes nuevos-->
 <div class="row mt" id="form">
 	<div class="col-lg-12">

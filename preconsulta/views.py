@@ -1,5 +1,5 @@
 from django.db import IntegrityError, transaction
-from django.shortcuts import render, render_to_response, RequestContext, redirect
+from django.shortcuts import render, render_to_response, RequestContext, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
@@ -7,7 +7,7 @@ from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, Servic
 from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda
 from .utils import getUpdateConsecutiveExpendiete
 from .decorators import redirect_view
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import User, Group
 from datetime import date
 import sys
 import json
@@ -56,6 +56,7 @@ def home(request):
 
 @login_required(login_url='/login/')
 def revisionMedica(request, paciente):
+	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	servicios = ServicioCree.objects.filter(is_active=True)
 	programas = ProgramaCree.objects.filter(is_active=True)
 	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente}
@@ -63,11 +64,13 @@ def revisionMedica(request, paciente):
 
 @login_required(login_url='/login/')
 def psicologicaPrevaloracion(request, paciente):
+	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	contexto = {'curp' : paciente}
 	return render_to_response('preconsulta/PrevaloracionPsicologica.html', contexto, context_instance=RequestContext(request))
 
 @login_required(login_url='/login/')
 def estudioSPrevaloracion(request, paciente):
+	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	ocupaciones = Ocupacion.objects.filter(is_active=True)
 	escolaridades = Escolaridad.objects.filter(is_active=True)
 	motivosEstudio = MotivoEstudioSE.objects.filter(is_active=True)
@@ -98,10 +101,11 @@ def addPsicologiaHojaPrevaloracion(request):
 				paciente = Paciente.objects.get(curp=request.POST['curp'])
 				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
 				hojaPrev = HojaPrevaloracion.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
+				u = User.objects.get(username=request.user)
 				
 				hojaPrev.diagnosticonosologico2 = request.POST['diagnosticoNosologicoBreve']
 				hojaPrev.psicologia = request.POST['psicologia']
-				hojaPrev.psicologo_id = request.POST['usuario']
+				hojaPrev.psicologo_id = u.perfil_usuario.id
 				hojaPrev.save()
 
 				mensaje = "ok"
@@ -135,6 +139,7 @@ def addEstudioSocioeconomico(request):
 				barrerasIV    = request.POST.getlist('barrerasI')
 				barrerasEV    = request.POST.getlist('barrerasE')						
 				
+				u = User.objects.get(username=request.user)
 				estudio1 = EstudioSocioE1.objects.create(
 					edad = paciente.edad,
 					estadocivil = request.POST['estadoCivil'],
@@ -152,7 +157,7 @@ def addEstudioSocioeconomico(request):
 					servicio_id = 1,#request.POST['servicio'],
 					motivoestudio_id = request.POST['motivoEstudio'],
 					expediente_id = expediente.id,
-					usuariocreacion_id = 1,#request.POST['usuario'],
+					usuariocreacion_id = u.perfil_usuario.id,#request.POST['usuario'],
 					)
 
 				for i in estructuraFamiliar:
@@ -166,7 +171,7 @@ def addEstudioSocioeconomico(request):
 						ocupacion_id = estructura['ocupacionF'],
 						escolaridad_id = estructura['escolaridadF'],
 						)
-
+				
 				estudio2 = EstudioSocioE2.objects.create(
 					deficit = request.POST['deficit'],
 					excedente = request.POST['excedente'],
@@ -175,34 +180,35 @@ def addEstudioSocioeconomico(request):
 					cantidadbanios = request.POST['cantidadBanios'],
 					cantidadrecamaras = request.POST['cantidadRecamaras'],
 					estudiose_id = estudio1.id,
-					usuariocreacion_id = 1,
+					#usuariocreacion_id = 1,
 					vivienda_id = request.POST['tipoVivienda']					
-					)
-
+					)				
+				
 				for i in ingresos:
 					ingreso = json.loads(i)
 					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=ingreso['id'], estudio_id=estudio2.id, monto=ingreso['valor'])
+
 				for i in egresos:
 					egreso = json.loads(i)
-					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=egreso['id'], estudio_id=estudio2.id, monto=egreso['valor'])
+					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=egreso['id'], estudio_id=estudio2.id, monto=egreso['valor'])								
 				for i in serviciosV:
-					servicio = ServicioVivienda.objects.filter(id=i)
-					estudio2.serviciovivienda.add(servicio)
+					estudio2.serviciovivienda.add(i)
+					#servicio = ServicioVivienda.objects.filter(id=i)				
 				for i in componentesV:
-					componente = ComponenteVivienda.objects.filter(id=i)
-					estudio2.componentevivienda.add(componente)
+					estudio2.componentevivienda.add(i)
+					#componente = ComponenteVivienda.objects.filter(id=i)
 				for i in construccionV:
-					contruccion = ConstruccionVivienda.objects.filter(id=i)
-					estudio2.construccionvivienda.objects.filter(id=i)
+					estudio2.construccionvivienda.add(i)
+					#contruccion = ConstruccionVivienda.objects.filter(id=i)
 				for i in tenenciasV:
-					tenencia = TenenciaVivienda.objects.filter(id=i)
-					estudio2.tenenciavivienda.add(tenencia)
+					estudio2.tenenciavivienda.add(i)
+					#tenencia = TenenciaVivienda.objects.filter(id=i)
 				for i in barrerasIV:
-					barreraI = BarreraArquitectonicaVivienda.objects.filter(id=i)
-					estudio2.barreravivienda.add(barreraI)
+					estudio2.barreravivienda.add(i)
+					#barreraI = BarreraArquitectonicaVivienda.objects.filter(id=i)
 				for i in barrerasEV:
-					barreraE = BarreraArquitectonicaVivienda.objects.filter(id=i)
-					estudio2.barreravivienda.add(barreraE)				
+					estudio2.barreravivienda.add(i)
+					#barreraE = BarreraArquitectonicaVivienda.objects.filter(id=i)
 
 				mensaje = "ok"
 		except Exception:
@@ -221,11 +227,17 @@ def addHojaPrevaloracion(request):
 			correspondio = False
 			with transaction.atomic():				
 				mensaje = "Error al crear la hoja de prevaloracion"
-				paciente = Paciente.objects.get(curp=request.POST['curp'])
-
+				
+				paciente = Paciente.objects.get(curp=request.POST['curp'])				
+				if str(paciente.correspondio) == "True" or str(paciente.correspondio) == "False":
+					mensaje = "Ya cuenta con una hoja de prevaloracion hecha el dia de hoy."
+					response = JsonResponse({'curp' : request.POST['curp'], 'correspondio' : correspondio,
+								'isOk' : mensaje})
+					return HttpResponse(response.content)
+				
 				servicios = request.POST.getlist('servicios')
 				programas = request.POST.getlist('programas')
-				print servicios
+				
 				if len(servicios) > 0:
 					paciente.correspondio = True
 					paciente.save()
@@ -236,7 +248,7 @@ def addHojaPrevaloracion(request):
 						paciente_id = paciente.id,
 						fechaalta = "2015-03-30",
 						)
-
+					u = User.objects.get(username=request.user)
 					hojaPreValoracion = HojaPrevaloracion.objects.create(
 						motivoconsulta = request.POST['motivoConsulta'],
 						diagnosticonosologico = request.POST['diagnosticoNosologico'],						
@@ -245,7 +257,7 @@ def addHojaPrevaloracion(request):
 						ocupacion_id = paciente.ocupacion.id,
 						referidopor_id = paciente.referidopor.id,
 						escolaridad_id = paciente.escolaridad.id,
-						doctor_id = 1,
+						doctor_id = u.perfil_usuario.id,
 						psicologo_id = 1,
 						expediente_id = expediente.id
 						)
@@ -261,21 +273,18 @@ def addHojaPrevaloracion(request):
 					hojaFrontal = HojaFrontal.objects.create(
 						edad = paciente.edad,
 						diagnosticonosologico = request.POST['diagnosticoNosologico'],
-						usuario_id = 1,
+						usuario_id = u.perfil_usuario.id,
 						expediente_id = expediente.id
 						)
 
 					correspondio = True
-					#for servicio in servicios:						
-					#	encuesta.preguntas.add(t)
 				else:
-					print paciente.correspondio
 					paciente.correspondio = False
 					paciente.save()
 
 				mensaje = "ok"
 
-		except Exception:
+		except:
 			print sys.exc_info()
 			mensaje = "Error al crear la hoja de prevaloracion"		
 		
@@ -289,7 +298,8 @@ def agregar_paciente(request):
 	if request.is_ajax():
 		#paciente = Paciente.objects().filter(curp=request.POST['curp'])
 		try:			
-			mensaje = "Error al crear el parciente"			
+			mensaje = "Error al crear el parciente"
+			u = User.objects.get(username=request.user)
 			#municipio = Municipio.objects.get(descripcion=request.POST['localidad'])
 			#estado = Estado.objects.get(descripcion=request.POST['estado'])			
 			Paciente.objects.create(
@@ -313,7 +323,7 @@ def agregar_paciente(request):
 				referidopor_id = request.POST['referidopor'],
 				escolaridad_id = request.POST['escolaridad'],
 				#correspondio = request.POST[''],
-				creadopor = request.POST['usuario'],
+				usuariocreacion_id = u.perfil_usuario.id,
 				)
 			
 			mensaje = "ok"
@@ -326,3 +336,6 @@ def agregar_paciente(request):
 		return HttpResponse(response.content)
 	else:
 		raise Http404
+
+def my_custom_page_not_found_view(request):
+	render('404.html')

@@ -121,8 +121,13 @@ function updateEstatusPaciente(data) {
     if (!data.correspondio)
       correspondio = "False";
 
-    $paciente = $('#' + data.curp).attr('class', 'showback ' + correspondio);
-    console.log($paciente);
+    var $paciente = $('#' + data.curp).attr('class', 'showback ' + correspondio);
+
+    if (!data.correspondio) {    
+      var $a = $paciente.parent();
+      $a.attr('href', '#');
+    }
+    //console.log($paciente);
     //console.log($('#' + data.curp).attr('class'));
   } 
 }

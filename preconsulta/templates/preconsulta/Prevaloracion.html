@@ -135,7 +135,9 @@
 	<h4><i class="fa fa-angle-right"></i> Lista de pacientes de hoy</h4>
 	<div class="lst-pacientes" id="listPacientes">
 	{% for paciente in pacientes %}
-			{% if grupo == "informacion" %}
+			{% if paciente.correspondio == False %}
+				<a href="#">
+			{% elif grupo == "informacion" %}
 				<a href="#">
 			{% elif grupo == "revisionMedica"%}
 				<a href="revision-medica/{{paciente.curp}}/">					
@@ -146,7 +148,7 @@
 			{% else %}
 				<a href="#">
 			{% endif %}					
-			<div class="showback {{paciente.correspondio}}" data-correspondio="{{paciente.correspondio}}" data-curp="{{paciente.curp}}" id="{{paciente.curp}}">
+			<div class="showback {{paciente.correspondio}}" id="{{paciente.curp}}">
 			{{paciente.nombre}} {{paciente.apellidoP}}
 			</div>
 		</a>

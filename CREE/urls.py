@@ -10,5 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^preconsulta/', include('preconsulta.urls')),
-    url(r'^login/', include('userprofiles.urls')),
+    url(r'^login/', include('userprofiles.urls')),    
 )
+
+handler404 = 'preconsulta.views.my_custom_page_not_found_view'

@@ -21,9 +21,9 @@ function sendDataRevision() {
 	var programastemp = getCheckedProgramas();
 
 	var datosRevision = {
-		canalizacion : $canalizacion.val(),
-		motivoConsulta : $motivoConsulta.val(),
-		diagnosticoNosologico : $diagnosticoNosologico.val(),		
+		canalizacion : $canalizacion.val().toUpperCase(),
+		motivoConsulta : $motivoConsulta.val().toUpperCase(),
+		diagnosticoNosologico : $diagnosticoNosologico.val().toUpperCase(),		
 		servicios : serviciostemp,
 		programas : programastemp,
 		curp : CURP,
