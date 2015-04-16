@@ -65,6 +65,9 @@ class HojaPrevaloracion(models.Model):
 	psicologo = models.ForeignKey(UserProfile, related_name='hojaprevaloracion_psicologo')
 	expediente = models.ForeignKey(Expediente, related_name='hojaprevaloracion_expediente')
 
+	def __unicode__(self):
+		return "ID: " + str(self.id) + " " + self.expediente.claveexpediente + " - " + self.expediente.paciente.nombre + " " + self.expediente.paciente.apellidoP
+
 class ServicioExpediente(models.Model):
 	expediente = models.ForeignKey(Expediente)
 	servicio = models.ForeignKey(ServicioCree)
@@ -81,6 +84,9 @@ class HojaFrontal(models.Model):
 	diagnosticonosologico = models.TextField()
 	usuario = models.ForeignKey(UserProfile, related_name='hojafrontal_usuario')
 	expediente = models.ForeignKey(Expediente, related_name='hojafrontal_expediente')
+
+	def __unicode__(self):
+		return "ID: " + str(self.id) + " " + self.expediente.claveexpediente + " - " + self.expediente.paciente.nombre + " " + self.expediente.paciente.apellidoP
 
 class HistoriaClinica(models.Model):
 	edad = models.IntegerField()

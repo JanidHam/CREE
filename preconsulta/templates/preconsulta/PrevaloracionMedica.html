@@ -19,6 +19,7 @@
 		<div class="form-panel">
 			<h3 class="mb">Formulario revision medica</h3>
 			<form class="form-horizontal tasi-form" role="form">
+				{% csrf_token %}
 				<div class="form-group">
 					<div class="col-lg-12">					
 						<textarea class="form-control text-uppercase" id="motivoConsulta" placeholder="MOTIVO DE CONSULTA" rows="5"></textarea>
@@ -60,7 +61,7 @@
 						</div>
 					{% endfor %}						
 				</div>
-					<button class="btn btn-theme" id="RevisionPaciente"><i class="fa fa-heart"></i> Guardar</button>
+					<button class="btn btn-theme" id="RevisionPaciente" data-loading-text="Espere..."><i class="fa fa-heart"></i> Guardar</button>
 			</form>
 		</div><!-- /form-panel -->
 	</div><!-- /col-lg-12 -->
@@ -68,6 +69,7 @@
 <!-- End form oculto para agregar pacientes nuevos-->
 <script>
 var CURP = "{{ curp }}";
-//console.log(CURP);
+var user = "{{ user }}";
+console.log(user);
 </script>
 {% endblock content %}

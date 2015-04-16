@@ -1,3 +1,14 @@
+$(document).on('ready', main_discusiones);
+
+function main_discusiones() {
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if(settings.type == "POST"){
+        xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
+      }
+    }
+  });
+}
 //Variables globales
 try {
 var socket = io.connect("http://localhost:3000");
@@ -17,6 +28,7 @@ var $form    = $('#form'),
 
 //Funciones
 function sendDataRevision() {
+	$sendRevision.button('loading');
 	var serviciostemp = getCheckedServicios();
 	var programastemp = getCheckedProgramas();
 
@@ -24,12 +36,13 @@ function sendDataRevision() {
 		canalizacion : $canalizacion.val().toUpperCase(),
 		motivoConsulta : $motivoConsulta.val().toUpperCase(),
 		diagnosticoNosologico : $diagnosticoNosologico.val().toUpperCase(),		
-		servicios : serviciostemp,
-		programas : programastemp,
+		'servicios[]' : serviciostemp,
+		'programas[]' : programastemp,
 		curp : CURP,
 	}
-	
-	socket.emit('addHojaPrevaloracion', datosRevision);
+	console.log(datosRevision);
+	$.post('/preconsulta/agregar-hoja-prevaloracion/', datosRevision , checkIsDataIsCorrect);
+	//socket.emit('addHojaPrevaloracion', datosRevision);
 	//window.location.replace("http://localhost:8000/preconsulta/");
 	return false;
 }
@@ -59,6 +72,7 @@ function checkIsDataIsCorrect(data) {
 		window.location.replace("http://localhost:8000/preconsulta/");
 	} else {
 		alert(data.isOk);
+		$sendRevision.button('reset');
 	}
 }
 

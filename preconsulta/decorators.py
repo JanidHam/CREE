@@ -20,6 +20,66 @@ def redirect_view(home):
 			except Group.DoesNotExist:
 				raise Http404
 			else:
-					return home(request)		
+					return home(request)
 
+	return wrapper
+
+def validViewPermissionRevisionMedica(view):
+	@login_required(login_url='/login/')
+	def wrapper(request, paciente):
+		if request.user.is_superuser == True:
+			return view(request, paciente)
+		else:
+			try:
+				request.user.groups.get(name='Preconsulta')
+				try:					
+					request.user.groups.get(name='RevisionMedica')
+				except Group.DoesNotExist:
+					raise Http404
+				else:
+					return view(request, paciente)
+			except Group.DoesNotExist:
+				raise Http404
+			else:
+					return view(request, paciente)
+	return wrapper
+
+def validViewPermissionRevisionPsicologica(view):
+	@login_required(login_url='/login/')
+	def wrapper(request, paciente):
+		if request.user.is_superuser == True:
+			return view(request, paciente)
+		else:
+			try:
+				request.user.groups.get(name='Preconsulta')
+				try:					
+					request.user.groups.get(name='RevisionPsicologica')
+				except Group.DoesNotExist:
+					raise Http404
+				else:
+					return view(request, paciente)
+			except Group.DoesNotExist:
+				raise Http404
+			else:
+					return view(request, paciente)
+	return wrapper
+
+def validViewPermissionTrabajoSocial(view):
+	@login_required(login_url='/login/')
+	def wrapper(request, paciente):
+		if request.user.is_superuser == True:
+			return view(request, paciente)
+		else:
+			try:
+				request.user.groups.get(name='Preconsulta')
+				try:					
+					request.user.groups.get(name='TrabajoSocial')
+				except Group.DoesNotExist:
+					raise Http404
+				else:
+					return view(request, paciente)
+			except Group.DoesNotExist:
+				raise Http404
+			else:
+					return view(request, paciente)
 	return wrapper

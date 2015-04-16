@@ -47,7 +47,8 @@ var isHombre = "HOMBRE",
 
 //Funciones
 function addPaciente() {
-  if (validForm()) {    
+  if (validForm()) {
+    $sendPaciente.button('loading');
     var datosPaciente = {
       curp : $curpInput.val().toUpperCase(),
       nombre : $nombreInput.val().toUpperCase(),
@@ -68,32 +69,33 @@ function addPaciente() {
       referidopor : $referidoporInput.val(),
       ocupacion : $ocupacionInput.val(),
       escolaridad : $escolaridadInput.val(),
-      usuario : user.toUpperCase(),
+      //usuario : user.toUpperCase(),
     }   
     cleanForm();
-    //console.log(datos);
     $.post('/preconsulta/agregar-paciente/', datosPaciente , succesPaciente);
-    //socket.emit('nuevo_paciente', datosPaciente);
     show_hideForm();
+    //console.log(datos);
+    //socket.emit('nuevo_paciente', datosPaciente);
   }
 
   return false;
 }
 
 function succesPaciente(data) {
-  console.log(data);
+  //console.log(data);
   var data = JSON.parse(data);
-  console.log(data);
+  //console.log(data);
   if (data.isOk == "ok") {
     socket.emit('nuevo_paciente', data);
   }
+  $sendPaciente.button('reset');
 }
 
 function showPaciente(data) {
-  console.log("Socket");    
   if (data.isOk == "ok") {
     var listapacientes = $('#listPacientes');    
     listapacientes.append('<a href="' + setURLByRol(data.curp) + '/"> <div class="showback None" data-correspondio="' + data.correspondio + '" data-curp="' + data.curp + '" id="' + data.curp + '">' + data.nombre + ' ' + data.apellidoP + '</div></a>');
+    $('.badge').text(parseInt($('.badge').text()) + 1);
     //alert("Paciente agregado con exito.");
   }
 }

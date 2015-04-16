@@ -4,16 +4,15 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
 from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1
-from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda
+from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica
 from .utils import getUpdateConsecutiveExpendiete
-from .decorators import redirect_view
+from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial
 from django.contrib.auth.models import User, Group
 from datetime import date
 import sys
 import json
 #import pdb
 
-# Create your views here.
 SERVICIO_ESTUDIO_SOCIOECONOMICO1 = "PRECONSULTA"
 SERVICIO_PSICOLOGIA = "PSICOLOGIA"
 CONSULTORIO = 1
@@ -54,7 +53,8 @@ def home(request):
 	            'municipios' : municipios, 'estados' : estados, 'pacientes' : pacientes, 'grupo': grupo}
 	return render_to_response('preconsulta/Prevaloracion.html', contexto, context_instance=RequestContext(request))
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
+@validViewPermissionRevisionMedica
 def revisionMedica(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	servicios = ServicioCree.objects.filter(is_active=True)
@@ -62,13 +62,15 @@ def revisionMedica(request, paciente):
 	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente}
 	return render_to_response('preconsulta/PrevaloracionMedica.html', contexto, context_instance=RequestContext(request))
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
+@validViewPermissionRevisionPsicologica
 def psicologicaPrevaloracion(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	contexto = {'curp' : paciente}
 	return render_to_response('preconsulta/PrevaloracionPsicologica.html', contexto, context_instance=RequestContext(request))
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
+@validViewPermissionTrabajoSocial
 def estudioSPrevaloracion(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	ocupaciones = Ocupacion.objects.filter(is_active=True)
@@ -83,40 +85,15 @@ def estudioSPrevaloracion(request, paciente):
 	construccionVivienda = ConstruccionVivienda.objects.filter(is_active=True)
 	barrerasInternasVivienda = BarreraArquitectonicaVivienda.objects.filter(tipo=INTERNAS,is_active=True)
 	barrerasExternasVivienda = BarreraArquitectonicaVivienda.objects.filter(tipo=EXTERNAS,is_active=True)
+	clasificacionEconomica = ClasificacionEconomica.objects.filter(is_active=True)
 
 	contexto = {'ocupaciones' : ocupaciones, 'motivosEsutdio' : motivosEstudio, 'egresos' : egresos,
 	'ingresos' : ingresos, 'tipoVivienda' : tipoVivienda, 'componentesVivienda' : componenteVivienda, 
 	'servicioVivienda' : servicioVivienda, 'tenenciaVivienda' : tenenciaVivienda, 
 	'construccionVivienda' : construccionVivienda, 'barrerasInternasVivienda' : barrerasInternasVivienda,
-	'barrerasExternasVivienda' : barrerasExternasVivienda, 'escolaridades' : escolaridades, 'curp' : paciente}
+	'barrerasExternasVivienda' : barrerasExternasVivienda, 'escolaridades' : escolaridades, 'curp' : paciente,
+	'clasificacionEconomica' : clasificacionEconomica}
 	return render_to_response('preconsulta/PrevaloracionEstudioS.html', contexto, context_instance=RequestContext(request))
-
-@csrf_exempt
-def addPsicologiaHojaPrevaloracion(request):
-	if request.POST:
-		try:
-			with transaction.atomic():
-				mensaje = "Error al actualizar la hoja de prevaloracion"
-
-				paciente = Paciente.objects.get(curp=request.POST['curp'])
-				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
-				hojaPrev = HojaPrevaloracion.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
-				u = User.objects.get(username=request.user)
-				
-				hojaPrev.diagnosticonosologico2 = request.POST['diagnosticoNosologicoBreve']
-				hojaPrev.psicologia = request.POST['psicologia']
-				hojaPrev.psicologo_id = u.perfil_usuario.id
-				hojaPrev.save()
-
-				mensaje = "ok"
-		except Exception:
-			print sys.exc_info()
-			mensaje = "Error al actualizar la hoja de prevaloracion"
-		print mensaje
-		response = JsonResponse({'isOk' : mensaje})
-		return HttpResponse(response.content)
-	else:
-		raise Http404
 
 @csrf_exempt
 def addEstudioSocioeconomico(request):
@@ -220,7 +197,34 @@ def addEstudioSocioeconomico(request):
 	else:
 		raise Http404
 
-@csrf_exempt
+#@csrf_exempt
+def addPsicologiaHojaPrevaloracion(request):
+	if request.POST:
+		try:
+			with transaction.atomic():
+				mensaje = "Error al actualizar la hoja de prevaloracion"
+
+				paciente = Paciente.objects.get(curp=request.POST['curp'])
+				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
+				hojaPrev = HojaPrevaloracion.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
+				u = User.objects.get(username=request.user)
+				
+				hojaPrev.diagnosticonosologico2 = request.POST['diagnosticoNosologicoBreve']
+				hojaPrev.psicologia = request.POST['psicologia']
+				hojaPrev.psicologo_id = u.perfil_usuario.id
+				hojaPrev.save()
+
+				mensaje = "ok"
+		except Exception:
+			print sys.exc_info()
+			mensaje = "Error al actualizar la hoja de prevaloracion"
+		
+		response = JsonResponse({'isOk' : mensaje})
+		return HttpResponse(response.content)
+	else:
+		raise Http404
+
+#@csrf_exempt
 def addHojaPrevaloracion(request):
 	if request.POST:
 		try:
@@ -235,8 +239,8 @@ def addHojaPrevaloracion(request):
 								'isOk' : mensaje})
 					return HttpResponse(response.content)
 				
-				servicios = request.POST.getlist('servicios')
-				programas = request.POST.getlist('programas')
+				servicios = request.POST.getlist('servicios[]')
+				programas = request.POST.getlist('programas[]')
 				
 				if len(servicios) > 0:
 					paciente.correspondio = True
@@ -247,7 +251,7 @@ def addHojaPrevaloracion(request):
 						claveexpediente = claveExpediente,
 						paciente_id = paciente.id,
 						fechaalta = "2015-03-30",
-						)
+						)					
 					u = User.objects.get(username=request.user)
 					hojaPreValoracion = HojaPrevaloracion.objects.create(
 						motivoconsulta = request.POST['motivoConsulta'],

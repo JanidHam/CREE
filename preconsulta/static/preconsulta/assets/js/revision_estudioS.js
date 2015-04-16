@@ -48,6 +48,7 @@ function addEstructuraFamiliar() {
 }
 
 function sendDataRevision() {
+    $sendPaciente.button('loading');
     getDeficitExcedente();
 	var datosRevision = {
 		//consultorio : $consultorio.val(),        
@@ -74,11 +75,11 @@ function sendDataRevision() {
         cantidadRecamaras: $cantidadRecamaras.val(),
 	}
     //$.post('guardar-encuesta-contestada/', { 'fecha': idinput.val(), 'tasks[]': tasks, 'tasksP[]': tasksPreguntas }, actualizar_encuestas);
-	/*try {
+	try {
 		socket.emit('addEstudioSEconomico', datosRevision);
 	} catch(err) {
 	  alert("No se encuentra disponible el servicio.");
-	}*/
+	}
 	
 	
 	return false;
@@ -211,10 +212,21 @@ function getBarrerasExternasVivienda() {
     return barrerasE;
 }
 
+function checkIsDataIsCorrect(data) {
+    var data = JSON.parse(data);
+    console.log(data);
+    if (data.isOk == "ok") {        
+        window.location.replace("http://localhost:8000/preconsulta/");
+    } else {
+        alert(data.isOk);
+        $sendPaciente.button('reset');
+    }
+}
+
 //Eventos
 
 $sendRevision.click( sendDataRevision )
 
 $addEstructuraF.click( addEstructuraFamiliar )
 
-//socket.on('addHojaPrevaloracion_Respuesta', checkIsDataIsCorrect );
+socket.on('addEstudioSEconomico_respuesta', checkIsDataIsCorrect );
