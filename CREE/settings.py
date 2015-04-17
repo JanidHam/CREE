@@ -72,8 +72,7 @@ DATABASES = {
         'NAME': 'CREE',
         'USER': 'root',
         'PASSWORD': 'rootu',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'HOST': '127.0.0.1',        
     }
 }
 

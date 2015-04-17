@@ -95,26 +95,32 @@ def estudioSPrevaloracion(request, paciente):
 	'clasificacionEconomica' : clasificacionEconomica}
 	return render_to_response('preconsulta/PrevaloracionEstudioS.html', contexto, context_instance=RequestContext(request))
 
-@csrf_exempt
+#@csrf_exempt
 def addEstudioSocioeconomico(request):
 	if request.POST:
 		try:
 			with transaction.atomic():
 				mensaje = "Error al crear los estudios socio economicos"
 				#pdb.set_trace()
+				estuidoTemp = EstudioSocioE1.objects.filter(fechaestudio=date.today())
+				if estuidoTemp:
+					mensaje = "Ya cuenta con un estudio socioeconomico el dia de hoy"
+					response = JsonResponse({'isOk' : mensaje})
+					return HttpResponse(response.content)
+
 				paciente   = Paciente.objects.get(curp=request.POST['curp'])
 				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
 				
-				estructuraFamiliar = request.POST.getlist('EstructuraF')				
+				estructuraFamiliar = request.POST.getlist('EstructuraF[]')				
 				
-				ingresos     = request.POST.getlist('ingresos')
-				egresos      = request.POST.getlist('egresos')
-				serviciosV   = request.POST.getlist('servicios')
-				componentesV   = request.POST.getlist('componentes')
-				construccionV = request.POST.getlist('construccion')
-				tenenciasV    = request.POST.getlist('tenencias')
-				barrerasIV    = request.POST.getlist('barrerasI')
-				barrerasEV    = request.POST.getlist('barrerasE')						
+				ingresos     = request.POST.getlist('ingresos[]')
+				egresos      = request.POST.getlist('egresos[]')
+				serviciosV   = request.POST.getlist('servicios[]')
+				componentesV   = request.POST.getlist('componentes[]')
+				construccionV = request.POST.getlist('construccion[]')
+				tenenciasV    = request.POST.getlist('tenencias[]')
+				barrerasIV    = request.POST.getlist('barrerasI[]')
+				barrerasEV    = request.POST.getlist('barrerasE[]')						
 				
 				u = User.objects.get(username=request.user)
 				estudio1 = EstudioSocioE1.objects.create(
@@ -128,15 +134,16 @@ def addEstudioSocioeconomico(request):
 					colonia = paciente.colonia,
 					numerocasa = paciente.numerocasa,
 					codigopostal = paciente.codigopostal,
-					clasificacion_id = 1,#request.POST['clasificacion'],
+					clasificacion_id = request.POST['clasifacionEconomica'],
 					ocupacion_id = paciente.ocupacion.id,
 					escolaridad_id = paciente.escolaridad.id,
 					servicio_id = 1,#request.POST['servicio'],
 					motivoestudio_id = request.POST['motivoEstudio'],
 					expediente_id = expediente.id,
 					usuariocreacion_id = u.perfil_usuario.id,#request.POST['usuario'],
+					motivoclasificacion = request.POST['justificacionClasf'],
 					)
-
+				
 				for i in estructuraFamiliar:
 					estructura = json.loads(i)
 					EstructuraFamiliaESE1.objects.create(

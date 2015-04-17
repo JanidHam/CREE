@@ -159,7 +159,7 @@ class EstudioSocioE1(models.Model):
 	colonia = models.CharField(max_length=200)
 	numerocasa = models.CharField(max_length=20)
 	codigopostal = models.IntegerField()
-	motivoclasificacion = models.CharField(max_length=200, blank=True)
+	motivoclasificacion = models.TextField(blank=True)
 	#Relaciones con otras tablas	
 	clasificacion = models.ForeignKey(ClasificacionEconomica, related_name='estudiosocioe1_estadoprocedente')
 	ocupacion = models.ForeignKey(Ocupacion, related_name='estudiosocioe1_ocupacion')
@@ -212,5 +212,5 @@ class EstudioSocioE2IngresosEgresos(models.Model):
 	monto = models.IntegerField()	
 
 	def __unicode__(self):
-		return self.ingreso_egregso.tipo + ": " + self.ingreso_egregso.descripcion + str(monto)
+		return str(self.estudio.id) + " " + self.ingreso_egreso.tipo + ": " + self.ingreso_egreso.descripcion + " " + str(self.monto)
 #Fin de los modelos relacionados con los expedientes

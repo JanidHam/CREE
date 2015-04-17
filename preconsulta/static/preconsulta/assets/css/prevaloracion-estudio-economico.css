@@ -9,3 +9,7 @@
 .main-chart {
 	padding-top: 0px !important;
 }
+
+.oculto {
+	display: none;
+}

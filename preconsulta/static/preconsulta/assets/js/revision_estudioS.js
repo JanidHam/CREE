@@ -1,4 +1,4 @@
-/*$(document).on('ready', main_discusiones);
+$(document).on('ready', main_discusiones);
 
 function main_discusiones() {
     $.ajaxSetup({
@@ -7,7 +7,17 @@ function main_discusiones() {
                 xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
             }
         }
-    });*/
+    });
+$('#clasificacionNueva').change(function() {
+    
+    show_hideJusticacion();
+        if($(this).is(":checked")) {
+            $clasificacionE.removeAttr('disabled');
+            return false;
+        }
+        $clasificacionE.attr('disabled', 'true');
+    });
+}
 //Variables globales
 try {
 	var socket = io.connect("http://localhost:3000");
@@ -20,19 +30,22 @@ try {
 var $sendRevision   = $('#RevisionPaciente');
 var $addEstructuraF = $('#addEstructuraFamiliar');
 
-var $form    = $('#form'),
-    $deficit              = $('#deficit'),
-    $excedente            = $('#excedente'),
-    $estadoCivil          = $('#estadoCivil'),
-    //$consultorio        = $('#consultorio'),
-    $tipoVivienda         = $('#tipoVivienda'),
-    $motivoEstudio        = $('#motivoEstudio'),
-    $cantidadBanios       = $('#cantidadBanios'),
-    $diagnosticoPlanS     = $('#diagnosticoPlanS'),
-    $cantidadRecamaras    = $('#cantidadRecamaras'),
-    $nombreEntrevistado   = $('#nombreEntrevistado'),
-    $datosSignificativos  = $('#datosSignificativos'),
-    $apellidoEntrevistado = $('#apellidoEntrevistado');
+
+var $deficit                    = $('#deficit'),
+    $excedente                  = $('#excedente'),
+    $estadoCivil                = $('#estadoCivil'),
+    //$consultorio              = $('#consultorio'),
+    $tipoVivienda               = $('#tipoVivienda'),
+    $motivoEstudio              = $('#motivoEstudio'),
+    $cantidadBanios             = $('#cantidadBanios'),
+    $clasificacionE             = $('#clasificacionE'),
+    $diagnosticoPlanS           = $('#diagnosticoPlanS'),
+    $cantidadRecamaras          = $('#cantidadRecamaras'),
+    $nombreEntrevistado         = $('#nombreEntrevistado'),
+    $textJustificacionC         = $('#textJustificacionC'),
+    $datosSignificativos        = $('#datosSignificativos'),
+    $apellidoEntrevistado       = $('#apellidoEntrevistado'),
+    $justificacionClasificacion = $('#justificacionClasificacion');
 
 
 //Funciones
@@ -47,8 +60,13 @@ function addEstructuraFamiliar() {
 	return false;
 }
 
+function show_hideJusticacion() {
+    $justificacionClasificacion.slideToggle();
+    return false;
+}
+
 function sendDataRevision() {
-    $sendPaciente.button('loading');
+    $sendRevision.button('loading');
     getDeficitExcedente();
 	var datosRevision = {
 		//consultorio : $consultorio.val(),        
@@ -73,13 +91,16 @@ function sendDataRevision() {
         datosSignificativos : $datosSignificativos.val().toUpperCase(),
         cantidadBanios: $cantidadBanios.val(),
         cantidadRecamaras: $cantidadRecamaras.val(),
+        clasifacionEconomica: $clasificacionE.val(),
+        justificacionClasf: $textJustificacionC.val().toUpperCase(),
 	}
     //$.post('guardar-encuesta-contestada/', { 'fecha': idinput.val(), 'tasks[]': tasks, 'tasksP[]': tasksPreguntas }, actualizar_encuestas);
-	try {
+    $.post('/preconsulta/agregar-estudio-socio-economico/', datosRevision , checkIsDataIsCorrect);
+	/*try {
 		socket.emit('addEstudioSEconomico', datosRevision);
 	} catch(err) {
 	  alert("No se encuentra disponible el servicio.");
-	}
+	}*/
 	
 	
 	return false;
@@ -219,8 +240,8 @@ function checkIsDataIsCorrect(data) {
         window.location.replace("http://localhost:8000/preconsulta/");
     } else {
         alert(data.isOk);
-        $sendPaciente.button('reset');
-    }
+        $sendRevision.button('reset');
+    }    
 }
 
 //Eventos
@@ -229,4 +250,4 @@ $sendRevision.click( sendDataRevision )
 
 $addEstructuraF.click( addEstructuraFamiliar )
 
-socket.on('addEstudioSEconomico_respuesta', checkIsDataIsCorrect );
+//socket.on('addEstudioSEconomico_respuesta', checkIsDataIsCorrect );
