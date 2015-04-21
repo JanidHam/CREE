@@ -39,7 +39,7 @@
       <!--header start-->
       <header class="header black-bg">
               <div class="sidebar-toggle-box">
-                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Ocultar Barra Lateral"></div>
               </div>
             <!--logo start-->
             <a href="index.html" class="logo"><b>Sistema Integral CREE</b></a>
@@ -70,6 +70,8 @@
                           <span>Pacientes hoy</span>
                           {% if pacientes %}
                             <span class="badge">{{ pacientes|length }}</span>
+                          {% else %}
+                            <span class="badge">0</span>
                           {% endif %}
                       </a>
                   </li>

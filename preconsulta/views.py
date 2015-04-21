@@ -6,7 +6,7 @@ from django.http import JsonResponse, HttpResponse, Http404
 from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1
 from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica
 from .utils import getUpdateConsecutiveExpendiete
-from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial
+from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos
 from django.contrib.auth.models import User, Group
 from datetime import date
 import sys
@@ -24,12 +24,12 @@ INTERNAS = "INTERNAS"
 @redirect_view
 def home(request):
 	#pdb.set_trace()
-	ocupaciones = Ocupacion.objects.all()
-	escoliridades = Escolaridad.objects.all()
-	referidospor = Referidopor.objects.all()
+	ocupaciones = Ocupacion.objects.filter(is_active=True)
+	escoliridades = Escolaridad.objects.filter(is_active=True)
+	referidospor = Referidopor.objects.filter(is_active=True)
 	municipios = Municipio.objects.all()
-	estados = Estado.objects.all()
-	pacientes = Paciente.objects.all()
+	estados = Estado.objects.filter(is_active=True)
+	pacientes = Paciente.objects.all()#filter(fechacreacion=date.today())
 	grupo = ""
 	try:
 		request.user.groups.get(name='Informacion')
@@ -95,6 +95,20 @@ def estudioSPrevaloracion(request, paciente):
 	'clasificacionEconomica' : clasificacionEconomica}
 	return render_to_response('preconsulta/PrevaloracionEstudioS.html', contexto, context_instance=RequestContext(request))
 
+@validViewPermissionImprimirDocumentos
+def imprimirDocumentos(request, paciente):
+	paciente = get_object_or_404(Paciente, curp=paciente)
+	expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
+	serviciosExpediente = ServicioExpediente.objects.filter(expediente__id=expediente.id)
+	hojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
+	hojaFrontal = HojaFrontal.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
+	estudioSE1 = EstudioSocioE1.objects.get(expediente__id=expediente.id, fechaestudio=date.today())
+	estructuraFamiliar = EstructuraFamiliaESE1.objects.filter(estudiose__id=estudioSE1.id)
+	estudioSE2 = EstudioSocioE2.objects.get(estudiose__id=estudioSE1.id)
+	contexto = {'curp' : paciente.curp, 'paciente' : paciente, 'expediente' : expediente,
+	 'hojaPrevaloracion': hojaPrevaloracion, 'hojaFrontal' : hojaFrontal, 'estudioSE1' : estudioSE1,
+	 'estructuraFamiliar' : estructuraFamiliar, 'estudioSE2' : estudioSE2, 'serviciosExpediente': serviciosExpediente}
+	return render_to_response('preconsulta/ImprimirDocumentos.html', contexto, context_instance=RequestContext(request))
 #@csrf_exempt
 def addEstudioSocioeconomico(request):
 	if request.POST:
@@ -170,6 +184,7 @@ def addEstudioSocioeconomico(request):
 				
 				for i in ingresos:
 					ingreso = json.loads(i)
+					print ingreso
 					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=ingreso['id'], estudio_id=estudio2.id, monto=ingreso['valor'])
 
 				for i in egresos:
@@ -313,7 +328,7 @@ def agregar_paciente(request):
 			u = User.objects.get(username=request.user)
 			#municipio = Municipio.objects.get(descripcion=request.POST['localidad'])
 			#estado = Estado.objects.get(descripcion=request.POST['estado'])			
-			Paciente.objects.create(
+			pacienteTemp = Paciente.objects.create(
 				nombre = request.POST['nombre'],
 				apellidoP = request.POST['apellidoP'],
 				apellidoM = request.POST['apellidoM'],
@@ -343,7 +358,8 @@ def agregar_paciente(request):
 			mensaje = "Error al crear el parciente"
 		
 		response = JsonResponse({'nombre' : request.POST['nombre'],'apellidoP' : request.POST['apellidoP'],
-		 'curp' : request.POST['curp'], 'correspondio' : 'None', 'isOk' : mensaje})
+		 'curp' : request.POST['curp'], 'correspondio' : 'None', 
+		 'estadoProcendete' : pacienteTemp.estadoprocedente.descripcion, 'isOk' : mensaje})
 		return HttpResponse(response.content)
 	else:
 		raise Http404

@@ -1,0 +1,21 @@
+.bckg-white {
+	background: #FFF !important;
+}
+
+.bckg-gray {
+	background: #B5B5B5 !important;
+}
+
+.whithout-margin {
+	margin: 0px !important;
+}
+
+.color-black {
+	color: #000 !important;
+}
+
+.main-border {
+	border: 3px double #000;
+	padding-left: 0px;
+	padding-right: 0px;
+}

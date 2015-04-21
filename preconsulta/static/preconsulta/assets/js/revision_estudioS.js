@@ -66,6 +66,7 @@ function show_hideJusticacion() {
 }
 
 function sendDataRevision() {
+    if (validEstudio()) {
     $sendRevision.button('loading');
     getDeficitExcedente();
 	var datosRevision = {
@@ -101,9 +102,30 @@ function sendDataRevision() {
 	} catch(err) {
 	  alert("No se encuentra disponible el servicio.");
 	}*/
-	
+	}
 	
 	return false;
+}
+
+function validEstudio() {
+    if ($nombreEntrevistado.val() !== '') {
+        if ($apellidoEntrevistado.val() !== '') {
+            if ($cantidadBanios.val() !== '') {
+                if ($cantidadRecamaras.val() !== '') {
+                    return true;
+                } else {
+                    alert("La 'Cantidad de Recamaras' no puede ir vacia.");
+                } 
+            } else {
+                    alert("La 'Cantidad de Baños' no puede ir vacia.");
+            }
+        } else {
+            alert("El 'Apellido Entrevistado' no puede ir vacio.");
+        }
+    } else {
+        alert("El 'Nombre Entrevistado' no puede ir vacio.");
+    }
+    return false;
 }
 
 function getDeficitExcedente() {
@@ -155,7 +177,7 @@ function getIngresos() {
             //ingresos.push([$ingresos[i].attributes.item(2).value, $ingresos[i].value]);
             //ingresos.push($ingresos[i].attributes.item(2).value);
             //ingresos.push($ingresos[i].value);
-    		ingresos.push(JSON.stringify({'id' : $ingresos[i].attributes.item(2).value, 'valor' : $ingresos[i].value }));
+    		ingresos.push(JSON.stringify({'id' : $ingresos[i].attributes['id'].value, 'valor' : $ingresos[i].value }));
     };
     //console.log(ingresos);
     return ingresos;
@@ -167,7 +189,7 @@ function getEgresos() {
 
     for (var i = 0; i < $egresos.length; i++) {
     	if ($egresos[i].value !== "") 
-    		egresos.push(JSON.stringify({'id': $egresos[i].attributes.item(2).value, 'valor' : $egresos[i].value }));
+    		egresos.push(JSON.stringify({'id': $egresos[i].attributes['id'].value, 'valor' : $egresos[i].value }));
     };
     //console.log(egresos);
     return egresos;

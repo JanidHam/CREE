@@ -123,7 +123,7 @@
 						</div>
 					</div>					
 				</div>
-					<button class="btn btn-theme" id="AgregarPaciente" data-loading-text="Espere..."><i class="fa fa-heart"></i> Agregar paciente</button>
+					<button class="btn btn-theme03 gorigth" id="AgregarPaciente" data-loading-text="Espere..."><i class="fa fa-heart"></i> Agregar paciente</button>
 			</form>
 		</div><!-- /form-panel -->
 	</div><!-- /col-lg-12 -->
@@ -133,7 +133,7 @@
 <!--poner un div debajo del titulo-->
 <div class="form-panel">
 	<h4><i class="fa fa-angle-right"></i> Lista de pacientes de hoy</h4>
-	<div class="lst-pacientes" id="listPacientes">
+	<section class="lst-pacientes" id="listPacientes">
 	{% for paciente in pacientes %}
 			{% if paciente.correspondio == False %}
 				<a href="#">
@@ -148,12 +148,18 @@
 			{% else %}
 				<a href="#">
 			{% endif %}					
-			<div class="showback {{paciente.correspondio}}" id="{{paciente.curp}}">
-			{{paciente.nombre}} {{paciente.apellidoP}}
+			<div class="row showback {{paciente.correspondio}}" id="{{paciente.curp}}">
+				<div class="col-lg-6">
+			{{paciente.nombre}} {{paciente.apellidoP}}			
+				</div>
+				<div class="col-lg-6 goright">
+					{{paciente.estadoprocedente.descripcion}}					
+				</div>
+			{# <p class="gorigth"> {{paciente.estadoprocendete.descripcion}}</p> #}
 			</div>
 		</a>
 	{% endfor %}
-	</div>
+	</section>
 </div>
 <script>
 var grupo = "{{ grupo }}";

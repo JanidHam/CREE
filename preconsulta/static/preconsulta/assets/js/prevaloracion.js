@@ -94,7 +94,10 @@ function succesPaciente(data) {
 function showPaciente(data) {
   if (data.isOk == "ok") {
     var listapacientes = $('#listPacientes');    
-    listapacientes.append('<a href="' + setURLByRol(data.curp) + '/"> <div class="showback None" data-correspondio="' + data.correspondio + '" data-curp="' + data.curp + '" id="' + data.curp + '">' + data.nombre + ' ' + data.apellidoP + '</div></a>');
+    listapacientes.append('<a href="' + setURLByRol(data.curp) + 
+      '/"> <div class="row showback None" data-correspondio="' + data.correspondio + '" data-curp="' + 
+      data.curp + '" id="' + data.curp + '"> <div class="col-lg-6">' + data.nombre + ' ' + data.apellidoP + 
+      '</div><div class="col-lg-6 goright">' + data.estadoProcendete + '</div></div></a>');
     $('.badge').text(parseInt($('.badge').text()) + 1);
     //alert("Paciente agregado con exito.");
   }
@@ -123,7 +126,7 @@ function updateEstatusPaciente(data) {
     if (!data.correspondio)
       correspondio = "False";
 
-    var $paciente = $('#' + data.curp).attr('class', 'showback ' + correspondio);
+    var $paciente = $('#' + data.curp).attr('class', 'row showback ' + correspondio);
 
     if (!data.correspondio) {    
       var $a = $paciente.parent();
@@ -168,6 +171,7 @@ function cleanForm() {
   $curpInput.val('');
   $nombreInput.val('');
   $apellidoPInput.val('');
+  $apellidoMInput.val('');
   $edadInput.val('');
   $generoInput.val('');
   $fechaInput.val('');
