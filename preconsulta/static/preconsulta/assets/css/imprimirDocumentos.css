@@ -1,13 +1,13 @@
+.addon-empty {
+	padding-left: 20px !important;
+}
+
 .bckg-white {
 	background: #FFF !important;
 }
 
 .bckg-gray {
 	background: #B5B5B5 !important;
-}
-
-.whithout-margin {
-	margin: 0px !important;
 }
 
 .color-black {
@@ -18,4 +18,8 @@
 	border: 3px double #000;
 	padding-left: 0px;
 	padding-right: 0px;
+}
+
+.whithout-margin {
+	margin: 0px !important;
 }

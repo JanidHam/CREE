@@ -44,6 +44,7 @@ class Expediente(models.Model):
 	fechacreacion = models.DateField(auto_now=True)
 	fechaalta = models.DateField(blank=True)
 	servicios = models.ManyToManyField(ServicioCree, through='ServicioExpediente')
+	programas = models.ManyToManyField(ProgramaCree, through='ProgramaExpediente')
 	#fechaalta = models.DateField(auto_now=True)
 	def __unicode__(self):
 		return self.claveexpediente + " " + self.paciente.nombre + " " + self.paciente.apellidoP
@@ -77,6 +78,16 @@ class ServicioExpediente(models.Model):
 
 	def __unicode__(self):
 		return self.servicio.servicio + " - " + self.expediente.claveexpediente
+
+class ProgramaExpediente(models.Model):
+	expediente = models.ForeignKey(Expediente)
+	programa = models.ForeignKey(ProgramaCree)
+	is_active = models.BooleanField(default=True)
+	hojaPrevaloracion = models.ForeignKey(HojaPrevaloracion)
+	fechaBaja = models.DateField(blank=True)
+
+	def __unicode__(self):
+		return self.programa.programa + " - " + self.expediente.claveexpediente
 
 class HojaFrontal(models.Model):
 	edad = models.IntegerField()
