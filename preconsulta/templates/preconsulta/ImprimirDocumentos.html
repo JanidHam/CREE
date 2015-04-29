@@ -19,9 +19,9 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#Hprevaloracion" aria-controls="Hprevaloracion" role="tab" data-toggle="tab">Hoja Prevaloracion</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+    <li role="presentation"><a href="#Hfrontal" aria-controls="Hfrontal" role="tab" data-toggle="tab">Hoja Frontal</a></li>
+    <li role="presentation"><a href="#EstduioSE1" aria-controls="EstduioSE1" role="tab" data-toggle="tab">Estudio S.E. 1</a></li>
+    <li role="presentation"><a href="#EstduioSE2" aria-controls="EstduioSE2" role="tab" data-toggle="tab">Estudio S.E. 2</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -30,8 +30,8 @@
     	<div class="col-sm-12 bckg-white">
     		<div class="col-sm-12 main-border">
     			<img class=" center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" />
-				<h3 class="text-center"><strong>CENTRO DE REHABILITACION DE CAMPECHE</strong></h3>
-				<h3 class="text-center"><strong>HOJA DE PREVALORACION</strong></h3>
+				<h4 class="text-center"><strong>CENTRO DE REHABILITACION DE CAMPECHE</strong></h4>
+				<h4 class="text-center"><strong>HOJA DE PREVALORACION</strong></h4>
 				<div class="col-sm-12 bckg-gray">
 					<div class="col-sm-8 text-center">
 						<p class="whithout-margin color-black">NOMBRE DEL USUARIO</p>
@@ -214,11 +214,163 @@
     		</div>	
     	</div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="profile">
-    	<p>Prueba de profile</p>
+    <div role="tabpanel" class="tab-pane" id="Hfrontal">
+    	<div class="col-sm-12 bckg-white">
+    		<div class="col-sm-12 main-border">
+    			<div class="col-sm-12">
+    				<div class="col-sm-6">
+						<img class="center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" style="width: 100px;"/>
+						<h5 class="text-center"><strong>PARA EL DESARROLLO INTEGRAL DE LA FAMILIA DIRECCION GENERAL DE REHABILITACION Y ASISTENCIA SOCIAL DIRECCION DE REHABILITACION CENTRO DE REHABILITACION</strong></h5>
+						<h5 class="text-center"><strong>HOJA FRONTAL</strong></h5>
+    				</div>
+    				<div class="col-sm-6 main-border margin-top">
+    					<div class="col-sm-12">
+    						<p class="whithout-margin color-black"><strong>NOMBRE Y NUMERO DE EXPEDIENTE</strong></p>
+    						<p class="whithout-margin color-black"> {{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}} {{ expediente.claveexpediente}} </p>
+    					</div>
+    					<div class="col-sm-6">
+    						<p class="whithout-margin color-black"><strong>EDAD</strong></p>
+    						<p class="whithout-margin color-black">{{ paciente.edad}}</p>
+    					</div>
+    					<div class="col-sm-6">
+    						<p class="whithout-margin color-black"><strong>SEXO</strong></p>
+							<p class="whithout-margin color-black">
+	    						{% if paciente.genero == 1 %}
+									HOMBRE
+								{% elif paciente.genero == 0%}
+									MUJER
+								{% else %}
+									DESCONOCIDO
+								{% endif %}
+    						</p>
+    					</div>
+    					<div class="col-sm-12">
+    						<p class="whithout-margin color-black"><strong>CENTRO DE REHABILITACION</strong></p>
+    						<p class="whithout-margin color-black">CREE CAMPECHE</p>
+    					</div>	
+    				</div>
+    				<div class="col-sm-12 text-center">
+    					<div class="col-sm-3">
+    						<p class="whithout-margin color-black"><strong>FECHA</strong></p>
+    					</div>
+    					<div class="col-sm-6">
+    						<p class="whithout-margin color-black"><strong>DIAGNOSTICO NOSOLOGICO CON CLAVE CIE10 Y DIAGNOSTICO DE DISCAPACIDAD</strong></p>
+    					</div>
+    					<div class="col-sm-3">
+    						<p class="whithout-margin color-black"><strong>NOMBRE Y N°. DE CREDENCIAL DEL MEDICO TRATANTE</strong></p>
+    					</div>
+    				</div>
+    				{% for hFrontal in hojaFrontal %}
+	    				<div class="col-sm-12 text-center">
+	    					<div class="col-sm-3">
+	    						<p class="whithout-margin color-black">{{ hFrontal.fechacreacion }}</p>
+	    					</div>
+	    					<div class="col-sm-6">
+	    						<p class="whithout-margin color-black">{{ hFrontal.diagnosticonosologico }}</p>
+	    					</div>
+	    					<div class="col-sm-3">
+	    						<p class="whithout-margin color-black">{{ hFrontal.usuario.user.first_name }} {{ hFrontal.usuario.user.last_name }} {{ hFrontal.usuario.cedula_profesional}}</p>
+	    					</div>
+	    				</div>
+    				{% endfor %}
+    			</div>
+    		</div>
+    	</div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+    <div role="tabpanel" class="tab-pane" id="EstduioSE1">
+    	<div class="col-sm-12 bckg-white">
+    		<div class="col-sm-12 main-border">
+    			<div class="col-sm-12">
+    				<div class="col-sm-3">
+						<img class="center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" style="width: 100px;"/>
+    				</div>
+    				<div class="col-sm-6">
+    					<h5 class="text-center"><strong>"SISTEMA PARA EL DESARROLLO INTEGRAL DE LA FAMILIADIRECCIÓN GENERAL DE REHABILITACIÓN Y ASISTENCIA SOCIAL DIRECCIÓN DE REHABILITACION"</strong></h5>
+						<h5 class="text-center"><strong>HOJA FRONTAL</strong></h5>
+    				</div>
+    				<div class="col-sm-3">
+						<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 70px;"/>
+    				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<h3 class="text-center"><strong>ESTUDIO SOCIAL CORTO</strong></h3>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-4">
+	    				<p class="whithout-margin color-black"><strong>NOMBRE</strong></p>
+	    				<p class="whithout-margin color-black">{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</p>
+    				</div>
+    				<div class="col-sm-3">
+	    				<p class="whithout-margin color-black"><strong>CURP</strong></p>
+	    				<p class="whithout-margin color-black">{{ paciente.curp }}</p>
+    				</div>
+    				<div class="col-sm-3">
+	    				<p class="whithout-margin color-black"><strong>No. EXPEDIENTE</strong></p>
+	    				<p class="whithout-margin color-black">{{ expediente.claveexpediente }}</p>
+    				</div>
+    				<div class="col-sm-2">
+	    				<p class="whithout-margin color-black"><strong>CLASIFICACION</strong></p>
+	    				<p class="whithout-margin color-black">{{ estudioSE1.clasificacion }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-2">
+	    				<p class="whithout-margin color-black"><strong>EDAD</strong></p>
+	    				<p class="whithout-margin color-black">{{ paciente.edad}}</p>
+    				</div>
+    				<div class="col-sm-2">
+	    				<p class="whithout-margin color-black"><strong>GENERO</strong></p>
+	    				<p class="whithout-margin color-black">
+    						{% if paciente.genero == 1 %}
+								HOMBRE
+							{% elif paciente.genero == 0 %}
+								MUJER
+							{% else %}
+								DESCONOCIDO
+							{% endif %}
+    					</p>
+    				</div>
+    				<div class="col-sm-2">
+	    				<p class="whithout-margin color-black"><strong>EDO. CIVIL</strong></p>
+	    				<p class="whithout-margin color-black">{{ estudioSE1.estadocivil }}</p>
+    				</div>
+    				<div class="col-sm-3">
+	    				<p class="whithout-margin color-black"><strong>FECHA NACIMIENTO</strong></p>
+	    				<p class="whithout-margin color-black">{{ paciente.fechanacimiento }}</p>
+    				</div>
+    				<div class="col-sm-3">
+	    				<p class="whithout-margin color-black"><strong>FECHA DE ESTUDIO</strong></p>
+	    				<p class="whithout-margin color-black">{{ estudioSE1.fechaestudio }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-4">
+	    				<p class="whithout-margin color-black"><strong>ESCOLARIDAD</strong></p>
+	    				<p class="whithout-margin color-black">{{ estudioSE1.escolaridad.descripcion }}</p>
+    				</div>
+    				<div class="col-sm-4">
+	    				<p class="whithout-margin color-black"><strong>OCUPACION</strong></p>
+	    				<p class="whithout-margin color-black">{{ estudioSE1.ocupacion.descripcion }}</p>
+    				</div>
+    				<div class="col-sm-4">
+	    				<p class="whithout-margin color-black"><strong>TEL. TRABAJO</strong></p>
+	    				<p class="whithout-margin color-black">{{ paciente.edad}}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-8">
+	    				<p class="whithout-margin color-black"><strong>DOMICILIO</strong></p>
+	    				<p class="whithout-margin color-black">{{ estudioSE1.escolaridad.descripcion }}</p>
+    				</div>
+    				<div class="col-sm-4">
+	    				<p class="whithout-margin color-black"><strong>TEL. CASA</strong></p>
+	    				<p class="whithout-margin color-black">{{ estudioSE1.escolaridad.descripcion }}</p>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="EstduioSE2">...</div>
   </div>
 
 </div>

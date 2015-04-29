@@ -1,3 +1,7 @@
+img {
+	margin-top: 10px;
+}
+
 .addon-empty {
 	padding-left: 20px !important;
 }
@@ -18,6 +22,20 @@
 	border: 3px double #000;
 	padding-left: 0px;
 	padding-right: 0px;
+}
+
+.simple-border {
+	border: 1px solid #000;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.paddi-botom {
+	padding-bottom: 16px;
+}
+
+.margin-top {
+	margin-top: 10px !important;
 }
 
 .whithout-margin {

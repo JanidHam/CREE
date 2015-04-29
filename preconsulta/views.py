@@ -109,7 +109,7 @@ def imprimirDocumentos(request, paciente):
 	servicios = ServicioCree.objects.filter(is_active=True).exclude(id__in=[s.servicio.id for s in serviciosExpediente])
 	programas = ProgramaCree.objects.filter(is_active=True).exclude(id__in=[p.programa.id for p in programasExpediente])
 
-	hojaFrontal = HojaFrontal.objects.get(expediente__id=expediente.id)
+	hojaFrontal = HojaFrontal.objects.filter(expediente__id=expediente.id)
 	contexto = {'curp' : paciente.curp, 'paciente' : paciente, 'expediente' : expediente,
 	 'hojaPrevaloracion': hojaPrevaloracion, 'hojaFrontal' : hojaFrontal, 'estudioSE1' : estudioSE1,
 	 'estructuraFamiliar' : estructuraFamiliar, 'estudioSE2' : estudioSE2, 'serviciosExpediente': serviciosExpediente,
@@ -241,6 +241,13 @@ def addPsicologiaHojaPrevaloracion(request):
 				hojaPrev.psicologia = request.POST['psicologia']
 				hojaPrev.psicologo_id = u.perfil_usuario.id
 				hojaPrev.save()
+
+				HojaFrontal.objects.create(
+					edad = paciente.edad,
+					diagnosticonosologico = request.POST['psicologia'],
+					usuario_id = u.perfil_usuario.id,
+					expediente_id = expediente.id
+				)
 
 				mensaje = "ok"
 		except Exception:
