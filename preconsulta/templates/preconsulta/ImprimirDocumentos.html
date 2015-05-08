@@ -22,6 +22,7 @@
     <li role="presentation"><a href="#Hfrontal" aria-controls="Hfrontal" role="tab" data-toggle="tab">Hoja Frontal</a></li>
     <li role="presentation"><a href="#EstduioSE1" aria-controls="EstduioSE1" role="tab" data-toggle="tab">Estudio S.E. 1</a></li>
     <li role="presentation"><a href="#EstduioSE2" aria-controls="EstduioSE2" role="tab" data-toggle="tab">Estudio S.E. 2</a></li>
+    <li role="presentation"><a href="#Carnet" aria-controls="Carnet" role="tab" data-toggle="tab">Carnet</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -153,7 +154,7 @@
 				</div>
 				<div class="col-sm-12">
 					{% for servicio in serviciosExpediente %}
-						<div class="col-sm-3">
+						<div class="col-sm-3 marginB">
 							<div class="input-group">
 								<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
 								<span class="input-group-addon" style="background-color: #FFF;">
@@ -163,7 +164,7 @@
 						</div>
 					{% endfor %}
 					{% for servicio in servicios %}						
-						<div class="col-sm-3">
+						<div class="col-sm-3 marginB">
 							<div class="input-group">
 								<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
 								<span class="input-group-addon addon-empty" style="background-color: #FFF;">
@@ -223,7 +224,7 @@
 						<h5 class="text-center"><strong>PARA EL DESARROLLO INTEGRAL DE LA FAMILIA DIRECCION GENERAL DE REHABILITACION Y ASISTENCIA SOCIAL DIRECCION DE REHABILITACION CENTRO DE REHABILITACION</strong></h5>
 						<h5 class="text-center"><strong>HOJA FRONTAL</strong></h5>
     				</div>
-    				<div class="col-sm-6 main-border margin-top">
+    				<div class="col-sm-6 main-border-wihtoutHeight margin-top">
     					<div class="col-sm-12">
     						<p class="whithout-margin color-black"><strong>NOMBRE Y NUMERO DE EXPEDIENTE</strong></p>
     						<p class="whithout-margin color-black"> {{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}} {{ expediente.claveexpediente}} </p>
@@ -360,17 +361,184 @@
     			<div class="col-sm-12">
     				<div class="col-sm-8">
 	    				<p class="whithout-margin color-black"><strong>DOMICILIO</strong></p>
-	    				<p class="whithout-margin color-black">{{ estudioSE1.escolaridad.descripcion }}</p>
+	    				<p class="whithout-margin color-black">{{ estudioSE1.calle }}</p>
     				</div>
     				<div class="col-sm-4">
 	    				<p class="whithout-margin color-black"><strong>TEL. CASA</strong></p>
-	    				<p class="whithout-margin color-black">{{ estudioSE1.escolaridad.descripcion }}</p>
+	    				<p class="whithout-margin color-black">
+	    					{% if paciente.telefonocasa %}
+								{{ paciente.telefonocasa }}
+							{% elif paciente.telefonocelular %}
+								{{ paciente.telefonocelular }}
+							{% else %}
+								No cuenta con Telefono
+							{% endif %}
+	    				</p>
     				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-8">
+    					<p class="whithout-margin color-black"><strong>UBICACION ENTRE CALLES</strong></p>
+    					<p class="whithout-margin color-black">{{ estudioSE1.entrecalles }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-8">
+    					<p class="whithout-margin color-black"><strong>LOCALIDAD Y MUNICIPIO</strong></p>
+    					<p class="whithout-margin color-black">{{ paciente.estadoprocedente.descripcion }} - {{ paciente.municipio.descripcion}}</p>
+    				</div>
+    				<div class="col-sm-4">
+    					<p class="whithout-margin color-black"><strong>CODIGO POSTAL</strong></p>
+    					<p class="whithout-margin color-black">{{ estudioSE1.codigopostal }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-8">
+    					<p class="whithout-margin color-black"><strong>SERVICIO</strong></p>
+    					<p class="whithout-margin color-black">{{ estudioSE1.servicio.servicio }}</p>
+    				</div>
+    				<div class="col-sm-4">
+    					<p class="whithout-margin color-black"><strong>No. CONSULTORIO</strong></p>
+    					<p class="whithout-margin color-black">{{ estudioSE1.consultorio }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-8">
+    					<p class="whithout-margin color-black"><strong>MOTIVO CONSULTA</strong></p>
+    					<p class="whithout-margin color-black">{{ estudioSE1.motivoestudio.motivoestudio }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-8">
+    					<p class="whithout-margin color-black"><strong>NOMBRE DEL ENTREVISTADO</strong></p>
+    					<p class="whithout-margin color-black">{{ estudioSE1.nombreentevistado }} {{ estudioSE1.apellidosentevistado }}</p>
+    				</div>
+    				<div class="col-sm-4">
+    					<p class="whithout-margin color-black"><strong>PARENTESCO</strong></p>
+    					<p class="whithout-margin color-black">{{ estudioSE1.parentescoentrevistado }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 text-center">
+    				<div class="col-sm-12">
+    					<h4 class="text-center"><strong>ESTRUCTURA FAMILIAR</strong></h4>		
+    				</div>
+    			</div>
+    			<div class="col-sm-12 bckg-gray">
+	    				<div class="col-sm-3">
+	    					<p class="whithout-margin color-black"><strong>NOMBRES</strong></p>
+	    				</div>
+	    				<div class="col-sm-2">
+	    					<p class="whithout-margin color-black"><strong>PARENTESCO</strong></p>
+	    				</div>
+	    				<div class="col-sm-2">
+	    					<p class="whithout-margin color-black"><strong>EDAD</strong></p>
+	    				</div>
+	    				<div class="col-sm-2">
+	    					<p class="whithout-margin color-black"><strong>ESTADO CIVIL</strong></p>
+	    				</div>
+	    				<div class="col-sm-3">
+	    					<p class="whithout-margin color-black"><strong>OCUPACION ESCOLARIDAD</strong></p>
+	    				</div>
+	    			</div>
+    			{% for estructuraF in estructuraFamiliar %}
+	    			<div class="col-sm-12">
+	    				<div class="col-sm-3">
+	    					<p class="whithout-margin color-black">{{ estructuraF.nombrefamiliar }} {{ estructuraF.apellidosfamiliar }}</p>
+	    				</div>
+	    				<div class="col-sm-2">
+	    					<p class="whithout-margin color-black">{{ estructuraF.parentesco }}</p>
+	    				</div>
+	    				<div class="col-sm-2">
+	    					<p class="whithout-margin color-black">{{ estructuraF.edad }}</p>
+	    				</div>
+	    				<div class="col-sm-2">
+	    					<p class="whithout-margin color-black">{{ estructuraF.estadocivil }}</p>
+	    				</div>
+	    				<div class="col-sm-3">
+	    					<p class="whithout-margin color-black">{{ estructuraF.ocupacion.descripcion }} - {{ estructuraF.escolaridad.descripcion }}</p>
+	    				</div>
+	    			</div>
+    			{% endfor %}
+    		</div>
+    	</div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="EstduioSE2">
+    	<div class="col-sm-12 bckg-white">
+    		<div class="col-sm-12 main-border">
+    			<div class="col-sm-12">
+    				<h3 class="text-center"><strong>SITUACION ECONOMICA</strong></h3>
+    			</div>
+    			<div class="col-sm-12">
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">INGRESOS</div>
+							<div class="panel-body">
+								{% for ie in ingresos_egresosEstudio %}
+									{% if ie.ingreso_egreso.tipo == "INGRESO" %}
+									<div class="input-group">
+										<input type="text" class="form-control" aria-label="..." placeholder="{{ie.ingreso_egreso.descripcion}}"  disabled>
+										<span class="input-group-addon">${{ ie.monto }}</span>
+									</div><!-- /input-group -->
+									{% endif %}
+								{% endfor %}
+								{% for ie in ingresos_egresos %}
+									{% if ie.tipo == "INGRESO" %}
+									<div class="input-group">
+										<input type="text" class="form-control" aria-label="..." placeholder="{{ie.descripcion}}"  disabled>
+										<span class="input-group-addon">$0.00</span>
+									</div><!-- /input-group -->
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-5">
+						<div class="panel panel-default">
+							<div class="panel-heading">EGRESOS</div>
+							<div class="panel-body">
+								{% for ie in ingresos_egresosEstudio %}
+									{% if ie.ingreso_egreso.tipo == "EGRESO" %}
+									<div class="input-group">
+										<input type="text" class="form-control" aria-label="..." placeholder="{{ie.ingreso_egreso.descripcion}}"  disabled>
+										<span class="input-group-addon">${{ ie.monto }}</span>
+									</div><!-- /input-group -->
+									{% endif %}
+								{% endfor %}
+								{% for ie in ingresos_egresos %}
+									{% if ie.tipo == "EGRESO" %}
+									<div class="input-group">
+										<input type="text" class="form-control" aria-label="..." placeholder="{{ie.descripcion}}"  disabled>
+										<span class="input-group-addon">$0.00</span>
+									</div><!-- /input-group -->
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="..." placeholder="DEFICIT"  disabled>
+							<span class="input-group-addon">${{ estudioSE2.deficit }}</span>
+						</div><!-- /input-group -->
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="..." placeholder="EXCEDENTE"  disabled>
+							<span class="input-group-addon">${{ estudioSE2.excedente }}</span>
+						</div><!-- /input-group -->
+					</div>
+				</div>
+				<div class="col-sm-12">
+    				<h3 class="text-center"><strong>CARACTERISTICAS DE LA VIVIENDA</strong></h3>
     			</div>
     		</div>
     	</div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="EstduioSE2">...</div>
+    <div role="tabpanel" class="tab-pane" id="Carnet">
+    	<div class="col-sm-12 bckg-white">
+    		<div class="col-sm-12 main-border">
+    			
+    		</div>
+    	</div>
+    </div>
   </div>
 
 </div>

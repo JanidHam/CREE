@@ -164,6 +164,7 @@ class EstudioSocioE1(models.Model):
 	#Entrevistado
 	nombreentevistado = models.CharField(max_length=200)
 	apellidosentevistado = models.CharField(max_length=200)
+	parentescoentrevistado = models.CharField(max_length=20)
 	#Domicilio paciente
 	calle = models.CharField(max_length=200)
 	entrecalles = models.CharField(max_length=200)
@@ -188,6 +189,7 @@ class EstructuraFamiliaESE1(models.Model):
 	apellidosfamiliar = models.CharField(max_length=200)
 	parentesco = models.CharField(max_length=20)
 	estadocivil = models.CharField(max_length=20)
+	edad = models.IntegerField()
 	#Relaciones con otras tablas	
 	estudiose = models.ForeignKey(EstudioSocioE1, related_name='estructurafamiliar_estadoprocedente')
 	ocupacion = models.ForeignKey(Ocupacion, related_name='estructurafamiliar_ocupacion')

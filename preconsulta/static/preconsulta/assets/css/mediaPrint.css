@@ -62,15 +62,29 @@
 	}
 
 	.form-control {
-    	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0) inset;
+		font-size: 1em;
+		height: 30px;
+		border: 0px;
+		box-shadow: inset 0 0px 0 rgba(0,0,0,0);
+		/*
+		box-shadow: 0px 0px 0px rgba(0, 0, 0, 0) inset;
     	border-style: solid;
 		border-width: 1px;
 		border-color: black;
 		font-family: helvetica, arial, sans serif;
+		*/
 	}
 
 	header.header {
 		display: none;
+	}
+
+	.main-border {
+		height: 950px;
+	}
+
+	.marginB {
+		margin-bottom: 3px;
 	}
 
 	img {

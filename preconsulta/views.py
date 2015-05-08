@@ -103,17 +103,21 @@ def imprimirDocumentos(request, paciente):
 	hojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id)
 	serviciosExpediente = ServicioExpediente.objects.filter(expediente__id=expediente.id)
 	programasExpediente = ProgramaExpediente.objects.filter(expediente__id=expediente.id)
+	
 	estudioSE1 = EstudioSocioE1.objects.get(expediente__id=expediente.id)
 	estructuraFamiliar = EstructuraFamiliaESE1.objects.filter(estudiose__id=estudioSE1.id)
 	estudioSE2 = EstudioSocioE2.objects.get(estudiose__id=estudioSE1.id)
+	ingresos_egresosEstudio = EstudioSocioE2IngresosEgresos.objects.filter(estudio__id=estudioSE2.id)
+	ingresos_egresos = IngresosEgresos.objects.filter(is_active=True).exclude(id__in=[ie.ingreso_egreso.id for ie in ingresos_egresosEstudio])
+	
 	servicios = ServicioCree.objects.filter(is_active=True).exclude(id__in=[s.servicio.id for s in serviciosExpediente])
 	programas = ProgramaCree.objects.filter(is_active=True).exclude(id__in=[p.programa.id for p in programasExpediente])
-
 	hojaFrontal = HojaFrontal.objects.filter(expediente__id=expediente.id)
 	contexto = {'curp' : paciente.curp, 'paciente' : paciente, 'expediente' : expediente,
 	 'hojaPrevaloracion': hojaPrevaloracion, 'hojaFrontal' : hojaFrontal, 'estudioSE1' : estudioSE1,
 	 'estructuraFamiliar' : estructuraFamiliar, 'estudioSE2' : estudioSE2, 'serviciosExpediente': serviciosExpediente,
-     'servicios' : servicios, 'programas' : programas, 'programasExpediente' : programasExpediente}
+     'servicios' : servicios, 'programas' : programas, 'programasExpediente' : programasExpediente,
+     'ingresos_egresos' : ingresos_egresos, 'ingresos_egresosEstudio' : ingresos_egresosEstudio}
 	return render_to_response('preconsulta/ImprimirDocumentos.html', contexto, context_instance=RequestContext(request))
 #@csrf_exempt
 def addEstudioSocioeconomico(request):
@@ -162,6 +166,7 @@ def addEstudioSocioeconomico(request):
 					expediente_id = expediente.id,
 					usuariocreacion_id = u.perfil_usuario.id,#request.POST['usuario'],
 					motivoclasificacion = request.POST['justificacionClasf'],
+					parentescoentrevistado = request.POST['parentescoEntrevistado'],
 					)
 
 				for i in estructuraFamiliar:
@@ -174,6 +179,7 @@ def addEstudioSocioeconomico(request):
 						estudiose_id = estudio1.id,
 						ocupacion_id = estructura['ocupacionF'],
 						escolaridad_id = estructura['escolaridadF'],
+						edad = estructura['edadF'],
 						)
 
 				estudio2 = EstudioSocioE2.objects.create(
