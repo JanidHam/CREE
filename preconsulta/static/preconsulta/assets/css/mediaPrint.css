@@ -62,7 +62,7 @@
 	}
 
 	.form-control {
-		font-size: 1em;
+		font-size: .8em;
 		height: 30px;
 		border: 0px;
 		box-shadow: inset 0 0px 0 rgba(0,0,0,0);
@@ -85,6 +85,11 @@
 
 	.marginB {
 		margin-bottom: 3px;
+	}
+
+	.to-bottom {
+		bottom: 0px;
+		position: absolute;
 	}
 
 	img {

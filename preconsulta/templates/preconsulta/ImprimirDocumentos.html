@@ -157,7 +157,7 @@
 						<div class="col-sm-3 marginB">
 							<div class="input-group">
 								<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
-								<span class="input-group-addon" style="background-color: #FFF;">
+								<span class="input-group-addon color-white">
 									X
 								</span>
 							</div><!-- /input-group -->
@@ -167,7 +167,7 @@
 						<div class="col-sm-3 marginB">
 							<div class="input-group">
 								<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
-								<span class="input-group-addon addon-empty" style="background-color: #FFF;">
+								<span class="input-group-addon addon-empty color-white">
 								</span>
 							</div><!-- /input-group -->
 						</div>
@@ -198,7 +198,7 @@
 					{% endfor %}
 				</div>
 				<div class="col-sm-12 text-center">
-					<h4><strong>NOMBRE, FIRMA  Y NUMERO DE CREDENCIAL DEL MÉDICO:</strong></h4>
+					<h4><strong>NOMBRE, FIRMA Y NUMERO DE CREDENCIAL DEL MÉDICO:</strong></h4>
 				</div>
 				<div class="col-sm-12">
 					<div class="col-sm-6 text-center">
@@ -287,10 +287,9 @@
     				</div>
     				<div class="col-sm-6">
     					<h5 class="text-center"><strong>"SISTEMA PARA EL DESARROLLO INTEGRAL DE LA FAMILIADIRECCIÓN GENERAL DE REHABILITACIÓN Y ASISTENCIA SOCIAL DIRECCIÓN DE REHABILITACION"</strong></h5>
-						<h5 class="text-center"><strong>HOJA FRONTAL</strong></h5>
     				</div>
     				<div class="col-sm-3">
-						<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 70px;"/>
+						<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 70px; height: 80px;"/>
     				</div>
     			</div>
     			<div class="col-sm-12">
@@ -418,6 +417,18 @@
     					<p class="whithout-margin color-black">{{ estudioSE1.parentescoentrevistado }}</p>
     				</div>
     			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-8">
+    					<p class="whithout-margin color-black"><strong>DATOS SIGNIFICATIVOS DE LA FAMILIA Y USUARIO</strong></p>
+    					<p class="whithout-margin color-black">{{ estudioSE2.datosignificativo }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-8">
+    					<p class="whithout-margin color-black"><strong>DIAGNOSTICO Y PLAN SOCIAL</strong></p>
+    					<p class="whithout-margin color-black">{{ estudioSE2.diagnosticoplansocial }}</p>
+    				</div>
+    			</div>
     			<div class="col-sm-12 text-center">
     				<div class="col-sm-12">
     					<h4 class="text-center"><strong>ESTRUCTURA FAMILIAR</strong></h4>		
@@ -459,6 +470,15 @@
 	    				</div>
 	    			</div>
     			{% endfor %}
+    			
+				<div class="col-sm-12 text-center to-bottom">
+					<h4><strong>NOMBRE, FIRMA Y NUMERO DE CREDENCIAL DEL EMPLEADO:</strong></h4>
+					<div class="col-sm-12">
+						<br/>
+						<br/>
+						<p class="whithout-margin color-black">{{ estudioSE1.usuariocreacion.user.first_name }} {{ estudioSE1.usuariocreacion.user.last_name }} {{ estudioSE1.usuariocreacion.cedula_profesional}}</p>
+					</div>
+				</div>
     		</div>
     	</div>
     </div>
@@ -477,7 +497,7 @@
 									{% if ie.ingreso_egreso.tipo == "INGRESO" %}
 									<div class="input-group">
 										<input type="text" class="form-control" aria-label="..." placeholder="{{ie.ingreso_egreso.descripcion}}"  disabled>
-										<span class="input-group-addon">${{ ie.monto }}</span>
+										<span class="input-group-addon color-white">${{ ie.monto }}</span>
 									</div><!-- /input-group -->
 									{% endif %}
 								{% endfor %}
@@ -485,10 +505,14 @@
 									{% if ie.tipo == "INGRESO" %}
 									<div class="input-group">
 										<input type="text" class="form-control" aria-label="..." placeholder="{{ie.descripcion}}"  disabled>
-										<span class="input-group-addon">$0.00</span>
+										<span class="input-group-addon color-white">$0.00</span>
 									</div><!-- /input-group -->
 									{% endif %}
 								{% endfor %}
+								<div class="input-group">
+										<input type="text" class="form-control" aria-label="..." placeholder="Total"  disabled>
+										<span class="input-group-addon color-white">$0.00</span>
+								</div><!-- /input-group -->
 							</div>
 						</div>
 					</div>
@@ -500,7 +524,7 @@
 									{% if ie.ingreso_egreso.tipo == "EGRESO" %}
 									<div class="input-group">
 										<input type="text" class="form-control" aria-label="..." placeholder="{{ie.ingreso_egreso.descripcion}}"  disabled>
-										<span class="input-group-addon">${{ ie.monto }}</span>
+										<span class="input-group-addon color-white">${{ ie.monto }}</span>
 									</div><!-- /input-group -->
 									{% endif %}
 								{% endfor %}
@@ -508,7 +532,7 @@
 									{% if ie.tipo == "EGRESO" %}
 									<div class="input-group">
 										<input type="text" class="form-control" aria-label="..." placeholder="{{ie.descripcion}}"  disabled>
-										<span class="input-group-addon">$0.00</span>
+										<span class="input-group-addon color-white">$0.00</span>
 									</div><!-- /input-group -->
 									{% endif %}
 								{% endfor %}
@@ -518,17 +542,157 @@
 					<div class="col-sm-3">
 						<div class="input-group">
 							<input type="text" class="form-control" aria-label="..." placeholder="DEFICIT"  disabled>
-							<span class="input-group-addon">${{ estudioSE2.deficit }}</span>
+							<span class="input-group-addon color-white">${{ estudioSE2.deficit }}</span>
 						</div><!-- /input-group -->
 						<div class="input-group">
 							<input type="text" class="form-control" aria-label="..." placeholder="EXCEDENTE"  disabled>
-							<span class="input-group-addon">${{ estudioSE2.excedente }}</span>
+							<span class="input-group-addon color-white">${{ estudioSE2.excedente }}</span>
 						</div><!-- /input-group -->
 					</div>
 				</div>
 				<div class="col-sm-12">
-    				<h3 class="text-center"><strong>CARACTERISTICAS DE LA VIVIENDA</strong></h3>
+    				<h3 class="text-center"><strong>CARACTERISTICAS DE LA VIVIENDA - {{ estudioSE2.vivienda.vivienda }}</strong></h3>
     			</div>
+    			<div class="col-sm-12">
+    				<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Componentes de la Vivienda</div>
+							<div class="panel-body">			
+								{% for componente in componentesViviendaE %}
+								<div class="input-group">
+									<input type="text" class="form-control" aria-label="..." placeholder="{{componente.componente}}"  disabled>
+									<span class="input-group-addon add-on-white color-white">X</span>
+								</div>
+								{% endfor %}
+								{% for componente in componentesVivienda %}
+								<div class="input-group">
+									<input type="text" class="form-control" aria-label="..." placeholder="{{componente.componente}}"  disabled>
+									<span class="input-group-addon addon-empty color-white">
+									</span>
+								</div>
+								{% endfor %}
+								<div class="input-group">
+									<input type="text" class="form-control text-uppercase" id="cantidadBanios" placeholder="No. Baños" disabled>
+									<span class="input-group-addon add-on-white color-white">{{ estudioSE2.cantidadbanios}}</span>
+								</div>
+								<div class="input-group">
+									<input type="text" class="form-control text-uppercase" id="cantidadRecamaras" placeholder="No. Recamaras" disabled>
+									<span class="input-group-addon add-on-white color-white">{{ estudioSE2.cantidadrecamaras}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Servicios de la Vivienda</div>
+							<div class="panel-body">					
+								{% for servicio in serviciosViviendaE %}
+								<div class="input-group">
+									<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
+									<span class="input-group-addon add-on-white color-white">X</span>
+								</div>
+								{% endfor %}
+								{% for servicio in serviciosVivienda %}
+								<div class="input-group">
+									<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
+									<span class="input-group-addon addon-empty color-white">
+									</span>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Tenencia de la Vivienda</div>
+							<div class="panel-body">				
+								{% for tenencia in tenenciasViviendaE %}
+								<div class="input-group">
+									<input type="text" class="form-control" aria-label="..." placeholder="{{tenencia.tenencia}}"  disabled>
+									<span class="input-group-addon add-on-white color-white">X</span>
+								</div>
+								{% endfor %}
+								{% for tenencia in tenenciasVivienda %}
+								<div class="input-group">
+									<input type="text" class="form-control" aria-label="..." placeholder="{{tenencia.tenencia}}"  disabled>
+									<span class="input-group-addon addon-empty color-white">
+									</span>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+    			</div>
+    			<div class="col-sm-12">
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Construccion de la Vivienda</div>
+							<div class="panel-body">			
+								{% for construccion in construccionViviendaE %}
+								<div class="input-group">
+									<input type="text" class="form-control" aria-label="..." placeholder="{{construccion.componente}}"  disabled>
+									<span class="input-group-addon add-on-white color-white">X</span>
+								</div>
+								{% endfor %}
+								{% for construccion in construccionVivienda %}
+								<div class="input-group">
+									<input type="text" class="form-control" aria-label="..." placeholder="{{construccion.componente}}"  disabled>
+									<span class="input-group-addon addon-empty color-white">
+									</span>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Barreras Internas Vivienda</div>
+							<div class="panel-body">					
+								{% for bInternas in barrerasViviendaE %}
+									{% if bInternas.tipo == "INTERNAS" %}
+									<div class="input-group">
+										<input type="text" class="form-control" aria-label="..." placeholder="{{bInternas.barrera}}"  disabled>
+										<span class="input-group-addon color-white">X</span>
+									</div>
+									{% endif %}
+								{% endfor %}
+								{% for bInternas in barrerasVivienda %}
+									{% if bInternas.tipo == "INTERNAS" %}
+									<div class="input-group">
+										<input type="text" class="form-control" aria-label="..." placeholder="{{bInternas.barrera}}"  disabled>
+										<span class="input-group-addon addon-empty color-white">
+									</span>
+									</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">Barreras Externas Vivienda</div>
+							<div class="panel-body">				
+								{% for bExternas in barrerasViviendaE %}
+									{% if bExternas.tipo == "INTERNAS" %}
+									<div class="input-group">
+										<input type="text" class="form-control" aria-label="..." placeholder="{{bExternas.barrera}}"  disabled>
+										<span class="input-group-addon color-white">X</span>
+									</div>
+									{% endif %}
+								{% endfor %}
+								{% for bExternas in barrerasVivienda %}
+									{% if bExternas.tipo == "INTERNAS" %}
+									<div class="input-group">
+										<input type="text" class="form-control" aria-label="..." placeholder="{{bExternas.barrera}}"  disabled>
+										<span class="input-group-addon addon-empty color-white">
+									</span>
+									</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>					
+				</div>
     		</div>
     	</div>
     </div>

@@ -103,21 +103,40 @@ def imprimirDocumentos(request, paciente):
 	hojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id)
 	serviciosExpediente = ServicioExpediente.objects.filter(expediente__id=expediente.id)
 	programasExpediente = ProgramaExpediente.objects.filter(expediente__id=expediente.id)
-	
-	estudioSE1 = EstudioSocioE1.objects.get(expediente__id=expediente.id)
-	estructuraFamiliar = EstructuraFamiliaESE1.objects.filter(estudiose__id=estudioSE1.id)
-	estudioSE2 = EstudioSocioE2.objects.get(estudiose__id=estudioSE1.id)
-	ingresos_egresosEstudio = EstudioSocioE2IngresosEgresos.objects.filter(estudio__id=estudioSE2.id)
-	ingresos_egresos = IngresosEgresos.objects.filter(is_active=True).exclude(id__in=[ie.ingreso_egreso.id for ie in ingresos_egresosEstudio])
-	
 	servicios = ServicioCree.objects.filter(is_active=True).exclude(id__in=[s.servicio.id for s in serviciosExpediente])
 	programas = ProgramaCree.objects.filter(is_active=True).exclude(id__in=[p.programa.id for p in programasExpediente])
+	
 	hojaFrontal = HojaFrontal.objects.filter(expediente__id=expediente.id)
+
+	estudioSE1 = EstudioSocioE1.objects.get(expediente__id=expediente.id)
+	estructuraFamiliar = EstructuraFamiliaESE1.objects.filter(estudiose__id=estudioSE1.id)
+	
+	estudioSE2 = EstudioSocioE2.objects.get(estudiose__id=estudioSE1.id)
+	#tempIE = estudioSE2.ingresos_egresos.all()
+	ingresos_egresosEstudio = EstudioSocioE2IngresosEgresos.objects.filter(estudio__id=estudioSE2.id)
+	ingresos_egresos = IngresosEgresos.objects.filter(is_active=True).exclude(id__in=[ie.ingreso_egreso.id for ie in ingresos_egresosEstudio])
+	componentesViviendaE = estudioSE2.componentevivienda.all()
+	serviciosViviendaE = estudioSE2.serviciovivienda.all()
+	tenenciasViviendaE = estudioSE2.tenenciavivienda.all()
+	construccionViviendaE = estudioSE2.construccionvivienda.all()
+	barrerasViviendaE = estudioSE2.barreravivienda.all()
+
+	componentesVivienda = ComponenteVivienda.objects.filter(is_active=True).exclude(id__in=[c.id for c in componentesViviendaE])
+	serviciosVivienda = ServicioVivienda.objects.filter(is_active=True).exclude(id__in=[s.id for s in serviciosViviendaE])
+	tenenciasVivienda = TenenciaVivienda.objects.filter(is_active=True).exclude(id__in=[t.id for t in tenenciasViviendaE])
+	construccionVivienda = ConstruccionVivienda.objects.filter(is_active=True).exclude(id__in=[con.id for con in construccionViviendaE])
+	barrerasVivienda = BarreraArquitectonicaVivienda.objects.filter(is_active=True).exclude(id__in=[b.id for b in barrerasViviendaE])
+	
 	contexto = {'curp' : paciente.curp, 'paciente' : paciente, 'expediente' : expediente,
 	 'hojaPrevaloracion': hojaPrevaloracion, 'hojaFrontal' : hojaFrontal, 'estudioSE1' : estudioSE1,
 	 'estructuraFamiliar' : estructuraFamiliar, 'estudioSE2' : estudioSE2, 'serviciosExpediente': serviciosExpediente,
      'servicios' : servicios, 'programas' : programas, 'programasExpediente' : programasExpediente,
-     'ingresos_egresos' : ingresos_egresos, 'ingresos_egresosEstudio' : ingresos_egresosEstudio}
+     'ingresos_egresos' : ingresos_egresos, 'ingresos_egresosEstudio' : ingresos_egresosEstudio,
+     'componentesVivienda' : componentesVivienda, 'serviciosVivienda' : serviciosVivienda,
+     'tenenciasVivienda' : tenenciasVivienda, 'construccionVivienda' : construccionVivienda,
+     'barrerasVivienda' : barrerasVivienda, 'componentesViviendaE' : componentesViviendaE, 
+     'serviciosViviendaE' : serviciosViviendaE, 'tenenciasViviendaE' : tenenciasViviendaE, 
+     'construccionViviendaE' : construccionViviendaE, 'barrerasViviendaE' : barrerasViviendaE}
 	return render_to_response('preconsulta/ImprimirDocumentos.html', contexto, context_instance=RequestContext(request))
 #@csrf_exempt
 def addEstudioSocioeconomico(request):

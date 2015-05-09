@@ -37,6 +37,11 @@ img {
 	padding-right: 0px;
 }
 
+.to-bottom {
+	bottom: 0px;
+	position: absolute;
+}
+
 .paddi-botom {
 	padding-bottom: 16px;
 }
@@ -47,4 +52,8 @@ img {
 
 .whithout-margin {
 	margin: 0px !important;
+}
+
+.color-white {
+	background-color: #FFF;
 }
