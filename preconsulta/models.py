@@ -15,6 +15,7 @@ class Paciente(models.Model):
 	fechanacimiento = models.DateField()
 	telefonocasa = models.CharField(max_length=20, blank=True)
 	telefonocelular = models.CharField(max_length=20, blank=True)
+	localidad = models.CharField(max_length=200, blank=True)
 	#Relaciones con otras tablas	
 	estadoprocedente = models.ForeignKey(Estado, related_name='paciente_estadoprocedente')
 	municipio = models.ForeignKey(Municipio, related_name='paciente_municipio')

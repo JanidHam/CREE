@@ -2,6 +2,24 @@ img {
 	margin-top: 10px;
 }
 
+table {
+	color: #000;
+	line-height: 1.42857143;
+  	color: #333;
+}
+
+.table-carnet {
+	height: 445px;
+}
+
+.table-carnet-half {
+	height: 175px;
+}
+/*
+tr {
+	border: 1px solid #ddd;
+}*/
+
 .addon-empty {
 	padding-left: 20px !important;
 }
@@ -14,6 +32,10 @@ img {
 	background: #B5B5B5 !important;
 }
 
+.border-soft {
+	border: 1px solid #000;
+}
+
 .color-black {
 	color: #000 !important;
 }
@@ -22,7 +44,7 @@ img {
 	border: 3px double #000;
 	padding-left: 0px;
 	padding-right: 0px;
-	height: 1100px;
+	height: 1500px;
 }
 
 .main-border-wihtoutHeight {
@@ -50,8 +72,12 @@ img {
 	margin-top: 10px !important;
 }
 
-.whithout-margin {
+.without-margin {
 	margin: 0px !important;
+}
+
+.without-padding {
+	padding: 0px !important;
 }
 
 .color-white {

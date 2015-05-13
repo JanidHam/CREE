@@ -30,45 +30,45 @@
     <div role="tabpanel" class="tab-pane active" id="Hprevaloracion">
     	<div class="col-sm-12 bckg-white">
     		<div class="col-sm-12 main-border">
-    			<img class=" center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" />
+    			<img class="center-block dif-Hprevaloracion" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" />
 				<h4 class="text-center"><strong>CENTRO DE REHABILITACION DE CAMPECHE</strong></h4>
 				<h4 class="text-center"><strong>HOJA DE PREVALORACION</strong></h4>
-				<div class="col-sm-12 bckg-gray">
-					<div class="col-sm-8 text-center">
-						<p class="whithout-margin color-black">NOMBRE DEL USUARIO</p>
+				<div class="col-sm-12 bckg-gray without-padding">
+					<div class="col-sm-8 text-center border-soft">
+						<p class="without-margin color-black">NOMBRE DEL USUARIO</p>
 					</div>
-					<div class="col-sm-4 text-center">
-						<p class="whithout-margin color-black">CURP</p>
-					</div>
-				</div>
-				<div class="col-sm-12">
-					<div class="col-sm-8 text-center">
-						<p class="whithout-margin color-black"><strong>{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</strong></p>
-					</div>
-					<div class="col-sm-4 text-center">
-						<p class="whithout-margin color-black"><strong>{{ paciente.curp }}</strong></p>
+					<div class="col-sm-4 text-center border-soft">
+						<p class="without-margin color-black">CURP</p>
 					</div>
 				</div>
-				<div class="col-sm-12 bckg-gray">
-					<div class="col-sm-2 text-center">
-						<p class="whithout-margin color-black">EDAD</p>
+				<div class="col-sm-12 without-padding">
+					<div class="col-sm-8 text-center border-soft">
+						<p class="without-margin color-black"><strong>{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</strong></p>
 					</div>
-					<div class="col-sm-2 text-center">
-						<p class="whithout-margin color-black">SEXO</p>
-					</div>
-					<div class="col-sm-3 text-center">
-						<p class="whithout-margin color-black">FECHA</p>						
-					</div>
-					<div class="col-sm-5 text-center">
-						<p class="whithout-margin color-black">OCUPACION</p>
+					<div class="col-sm-4 text-center border-soft">
+						<p class="without-margin color-black"><strong>{{ paciente.curp }}</strong></p>
 					</div>
 				</div>
-				<div class="col-sm-12">
-					<div class="col-sm-2 text-center">
-						<p class="whithout-margin color-black"><strong>{{ paciente.edad }}</strong></p>
+				<div class="col-sm-12 bckg-gray without-padding">
+					<div class="col-sm-2 text-center border-soft">
+						<p class="without-margin color-black">EDAD</p>
 					</div>
-					<div class="col-sm-2 text-center">
-						<p class="whithout-margin color-black"><strong>
+					<div class="col-sm-2 text-center border-soft">
+						<p class="without-margin color-black">SEXO</p>
+					</div>
+					<div class="col-sm-3 text-center border-soft">
+						<p class="without-margin color-black">FECHA</p>						
+					</div>
+					<div class="col-sm-5 text-center border-soft">
+						<p class="without-margin color-black">OCUPACION</p>
+					</div>
+				</div>
+				<div class="col-sm-12 without-padding">
+					<div class="col-sm-2 text-center border-soft">
+						<p class="without-margin color-black"><strong>{{ paciente.edad }}</strong></p>
+					</div>
+					<div class="col-sm-2 text-center border-soft">
+						<p class="without-margin color-black"><strong>
 							{% if paciente.genero == 1 %}
 								HOMBRE
 							{% elif paciente.genero == 0%}
@@ -78,43 +78,43 @@
 							{% endif %}
 						</strong></p>
 					</div>
-					<div class="col-sm-3 text-center">
-						<p class="whithout-margin color-black"><strong>{{ hojaPrevaloracion.fechacreacion}}</strong></p>
+					<div class="col-sm-3 text-center border-soft">
+						<p class="without-margin color-black"><strong>{{ hojaPrevaloracion.fechacreacion}}</strong></p>
 					</div>
-					<div class="col-sm-5 text-center">
-						<p class="whithout-margin color-black"><strong>{{ hojaPrevaloracion.ocupacion.descripcion}}</strong></p>
-					</div>
-				</div>
-				<div class="col-sm-12 bckg-gray">
-					<div class="col-sm-4 text-center">
-						<p class="whithout-margin color-black">ESCOLARIDAD</p>
-					</div>
-					<div class="col-sm-8 text-center">
-						<p class="whithout-margin color-black">REFERIDO POR</p>
+					<div class="col-sm-5 text-center border-soft">
+						<p class="without-margin color-black"><strong>{{ hojaPrevaloracion.ocupacion.descripcion}}</strong></p>
 					</div>
 				</div>
-				<div class="col-sm-12">
-					<div class="col-sm-4 text-center">
-						<p class="whithout-margin color-black"><strong>{{ hojaPrevaloracion.escolaridad.descripcion }}</strong></p>
+				<div class="col-sm-12 bckg-gray without-padding">
+					<div class="col-sm-4 text-center border-soft">
+						<p class="without-margin color-black">ESCOLARIDAD</p>
 					</div>
-					<div class="col-sm-8 text-center">
-						<p class="whithout-margin color-black"><strong>{{ hojaPrevaloracion.referidopor.descripcion }}</strong></p>
-					</div>
-				</div>
-				<div class="col-sm-12 bckg-gray">
-					<div class="col-sm-8 text-center">
-						<p class="whithout-margin color-black">DOMICILIO</p>
-					</div>
-					<div class="col-sm-4 text-center">
-						<p class="whithout-margin color-black">TELEFONO</p>
+					<div class="col-sm-8 text-center border-soft">
+						<p class="without-margin color-black">REFERIDO POR</p>
 					</div>
 				</div>
-				<div class="col-sm-12">
-					<div class="col-sm-8 text-center">
-						<p class="whithout-margin color-black"><strong>{{ paciente.calle }} {{ paciente.entrecalles}} {{ paciente.numerocasa }} {{ paciente.colonia }}</strong></p>
+				<div class="col-sm-12 without-padding">
+					<div class="col-sm-4 text-center border-soft">
+						<p class="without-margin color-black"><strong>{{ hojaPrevaloracion.escolaridad.descripcion }}</strong></p>
 					</div>
-					<div class="col-sm-4 text-center">
-						<p class="whithout-margin color-black"><strong>
+					<div class="col-sm-8 text-center border-soft">
+						<p class="without-margin color-black"><strong>{{ hojaPrevaloracion.referidopor.descripcion }}</strong></p>
+					</div>
+				</div>
+				<div class="col-sm-12 bckg-gray without-padding">
+					<div class="col-sm-8 text-center border-soft">
+						<p class="without-margin color-black">DOMICILIO</p>
+					</div>
+					<div class="col-sm-4 text-center border-soft">
+						<p class="without-margin color-black">TELEFONO</p>
+					</div>
+				</div>
+				<div class="col-sm-12 without-padding">
+					<div class="col-sm-8 text-center border-soft">
+						<p class="without-margin color-black"><strong>{{ paciente.calle }} {{ paciente.entrecalles}} {{ paciente.numerocasa }} {{ paciente.colonia }}</strong></p>
+					</div>
+					<div class="col-sm-4 text-center border-soft">
+						<p class="without-margin color-black"><strong>
 							{% if paciente.telefonocasa %}
 								{{ paciente.telefonocasa }}
 							{% elif paciente.telefonocelular %}
@@ -125,34 +125,32 @@
 						</strong></p>
 					</div>
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black">MOTIVO CONSULTA</p>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center">MOTIVO DE CONSULTA</p>
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black"><strong>{{ hojaPrevaloracion.motivoconsulta }}</strong></p>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.motivoconsulta }}</strong></p>
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ</p>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ</p>
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black"><strong>{{ hojaPrevaloracion.diagnosticonosologico }}</strong></p>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.diagnosticonosologico }}</strong></p>
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black">PSICOLOGIA</p>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center">PSICOLOGIA</p>
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black"><strong>{{ hojaPrevaloracion.psicologia }}</strong></p>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.psicologia }}</strong></p>
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)</p>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)</p>
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black"><strong>{{ hojaPrevaloracion.diagnosticonosologico2 }}</strong></p>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.diagnosticonosologico2 }}</strong></p>
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black">CITA A: (SERVICIOS DEL CREE)</p>
-				</div>
-				<div class="col-sm-12">
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black"><strong>CITA A: (SERVICIOS DEL CREE)</strong></p>
 					{% for servicio in serviciosExpediente %}
 						<div class="col-sm-3 marginB">
 							<div class="input-group">
@@ -171,12 +169,16 @@
 								</span>
 							</div><!-- /input-group -->
 						</div>
-					{% endfor %}					
+					{% endfor %}
 				</div>
-				<div class="col-sm-12">
-					<p class="whithout-margin color-black">INTEGRAR AL PROGRAMA DE:</p>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center">CANALIZACION A: (EXTRAINSTITUCIONAL)</p>
 				</div>
-				<div class="col-sm-12">
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.canalizacion }}</strong></p>
+				</div>
+				<div class="col-sm-12 without-padding">
+					<p class="without-margin color-black"><strong>INTEGRAR AL PROGRAMA DE:</strong></p>
 					{% for programa in programasExpediente %}
 						<div class="col-sm-12">
 							<div class="input-group">								
@@ -197,19 +199,18 @@
 						</div>
 					{% endfor %}
 				</div>
-				<div class="col-sm-12 text-center">
+				
+				<div class="col-sm-12 text-center to-bottom">
 					<h4><strong>NOMBRE, FIRMA Y NUMERO DE CREDENCIAL DEL MÉDICO:</strong></h4>
-				</div>
-				<div class="col-sm-12">
 					<div class="col-sm-6 text-center">
 						<br/>
 						<br/>
-						<p class="whithout-margin color-black">{{ hojaPrevaloracion.doctor.user.first_name }} {{ hojaPrevaloracion.doctor.user.last_name }} {{ hojaPrevaloracion.doctor.cedula_profesional}}</p>
+						<p class="without-margin color-black">{{ hojaPrevaloracion.doctor.user.first_name }} {{ hojaPrevaloracion.doctor.user.last_name }} {{ hojaPrevaloracion.doctor.cedula_profesional}}</p>
 					</div>
 					<div class="col-sm-6 text-center">
 						<br/>
 						<br/>
-						<p class="whithout-margin color-black">{{ hojaPrevaloracion.psicologo.user.first_name }} {{ hojaPrevaloracion.psicologo.user.last_name }} {{ hojaPrevaloracion.psicologo.cedula_profesional}}</p>
+						<p class="without-margin color-black">{{ hojaPrevaloracion.psicologo.user.first_name }} {{ hojaPrevaloracion.psicologo.user.last_name }} {{ hojaPrevaloracion.psicologo.cedula_profesional}}</p>
 					</div>
 				</div>
     		</div>	
@@ -218,24 +219,25 @@
     <div role="tabpanel" class="tab-pane" id="Hfrontal">
     	<div class="col-sm-12 bckg-white">
     		<div class="col-sm-12 main-border">
-    			<div class="col-sm-12">
+    			<div class="col-sm-12 without-padding">
     				<div class="col-sm-6">
 						<img class="center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" style="width: 100px;"/>
 						<h5 class="text-center"><strong>PARA EL DESARROLLO INTEGRAL DE LA FAMILIA DIRECCION GENERAL DE REHABILITACION Y ASISTENCIA SOCIAL DIRECCION DE REHABILITACION CENTRO DE REHABILITACION</strong></h5>
-						<h5 class="text-center"><strong>HOJA FRONTAL</strong></h5>
+						
     				</div>
-    				<div class="col-sm-6 main-border-wihtoutHeight margin-top">
+    				
+    				<div class="col-sm-6 main-border-wihtoutHeight">
     					<div class="col-sm-12">
-    						<p class="whithout-margin color-black"><strong>NOMBRE Y NUMERO DE EXPEDIENTE</strong></p>
-    						<p class="whithout-margin color-black"> {{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}} {{ expediente.claveexpediente}} </p>
+    						<p class="without-margin color-black"><strong>NOMBRE Y NUMERO DE EXPEDIENTE</strong></p>
+    						<p class="without-margin color-black"> {{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}} {{ expediente.claveexpediente}} </p>
     					</div>
     					<div class="col-sm-6">
-    						<p class="whithout-margin color-black"><strong>EDAD</strong></p>
-    						<p class="whithout-margin color-black">{{ paciente.edad}}</p>
+    						<p class="without-margin color-black"><strong>EDAD</strong></p>
+    						<p class="without-margin color-black">{{ paciente.edad}}</p>
     					</div>
     					<div class="col-sm-6">
-    						<p class="whithout-margin color-black"><strong>SEXO</strong></p>
-							<p class="whithout-margin color-black">
+    						<p class="without-margin color-black"><strong>SEXO</strong></p>
+							<p class="without-margin color-black">
 	    						{% if paciente.genero == 1 %}
 									HOMBRE
 								{% elif paciente.genero == 0%}
@@ -246,34 +248,33 @@
     						</p>
     					</div>
     					<div class="col-sm-12">
-    						<p class="whithout-margin color-black"><strong>CENTRO DE REHABILITACION</strong></p>
-    						<p class="whithout-margin color-black">CREE CAMPECHE</p>
+    						<p class="without-margin color-black"><strong>CENTRO DE REHABILITACION</strong></p>
+    						<p class="without-margin color-black">CREE CAMPECHE</p>
     					</div>	
     				</div>
-    				<div class="col-sm-12 text-center">
-    					<div class="col-sm-3">
-    						<p class="whithout-margin color-black"><strong>FECHA</strong></p>
-    					</div>
-    					<div class="col-sm-6">
-    						<p class="whithout-margin color-black"><strong>DIAGNOSTICO NOSOLOGICO CON CLAVE CIE10 Y DIAGNOSTICO DE DISCAPACIDAD</strong></p>
-    					</div>
-    					<div class="col-sm-3">
-    						<p class="whithout-margin color-black"><strong>NOMBRE Y N°. DE CREDENCIAL DEL MEDICO TRATANTE</strong></p>
-    					</div>
+    				<div class="col-sm-12">
+    					<h4 class="text-center"><strong>HOJA FRONTAL</strong></h4>
     				</div>
-    				{% for hFrontal in hojaFrontal %}
-	    				<div class="col-sm-12 text-center">
-	    					<div class="col-sm-3">
-	    						<p class="whithout-margin color-black">{{ hFrontal.fechacreacion }}</p>
-	    					</div>
-	    					<div class="col-sm-6">
-	    						<p class="whithout-margin color-black">{{ hFrontal.diagnosticonosologico }}</p>
-	    					</div>
-	    					<div class="col-sm-3">
-	    						<p class="whithout-margin color-black">{{ hFrontal.usuario.user.first_name }} {{ hFrontal.usuario.user.last_name }} {{ hFrontal.usuario.cedula_profesional}}</p>
-	    					</div>
-	    				</div>
-    				{% endfor %}
+    				<div class="col-sm-12 without-padding">
+    					<table class="table table-bordered table-Hfrontal">
+						<thead>
+							<tr>
+								<th><strong>FECHA</strong></th>
+								<th><strong>DIAGNOSTICO NOSOLOGICO CON CLAVE CIE10 Y DIAGNOSTICO DE DISCAPACIDAD</strong></th>
+								<th><strong>NOMBRE Y N°. DE CREDENCIAL DEL MEDICO TRATANTE</strong></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for hFrontal in hojaFrontal %}
+								<tr>
+									<td>{{ hFrontal.fechacreacion }}</td>
+									<td>{{ hFrontal.diagnosticonosologico }}</td>
+									<td>{{ hFrontal.usuario.user.first_name }} {{ hFrontal.usuario.user.last_name }} {{ hFrontal.usuario.cedula_profesional}}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+    				</div>
     			</div>
     		</div>
     	</div>
@@ -295,32 +296,57 @@
     			<div class="col-sm-12">
     				<h3 class="text-center"><strong>ESTUDIO SOCIAL CORTO</strong></h3>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-4">
-	    				<p class="whithout-margin color-black"><strong>NOMBRE</strong></p>
-	    				<p class="whithout-margin color-black">{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</p>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black"><strong>NOMBRE</strong></p>
     				</div>
-    				<div class="col-sm-3">
-	    				<p class="whithout-margin color-black"><strong>CURP</strong></p>
-	    				<p class="whithout-margin color-black">{{ paciente.curp }}</p>
+    				<div class="col-sm-3 border-soft">
+	    				<p class="without-margin color-black"><strong>CURP</strong></p>
     				</div>
-    				<div class="col-sm-3">
-	    				<p class="whithout-margin color-black"><strong>No. EXPEDIENTE</strong></p>
-	    				<p class="whithout-margin color-black">{{ expediente.claveexpediente }}</p>
+    				<div class="col-sm-3 border-soft">
+	    				<p class="without-margin color-black"><strong>No. EXPEDIENTE</strong></p>
     				</div>
-    				<div class="col-sm-2">
-	    				<p class="whithout-margin color-black"><strong>CLASIFICACION</strong></p>
-	    				<p class="whithout-margin color-black">{{ estudioSE1.clasificacion }}</p>
+    				<div class="col-sm-2 border-soft">
+	    				<p class="without-margin color-black"><strong>CLASIFICACION</strong></p>
     				</div>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-2">
-	    				<p class="whithout-margin color-black"><strong>EDAD</strong></p>
-	    				<p class="whithout-margin color-black">{{ paciente.edad}}</p>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black">{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</p>
     				</div>
-    				<div class="col-sm-2">
-	    				<p class="whithout-margin color-black"><strong>GENERO</strong></p>
-	    				<p class="whithout-margin color-black">
+    				<div class="col-sm-3 border-soft">
+	    				<p class="without-margin color-black">{{ paciente.curp }}</p>
+    				</div>
+    				<div class="col-sm-3 border-soft">
+	    				<p class="without-margin color-black">{{ expediente.claveexpediente }}</p>
+    				</div>
+    				<div class="col-sm-2 border-soft">
+	    				<p class="without-margin color-black">{{ estudioSE1.clasificacion }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-2 border-soft">
+	    				<p class="without-margin color-black"><strong>EDAD</strong></p>
+    				</div>
+    				<div class="col-sm-2 border-soft">
+	    				<p class="without-margin color-black"><strong>GENERO</strong></p>
+    				</div>
+    				<div class="col-sm-2 border-soft">
+	    				<p class="without-margin color-black"><strong>EDO. CIVIL</strong></p>
+    				</div>
+    				<div class="col-sm-3 border-soft">
+	    				<p class="without-margin color-black"><strong>FECHA NACIMIENTO</strong></p>
+    				</div>
+    				<div class="col-sm-3 border-soft">
+	    				<p class="without-margin color-black"><strong>FECHA DE ESTUDIO</strong></p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-2 border-soft">
+	    				<p class="without-margin color-black">{{ paciente.edad}}</p>
+    				</div>
+    				<div class="col-sm-2 border-soft">
+	    				<p class="without-margin color-black">
     						{% if paciente.genero == 1 %}
 								HOMBRE
 							{% elif paciente.genero == 0 %}
@@ -330,143 +356,192 @@
 							{% endif %}
     					</p>
     				</div>
-    				<div class="col-sm-2">
-	    				<p class="whithout-margin color-black"><strong>EDO. CIVIL</strong></p>
-	    				<p class="whithout-margin color-black">{{ estudioSE1.estadocivil }}</p>
+    				<div class="col-sm-2 border-soft">
+	    				<p class="without-margin color-black">{{ estudioSE1.estadocivil }}</p>
     				</div>
-    				<div class="col-sm-3">
-	    				<p class="whithout-margin color-black"><strong>FECHA NACIMIENTO</strong></p>
-	    				<p class="whithout-margin color-black">{{ paciente.fechanacimiento }}</p>
+    				<div class="col-sm-3 border-soft">
+	    				<p class="without-margin color-black">{{ paciente.fechanacimiento }}</p>
     				</div>
-    				<div class="col-sm-3">
-	    				<p class="whithout-margin color-black"><strong>FECHA DE ESTUDIO</strong></p>
-	    				<p class="whithout-margin color-black">{{ estudioSE1.fechaestudio }}</p>
+    				<div class="col-sm-3 border-soft">
+	    				<p class="without-margin color-black">{{ estudioSE1.fechaestudio }}</p>
     				</div>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-4">
-	    				<p class="whithout-margin color-black"><strong>ESCOLARIDAD</strong></p>
-	    				<p class="whithout-margin color-black">{{ estudioSE1.escolaridad.descripcion }}</p>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black"><strong>ESCOLARIDAD</strong></p>
     				</div>
-    				<div class="col-sm-4">
-	    				<p class="whithout-margin color-black"><strong>OCUPACION</strong></p>
-	    				<p class="whithout-margin color-black">{{ estudioSE1.ocupacion.descripcion }}</p>
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black"><strong>OCUPACION</strong></p>
     				</div>
-    				<div class="col-sm-4">
-	    				<p class="whithout-margin color-black"><strong>TEL. TRABAJO</strong></p>
-	    				<p class="whithout-margin color-black">{{ paciente.edad}}</p>
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black"><strong>TEL. CELULAR</strong></p>
     				</div>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-8">
-	    				<p class="whithout-margin color-black"><strong>DOMICILIO</strong></p>
-	    				<p class="whithout-margin color-black">{{ estudioSE1.calle }}</p>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black">{{ estudioSE1.escolaridad.descripcion }}</p>
     				</div>
-    				<div class="col-sm-4">
-	    				<p class="whithout-margin color-black"><strong>TEL. CASA</strong></p>
-	    				<p class="whithout-margin color-black">
-	    					{% if paciente.telefonocasa %}
-								{{ paciente.telefonocasa }}
-							{% elif paciente.telefonocelular %}
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black">{{ estudioSE1.ocupacion.descripcion }}</p>
+    				</div>
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black">
+							{% if paciente.telefonocelular %}
 								{{ paciente.telefonocelular }}
 							{% else %}
-								No cuenta con Telefono
+								No cuenta con Telefono celular
 							{% endif %}
 	    				</p>
     				</div>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-8">
-    					<p class="whithout-margin color-black"><strong>UBICACION ENTRE CALLES</strong></p>
-    					<p class="whithout-margin color-black">{{ estudioSE1.entrecalles }}</p>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-8 border-soft">
+	    				<p class="without-margin color-black"><strong>DOMICILIO</strong></p>
+    				</div>
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black"><strong>TEL. CASA</strong></p>
     				</div>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-8">
-    					<p class="whithout-margin color-black"><strong>LOCALIDAD Y MUNICIPIO</strong></p>
-    					<p class="whithout-margin color-black">{{ paciente.estadoprocedente.descripcion }} - {{ paciente.municipio.descripcion}}</p>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-8 border-soft">
+	    				<p class="without-margin color-black">{{ estudioSE1.calle }}</p>
     				</div>
-    				<div class="col-sm-4">
-    					<p class="whithout-margin color-black"><strong>CODIGO POSTAL</strong></p>
-    					<p class="whithout-margin color-black">{{ estudioSE1.codigopostal }}</p>
-    				</div>
-    			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-8">
-    					<p class="whithout-margin color-black"><strong>SERVICIO</strong></p>
-    					<p class="whithout-margin color-black">{{ estudioSE1.servicio.servicio }}</p>
-    				</div>
-    				<div class="col-sm-4">
-    					<p class="whithout-margin color-black"><strong>No. CONSULTORIO</strong></p>
-    					<p class="whithout-margin color-black">{{ estudioSE1.consultorio }}</p>
+    				<div class="col-sm-4 border-soft">
+	    				<p class="without-margin color-black">
+	    					{% if paciente.telefonocasa %}
+								{{ paciente.telefonocasa }}
+							{% else %}
+								No cuenta con Telefono de casa
+							{% endif %}
+	    				</p>
     				</div>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-8">
-    					<p class="whithout-margin color-black"><strong>MOTIVO CONSULTA</strong></p>
-    					<p class="whithout-margin color-black">{{ estudioSE1.motivoestudio.motivoestudio }}</p>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-12 border-soft">
+    					<p class="without-margin color-black"><strong>UBICACION ENTRE CALLES</strong></p>
     				</div>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-8">
-    					<p class="whithout-margin color-black"><strong>NOMBRE DEL ENTREVISTADO</strong></p>
-    					<p class="whithout-margin color-black">{{ estudioSE1.nombreentevistado }} {{ estudioSE1.apellidosentevistado }}</p>
-    				</div>
-    				<div class="col-sm-4">
-    					<p class="whithout-margin color-black"><strong>PARENTESCO</strong></p>
-    					<p class="whithout-margin color-black">{{ estudioSE1.parentescoentrevistado }}</p>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-12 border-soft">
+    					<p class="without-margin color-black">{{ estudioSE1.entrecalles }}</p>
     				</div>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-8">
-    					<p class="whithout-margin color-black"><strong>DATOS SIGNIFICATIVOS DE LA FAMILIA Y USUARIO</strong></p>
-    					<p class="whithout-margin color-black">{{ estudioSE2.datosignificativo }}</p>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-8 border-soft">
+    					<p class="without-margin color-black"><strong>LOCALIDAD Y MUNICIPIO</strong></p>
+    				</div>
+    				<div class="col-sm-4 border-soft">
+    					<p class="without-margin color-black"><strong>CODIGO POSTAL</strong></p>
     				</div>
     			</div>
-    			<div class="col-sm-12">
-    				<div class="col-sm-8">
-    					<p class="whithout-margin color-black"><strong>DIAGNOSTICO Y PLAN SOCIAL</strong></p>
-    					<p class="whithout-margin color-black">{{ estudioSE2.diagnosticoplansocial }}</p>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-8 border-soft">
+    					<p class="without-margin color-black">{{ paciente.estadoprocedente.descripcion }} - {{ paciente.municipio.descripcion}}</p>
+    				</div>
+    				<div class="col-sm-4 border-soft">
+    					<p class="without-margin color-black">{{ estudioSE1.codigopostal }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-8 border-soft">
+    					<p class="without-margin color-black"><strong>SERVICIO</strong></p>
+    				</div>
+    				<div class="col-sm-4 border-soft">
+    					<p class="without-margin color-black"><strong>No. CONSULTORIO</strong></p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-8 border-soft">
+    					<p class="without-margin color-black">{{ estudioSE1.servicio.servicio }}</p>
+    				</div>
+    				<div class="col-sm-4 border-soft">
+    					<p class="without-margin color-black">{{ estudioSE1.consultorio }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-12 border-soft">
+    					<p class="without-margin color-black"><strong>MOTIVO CONSULTA</strong></p></p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-12 border-soft">
+    					<p class="without-margin color-black">{{ estudioSE1.motivoestudio.motivoestudio }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-8 border-soft">
+    					<p class="without-margin color-black"><strong>NOMBRE DEL ENTREVISTADO</strong></p>
+    				</div>
+    				<div class="col-sm-4 border-soft">
+    					<p class="without-margin color-black"><strong>PARENTESCO</strong></p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-8 border-soft">
+    					<p class="without-margin color-black">{{ estudioSE1.nombreentevistado }} {{ estudioSE1.apellidosentevistado }}</p>
+    				</div>
+    				<div class="col-sm-4 border-soft">
+    					<p class="without-margin color-black">{{ estudioSE1.parentescoentrevistado }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-12 border-soft">
+    					<p class="without-margin color-black"><strong>DATOS SIGNIFICATIVOS DE LA FAMILIA Y USUARIO</strong></p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-12 border-soft">
+    					<p class="without-margin color-black">{{ estudioSE2.datosignificativo }}</p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-12 border-soft">
+    					<p class="without-margin color-black"><strong>DIAGNOSTICO Y PLAN SOCIAL</strong></p>
+    				</div>
+    			</div>
+    			<div class="col-sm-12 without-padding">
+    				<div class="col-sm-12 border-soft">
+    					<p class="without-margin color-black">{{ estudioSE2.diagnosticoplansocial }}</p>
     				</div>
     			</div>
     			<div class="col-sm-12 text-center">
     				<div class="col-sm-12">
-    					<h4 class="text-center"><strong>ESTRUCTURA FAMILIAR</strong></h4>		
+    					<h4 class="text-center color-black"><strong>ESTRUCTURA FAMILIAR</strong></h4>
     				</div>
     			</div>
-    			<div class="col-sm-12 bckg-gray">
-	    				<div class="col-sm-3">
-	    					<p class="whithout-margin color-black"><strong>NOMBRES</strong></p>
-	    				</div>
-	    				<div class="col-sm-2">
-	    					<p class="whithout-margin color-black"><strong>PARENTESCO</strong></p>
-	    				</div>
-	    				<div class="col-sm-2">
-	    					<p class="whithout-margin color-black"><strong>EDAD</strong></p>
-	    				</div>
-	    				<div class="col-sm-2">
-	    					<p class="whithout-margin color-black"><strong>ESTADO CIVIL</strong></p>
-	    				</div>
-	    				<div class="col-sm-3">
-	    					<p class="whithout-margin color-black"><strong>OCUPACION ESCOLARIDAD</strong></p>
-	    				</div>
-	    			</div>
+    			<div class="col-sm-12 bckg-gray without-padding">
+    				<div class="col-sm-3 border-soft">
+    					<p class="without-margin color-black"><strong>NOMBRES</strong></p>
+    				</div>
+    				<div class="col-sm-2 border-soft">
+    					<p class="without-margin color-black"><strong>PARENTESCO</strong></p>
+    				</div>
+    				<div class="col-sm-1 border-soft">
+    					<p class="without-margin color-black"><strong>EDAD</strong></p>
+    				</div>
+    				<div class="col-sm-2 border-soft">
+    					<p class="without-margin color-black"><strong>ESTADO CIVIL</strong></p>
+    				</div>
+    				<div class="col-sm-4 border-soft">
+    					<p class="without-margin color-black"><strong>OCUPACION ESCOLARIDAD</strong></p>
+    				</div>
+	    		</div>
     			{% for estructuraF in estructuraFamiliar %}
-	    			<div class="col-sm-12">
-	    				<div class="col-sm-3">
-	    					<p class="whithout-margin color-black">{{ estructuraF.nombrefamiliar }} {{ estructuraF.apellidosfamiliar }}</p>
+	    			<div class="col-sm-12 without-padding">
+	    				<div class="col-sm-3 border-soft">
+	    					<p class="color-black">{{ estructuraF.nombrefamiliar }} {{ estructuraF.apellidosfamiliar }}</p>
 	    				</div>
-	    				<div class="col-sm-2">
-	    					<p class="whithout-margin color-black">{{ estructuraF.parentesco }}</p>
+	    				<div class="col-sm-2 border-soft">
+	    					<p class="color-black">{{ estructuraF.parentesco }}</p>
 	    				</div>
-	    				<div class="col-sm-2">
-	    					<p class="whithout-margin color-black">{{ estructuraF.edad }}</p>
+	    				<div class="col-sm-1 border-soft">
+	    					<p class="color-black">{{ estructuraF.edad }}</p>
 	    				</div>
-	    				<div class="col-sm-2">
-	    					<p class="whithout-margin color-black">{{ estructuraF.estadocivil }}</p>
+	    				<div class="col-sm-2 border-soft">
+	    					<p class="color-black">{{ estructuraF.estadocivil }}</p>
 	    				</div>
-	    				<div class="col-sm-3">
-	    					<p class="whithout-margin color-black">{{ estructuraF.ocupacion.descripcion }} - {{ estructuraF.escolaridad.descripcion }}</p>
+	    				<div class="col-sm-4 border-soft">
+	    					<p class="color-black">{{ estructuraF.ocupacion.descripcion }} - {{ estructuraF.escolaridad.descripcion }}</p>
 	    				</div>
 	    			</div>
     			{% endfor %}
@@ -476,7 +551,7 @@
 					<div class="col-sm-12">
 						<br/>
 						<br/>
-						<p class="whithout-margin color-black">{{ estudioSE1.usuariocreacion.user.first_name }} {{ estudioSE1.usuariocreacion.user.last_name }} {{ estudioSE1.usuariocreacion.cedula_profesional}}</p>
+						<p class="without-margin color-black">{{ estudioSE1.usuariocreacion.user.first_name }} {{ estudioSE1.usuariocreacion.user.last_name }} {{ estudioSE1.usuariocreacion.cedula_profesional}}</p>
 					</div>
 				</div>
     		</div>
@@ -486,7 +561,7 @@
     	<div class="col-sm-12 bckg-white">
     		<div class="col-sm-12 main-border">
     			<div class="col-sm-12">
-    				<h3 class="text-center"><strong>SITUACION ECONOMICA</strong></h3>
+    				<h5 class="text-center"><strong>SITUACION ECONOMICA</strong></h5>
     			</div>
     			<div class="col-sm-12">
 					<div class="col-sm-4">
@@ -551,7 +626,7 @@
 					</div>
 				</div>
 				<div class="col-sm-12">
-    				<h3 class="text-center"><strong>CARACTERISTICAS DE LA VIVIENDA - {{ estudioSE2.vivienda.vivienda }}</strong></h3>
+    				<h5 class="text-center"><strong>CARACTERISTICAS DE LA VIVIENDA - {{ estudioSE2.vivienda.vivienda }}</strong></h5>
     			</div>
     			<div class="col-sm-12">
     				<div class="col-sm-4">
@@ -698,8 +773,236 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="Carnet">
     	<div class="col-sm-12 bckg-white">
-    		<div class="col-sm-12 main-border">
-    			
+    		<div class="col-sm-12 text-center">
+    			<div class="col-sm-6">
+	    			<table class="table table-bordered table-carnet">
+						<thead>
+							<tr>
+								<th>FECHA</th>
+								<th>HORA</th>
+								<th>SERVICIO</th>
+								<th>PRESTADOR DEL SERVICIO</th>
+								<th>FIRMA ASIST.</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for r in rows %}
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<div class="col-sm-6">
+	    			<table class="table table-bordered table-carnet">
+						<thead>
+							<tr>
+								<th>FECHA</th>
+								<th>HORA</th>
+								<th>SERVICIO</th>
+								<th>PRESTADOR DEL SERVICIO</th>
+								<th>FIRMA ASIST.</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for r in rows %}
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+    		</div>
+    		<div class="col-sm-12">
+    			<div class="col-sm-6">
+    				<p class="without-margin color-black text-center border-soft">TERAPIAS</p>
+	    			<table class="table table-bordered table-carnet-half">
+						<thead>
+							<tr>
+								<th>SERVICIO</th>
+								<th>LUN</th>
+								<th>MAR</th>
+								<th>MIE</th>
+								<th>JUE</th>
+								<th>VIE</th>
+								<th>PRESTADOR SERVICIO</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>TERAPIA FISICA</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>TERAPIA OCUP.</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>C.T.A</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>TERAPIA DE LENG.</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>E.M.T</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="without-margin color-black text-center border-soft">PROGRAMAS</p>
+	    			<table class="table table-bordered table-carnet-half">
+						<thead>
+							<tr>
+								<th>SERVICIO</th>
+								<th>LUN</th>
+								<th>MAR</th>
+								<th>MIE</th>
+								<th>JUE</th>
+								<th>VIE</th>
+								<th>PRESTADOR SERVICIO</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>INC. EDUCATIVA</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>INC. LABORAL</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>GERONTOLOGIA</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>PREV. PAD. C.D</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>ESC. PARA FAMILIAS</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>U.B.R.</td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="without-margin color-black text-min">EN CASA DE NO ASISTIR A SU CONSULTA O SERVICIO, FAVOR DE AVISAR 24 HRS. ANTES A LOS TELEFONOS 8161310, 8162169 OPC. 5. DIRECCION: CALLE 7 S/N AREA DEL FOVI, CAMPECHE, CAMPECHE.</p>
+					<p class="without-margin color-black text-min">QUEJAS Y/O SUGERENCIAS: informacion_cree@hotmail.com</p>
+				</div>
+				<div class="col-sm-6">
+					<h4 class="text-center">CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</h4>
+					<h5 class="text-center">CARNET DE CITAS</h5>
+					<div class="col-sm-12 border-soft">
+						<div class="col-sm-12">
+							<div class="col-sm-8">
+								<p class="without-margin color-black">Paciente: <strong>{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</strong></p>
+							</div>
+							<div class="col-sm-2">
+								<p class="without-margin color-black">Edad: <strong>{{ paciente.edad }}</strong></p>
+							</div>
+							<div class="col-sm-2">
+								<p class="without-margin color-black">Genero: 
+									<strong>
+										{% if paciente.genero == 1 %}
+											H
+										{% elif paciente.genero == 0%}
+											M
+										{% else %}
+											D
+										{% endif %}
+									</strong>
+								</p>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-4">
+								<p class="without-margin color-black">Expediente: <strong>{{ expediente.claveexpediente }}</strong></p>
+							</div>
+							<div class="col-sm-2">
+								<p class="without-margin color-black">Clue: <strong>{{ paciente.edad }}</strong></p>
+							</div>
+							<div class="col-sm-6">
+								<p class="without-margin color-black">Curp: <strong>{{ paciente.curp }}</strong>
+								</p>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-8">
+								<p class="without-margin color-black">Municipio: <strong>{{ paciente.estadoprocedente.descripcion }},{{ paciente.municipio.descripcion}}</strong></p>
+							</div>
+							<div class="col-sm-4">
+								<p class="without-margin color-black">Clasificacion: <strong>{{ estudioSE1.clasificacion }}</strong></p>
+							</div>
+						</div>
+					</div>
+					<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 160px; height: 210px; padding-top: 15px;"/>
+					<h6 class="text-center">NUESTRO COMPROMISO ES SERVIRLE</h6>
+				</div>
     		</div>
     	</div>
     </div>

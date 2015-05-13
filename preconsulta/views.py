@@ -127,6 +127,9 @@ def imprimirDocumentos(request, paciente):
 	construccionVivienda = ConstruccionVivienda.objects.filter(is_active=True).exclude(id__in=[con.id for con in construccionViviendaE])
 	barrerasVivienda = BarreraArquitectonicaVivienda.objects.filter(is_active=True).exclude(id__in=[b.id for b in barrerasViviendaE])
 	
+	rows = list()
+	for i in range(20):
+		rows.append(i)
 	contexto = {'curp' : paciente.curp, 'paciente' : paciente, 'expediente' : expediente,
 	 'hojaPrevaloracion': hojaPrevaloracion, 'hojaFrontal' : hojaFrontal, 'estudioSE1' : estudioSE1,
 	 'estructuraFamiliar' : estructuraFamiliar, 'estudioSE2' : estudioSE2, 'serviciosExpediente': serviciosExpediente,
@@ -136,7 +139,7 @@ def imprimirDocumentos(request, paciente):
      'tenenciasVivienda' : tenenciasVivienda, 'construccionVivienda' : construccionVivienda,
      'barrerasVivienda' : barrerasVivienda, 'componentesViviendaE' : componentesViviendaE, 
      'serviciosViviendaE' : serviciosViviendaE, 'tenenciasViviendaE' : tenenciasViviendaE, 
-     'construccionViviendaE' : construccionViviendaE, 'barrerasViviendaE' : barrerasViviendaE}
+     'construccionViviendaE' : construccionViviendaE, 'barrerasViviendaE' : barrerasViviendaE, 'rows' : rows}
 	return render_to_response('preconsulta/ImprimirDocumentos.html', contexto, context_instance=RequestContext(request))
 #@csrf_exempt
 def addEstudioSocioeconomico(request):
@@ -384,7 +387,8 @@ def agregar_paciente(request):
 				telefonocasa = request.POST['telCasa'],
 				telefonocelular = request.POST['celular'],
 				estadoprocedente_id = request.POST['estado'],
-				municipio_id = 1,#request.POST['localidad'],
+				municipio_id = request.POST['municipio'],
+				localidad = request.POST['localidad'],
 				calle = request.POST['calle'],
 				entrecalles = request.POST['entreCalles'],
 				colonia = request.POST['colonia'],
