@@ -13,16 +13,17 @@
 {% endblock filesCSS %}
 
 {% block content %}
+<div class="alert alert-warning alert-dismissible" role="alert" id="nodeAlert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Advertencia!</strong> El servidor de tiempo real no esta activo, los cambios que hagan no se reflejaran a todos los usuarios conectados, favor de recargar a la pagina.
+  <strong>NOTA: Puede trabajar sin tiempo real, tendra que hacer refresh manual.</strong>
+</div>
 {% if grupo == "informacion" %}
 <div class="alert alert-info" role="alert">
 	<strong>Al dar clic en el boton "Nuevo Paciente" se abrira el formulario para agregar al paciente.</strong>
 	<button id="showForm" type="submit" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Nuevo paciente</button>
 </div>
 {% endif %}
-<div class="alert alert-success alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-</div>
 <!-- Start form oculto para agregar pacientes nuevos-->
 <div class="row mt formOculto" id="form">
 	<div class="col-lg-12">
@@ -160,7 +161,8 @@
 			{{paciente.nombre}} {{paciente.apellidoP}}			
 				</div>
 				<div class="col-lg-6 goright">
-					{{paciente.estadoprocedente.descripcion}}					
+					{{paciente.municipio.descripcion}}
+					{# {{paciente.estadoprocedente.descripcion}} - {{paciente.municipio.descripcion}} #}
 				</div>
 			{# <p class="gorigth"> {{paciente.estadoprocendete.descripcion}}</p> #}
 			</div>

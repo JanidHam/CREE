@@ -125,26 +125,26 @@
 						</strong></p>
 					</div>
 				</div>
-				<div class="col-sm-12 without-padding">
-					<p class="without-margin color-black border-soft text-center">MOTIVO DE CONSULTA</p>
+				<div class="col-sm-12 without-padding bckg-gray">
+					<p class="without-margin color-black border-soft"><strong>MOTIVO DE CONSULTA</strong></p>
 				</div>
 				<div class="col-sm-12 without-padding">
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.motivoconsulta }}</strong></p>
 				</div>
-				<div class="col-sm-12 without-padding">
-					<p class="without-margin color-black border-soft text-center">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ</p>
+				<div class="col-sm-12 without-padding bckg-gray">
+					<p class="without-margin color-black border-soft">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ</p>
 				</div>
 				<div class="col-sm-12 without-padding">
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.diagnosticonosologico }}</strong></p>
 				</div>
-				<div class="col-sm-12 without-padding">
-					<p class="without-margin color-black border-soft text-center">PSICOLOGIA</p>
+				<div class="col-sm-12 without-padding bckg-gray">
+					<p class="without-margin color-black border-soft">PSICOLOGIA</p>
 				</div>
 				<div class="col-sm-12 without-padding">
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.psicologia }}</strong></p>
 				</div>
-				<div class="col-sm-12 without-padding">
-					<p class="without-margin color-black border-soft text-center">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)</p>
+				<div class="col-sm-12 without-padding bckg-gray">
+					<p class="without-margin color-black border-soft">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)</p>
 				</div>
 				<div class="col-sm-12 without-padding">
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.diagnosticonosologico2 }}</strong></p>
@@ -171,8 +171,8 @@
 						</div>
 					{% endfor %}
 				</div>
-				<div class="col-sm-12 without-padding">
-					<p class="without-margin color-black border-soft text-center">CANALIZACION A: (EXTRAINSTITUCIONAL)</p>
+				<div class="col-sm-12 without-padding bckg-gray">
+					<p class="without-margin color-black border-soft">CANALIZACION A: (EXTRAINSTITUCIONAL)</p>
 				</div>
 				<div class="col-sm-12 without-padding">
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.canalizacion }}</strong></p>
@@ -772,7 +772,7 @@
     	</div>
     </div>
     <div role="tabpanel" class="tab-pane" id="Carnet">
-    	<div class="col-sm-12 bckg-white">
+    	<div class="col-sm-12">
     		<div class="col-sm-12 text-center">
     			<div class="col-sm-6">
 	    			<table class="table table-bordered table-carnet">
@@ -822,6 +822,8 @@
 						</tbody>
 					</table>
 				</div>
+    		</div>
+    		<div class="col-sm-12 page-break-carnet">
     		</div>
     		<div class="col-sm-12">
     			<div class="col-sm-6">
@@ -957,8 +959,8 @@
 				<div class="col-sm-6">
 					<h4 class="text-center">CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</h4>
 					<h5 class="text-center">CARNET DE CITAS</h5>
-					<div class="col-sm-12 border-soft">
-						<div class="col-sm-12">
+					<div class="col-sm-12 border-soft without-padding">
+						<div class="col-sm-12 without-padding">
 							<div class="col-sm-8">
 								<p class="without-margin color-black">Paciente: <strong>{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</strong></p>
 							</div>
@@ -979,7 +981,7 @@
 								</p>
 							</div>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 without-padding">
 							<div class="col-sm-4">
 								<p class="without-margin color-black">Expediente: <strong>{{ expediente.claveexpediente }}</strong></p>
 							</div>
@@ -991,7 +993,7 @@
 								</p>
 							</div>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 without-padding">
 							<div class="col-sm-8">
 								<p class="without-margin color-black">Municipio: <strong>{{ paciente.estadoprocedente.descripcion }},{{ paciente.municipio.descripcion}}</strong></p>
 							</div>

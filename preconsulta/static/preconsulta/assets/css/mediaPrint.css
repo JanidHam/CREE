@@ -8,6 +8,10 @@
 		font-size: 8pt;
 	}
 
+	.break {
+		page-break-before: always;
+	}
+
 	aside {
 		display: none;
 		margin-left: -210px;
@@ -98,6 +102,10 @@
 
 	.marginB {
 		margin-bottom: 3px;
+	}
+
+	.page-break-carnet {
+		height: 530px;
 	}
 
 	.to-bottom {

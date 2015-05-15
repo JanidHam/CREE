@@ -9,6 +9,7 @@ from .utils import getUpdateConsecutiveExpendiete
 from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos
 from django.contrib.auth.models import User, Group
 from datetime import date
+from logs import logger
 import sys
 import json
 #import pdb
@@ -23,7 +24,6 @@ INTERNAS = "INTERNAS"
 
 @redirect_view
 def home(request):
-	#pdb.set_trace()
 	ocupaciones = Ocupacion.objects.filter(is_active=True)
 	escoliridades = Escolaridad.objects.filter(is_active=True)
 	referidospor = Referidopor.objects.filter(is_active=True)
@@ -48,12 +48,11 @@ def home(request):
 					grupo = "trabajoSocial"
 				except Group.DoesNotExist:
 					grupo = ""
-
+	
 	contexto = {'ocupaciones' : ocupaciones, 'escolaridades' : escoliridades, 'referidospor' : referidospor,
 	            'municipios' : municipios, 'estados' : estados, 'pacientes' : pacientes, 'grupo': grupo}
 	return render_to_response('preconsulta/Prevaloracion.html', contexto, context_instance=RequestContext(request))
 
-#@login_required(login_url='/login/')
 @validViewPermissionRevisionMedica
 def revisionMedica(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
@@ -62,14 +61,12 @@ def revisionMedica(request, paciente):
 	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente}
 	return render_to_response('preconsulta/PrevaloracionMedica.html', contexto, context_instance=RequestContext(request))
 
-#@login_required(login_url='/login/')
 @validViewPermissionRevisionPsicologica
 def psicologicaPrevaloracion(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	contexto = {'curp' : paciente}
 	return render_to_response('preconsulta/PrevaloracionPsicologica.html', contexto, context_instance=RequestContext(request))
 
-#@login_required(login_url='/login/')
 @validViewPermissionTrabajoSocial
 def estudioSPrevaloracion(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
@@ -140,8 +137,9 @@ def imprimirDocumentos(request, paciente):
      'barrerasVivienda' : barrerasVivienda, 'componentesViviendaE' : componentesViviendaE, 
      'serviciosViviendaE' : serviciosViviendaE, 'tenenciasViviendaE' : tenenciasViviendaE, 
      'construccionViviendaE' : construccionViviendaE, 'barrerasViviendaE' : barrerasViviendaE, 'rows' : rows}
+
 	return render_to_response('preconsulta/ImprimirDocumentos.html', contexto, context_instance=RequestContext(request))
-#@csrf_exempt
+
 def addEstudioSocioeconomico(request):
 	if request.POST:
 		try:
@@ -244,9 +242,13 @@ def addEstudioSocioeconomico(request):
 					#barreraE = BarreraArquitectonicaVivienda.objects.filter(id=i)
 
 				mensaje = "ok"
-		except Exception:
-			print sys.exc_info()
-			mensaje = "Error al crear los estudios socio economicos"
+
+		except ValueError as e:
+			logger.error(str(e))
+			mensaje = "Valor no valido, revisar los valores que se ingresan."
+		except:
+			logger.error(sys.exc_info()[0])
+			mensaje = "Error al crear los estudios socio economicos."
 
 		response = JsonResponse({'isOk' : mensaje})
 		return HttpResponse(response.content)
@@ -278,9 +280,13 @@ def addPsicologiaHojaPrevaloracion(request):
 				)
 
 				mensaje = "ok"
-		except Exception:
-			print sys.exc_info()
-			mensaje = "Error al actualizar la hoja de prevaloracion"
+
+		except ValueError as e:
+			logger.error(str(e))
+			mensaje = "Valor no valido, revisar los valores que se ingresan."
+		except:
+			logger.error(sys.exc_info()[0])
+			mensaje = "Error al actualizar la hoja de prevaloracion."
 
 		response = JsonResponse({'isOk' : mensaje})
 		return HttpResponse(response.content)
@@ -358,9 +364,12 @@ def addHojaPrevaloracion(request):
 
 				mensaje = "ok"
 
+		except ValueError as e:
+			logger.error(str(e))
+			mensaje = "Valor no valido, revisar los valores que se ingresan."
 		except:
-			print sys.exc_info()
-			mensaje = "Error al crear la hoja de prevaloracion"
+			logger.error(sys.exc_info()[0])
+			mensaje = "Error al crear la hoja de prevaloracion."
 
 		response = JsonResponse({'curp' : request.POST['curp'], 'correspondio' : correspondio,
 								'isOk' : mensaje})
@@ -373,11 +382,12 @@ def agregar_paciente(request):
 		#paciente = Paciente.objects().filter(curp=request.POST['curp'])
 		try:
 			mensaje = "Error al crear el parciente"
+			municipio = "Generico"
 			u = User.objects.get(username=request.user)
 			#municipio = Municipio.objects.get(descripcion=request.POST['localidad'])
 			#estado = Estado.objects.get(descripcion=request.POST['estado'])
 			pacienteTemp = Paciente.objects.create(
-				nombre = request.POST['nombre'],
+				#nombre = request.POST['nombre'],
 				apellidoP = request.POST['apellidoP'],
 				apellidoM = request.POST['apellidoM'],
 				curp = request.POST['curp'],
@@ -400,15 +410,22 @@ def agregar_paciente(request):
 				#correspondio = request.POST[''],
 				usuariocreacion_id = u.perfil_usuario.id,
 				)
-
+			municipio = pacienteTemp.municipio.descripcion
 			mensaje = "ok"
-		except Exception:
-			print sys.exc_info()
-			mensaje = "Error al crear el parciente"
-
+		except IntegrityError as e:
+			logger.error(str(e))
+			mensaje = "La curp del paciente ya existe en la base de datos."
+		except ValueError as e:
+			logger.error(str(e))
+			mensaje = "Valor no valido, revisar los valores que se ingresan."
+		except:
+			logger.error(sys.exc_info()[0])
+			mensaje = "Error al crear el parciente."
+		
 		response = JsonResponse({'nombre' : request.POST['nombre'],'apellidoP' : request.POST['apellidoP'],
 		 'curp' : request.POST['curp'], 'correspondio' : 'None',
-		 'estadoProcendete' : pacienteTemp.estadoprocedente.descripcion, 'isOk' : mensaje})
+		 'municipio' : municipio, 'isOk' : mensaje})
+		
 		return HttpResponse(response.content)
 	else:
 		raise Http404

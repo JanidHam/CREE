@@ -9,16 +9,9 @@ function main_discusiones() {
     }
   });
 }
-//Variables globales
-try {
-var socket = io.connect("http://localhost:3000");
-} catch(err) {
-  socket = null;
-  //Ya se maneja el error si no esta corriendo el servidor de nodeJS, falta mostrar un mensaje
-  //de error para informar que no se guardaran los cambios
-}
 
-var $sendPaciente = $('#AgregarPaciente');
+var $sendPaciente = $('#AgregarPaciente'),
+    $nodeAlert = $('#nodeAlert');
 
 var $form    = $('#form'),
     $showForm          = $('#showForm'),
@@ -42,6 +35,18 @@ var $form    = $('#form'),
     $referidoporInput  = $('#referidoporPaciente'),
     $entreCalleInput   = $('#entreCallesPaciente'),
     $codigoPostalInput = $('#codigoPostalPaciente');
+
+//Variables globales
+try {
+  $nodeAlert.hide();
+var socket = io.connect("http://localhost:3000");
+} catch(err) {
+  console.log("servidor caido");
+  socket = null;
+  $nodeAlert.show();
+  //Ya se maneja el error si no esta corriendo el servidor de nodeJS, falta mostrar un mensaje
+  //de error para informar que no se guardaran los cambios
+}    
 
 var isHombre = "HOMBRE",
     isMujer  = "MUJER";
@@ -85,10 +90,13 @@ function addPaciente() {
 
 function succesPaciente(data) {
   //console.log(data);
+  console.log("aqui");
   var data = JSON.parse(data);
   //console.log(data);
   if (data.isOk == "ok") {
     socket.emit('nuevo_paciente', data);
+  } else {
+    alert(data.isOk);
   }
   $sendPaciente.button('reset');
 }
@@ -99,7 +107,7 @@ function showPaciente(data) {
     listapacientes.append('<a href="' + setURLByRol(data.curp) + 
       '/"> <div class="row showback None" data-correspondio="' + data.correspondio + '" data-curp="' + 
       data.curp + '" id="' + data.curp + '"> <div class="col-lg-6">' + data.nombre + ' ' + data.apellidoP + 
-      '</div><div class="col-lg-6 goright">' + data.estadoProcendete + '</div></div></a>');
+      '</div><div class="col-lg-6 goright">' + data.municipio + '</div></div></a>');
     $('.badge').text(parseInt($('.badge').text()) + 1);
     //alert("Paciente agregado con exito.");
   }
@@ -145,6 +153,7 @@ function show_hideForm() {
 }
 
 function validForm() {
+  return true;
   if ($curpInput.val() !== '') {
     if ($nombreInput.val() !== '') {
       if ($apellidoPInput.val() !== '') {
