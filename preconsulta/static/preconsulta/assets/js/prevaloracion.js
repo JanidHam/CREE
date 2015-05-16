@@ -90,7 +90,7 @@ function addPaciente() {
 
 function succesPaciente(data) {
   //console.log(data);
-  console.log("aqui");
+  //console.log("aqui");
   var data = JSON.parse(data);
   //console.log(data);
   if (data.isOk == "ok") {

@@ -1,0 +1,17 @@
+.color-black {
+	color: #000;
+}
+
+.page-header {
+	margin: 0px;
+	padding-bottom: 0px;
+}
+
+.print-view {
+	display: none;
+}
+
+img.cree-logo {
+	height: 70px;
+	width: 60px;
+}

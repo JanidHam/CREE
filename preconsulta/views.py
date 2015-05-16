@@ -3,7 +3,7 @@ from django.shortcuts import render, render_to_response, RequestContext, redirec
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
-from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1, ProgramaExpediente
+from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1, ProgramaExpediente, PacienteDataEnfermeria
 from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica
 from .utils import getUpdateConsecutiveExpendiete
 from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos
@@ -66,6 +66,16 @@ def psicologicaPrevaloracion(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	contexto = {'curp' : paciente}
 	return render_to_response('preconsulta/PrevaloracionPsicologica.html', contexto, context_instance=RequestContext(request))
+
+#@validViewPermissionEnfemeria
+def enfermeriaPrevaloracion(request, paciente):
+	tmppaciente = get_object_or_404(Paciente, curp=paciente)
+	nombreCompletoPaciente = "%s %s %s" %(tmppaciente.nombre, tmppaciente.apellidoP, tmppaciente.apellidoM)
+	fechaActual = date.today()
+	mensajeInformativo = "28 de mayo dia internacional de accion por la salud de la mujer"
+	contexto = {'curp' : paciente, 'edad' : tmppaciente.edad, 'nombreCompletoPaciente' :  nombreCompletoPaciente,
+	'fecha' : fechaActual, 'mensajeInformativo' : mensajeInformativo}
+	return render_to_response('preconsulta/PrevaloracionEnfermeria.html', contexto, context_instance=RequestContext(request))
 
 @validViewPermissionTrabajoSocial
 def estudioSPrevaloracion(request, paciente):
@@ -377,6 +387,40 @@ def addHojaPrevaloracion(request):
 	else:
 		raise Http404
 
+def addDataEnfermeria(request):
+	if request.POST:
+		try:
+			mensaje = "Error al guardar datos de enfermeria."
+
+			paciente = Paciente.objects.get(curp=request.POST['curp'])
+			u = User.objects.get(username=request.user)
+
+			dataEnfermeriaPaciente = PacienteDataEnfermeria.objects.create(
+				paciente_id = paciente.id,
+				edad = paciente.edad,
+				peso = request.POST['peso'],
+				talla = request.POST['talla'],
+				f_c = request.POST['fc'],
+				t_a = request.POST['ta'],
+				glucosa = request.POST['gluc'],
+				cintura = request.POST['cintura'],
+				enfermera_id = u.perfil_usuario.id,
+				mensaje_informativo = "Mensaje Informativo",#request.POST['mensajeInformativo'],
+				)
+
+			mensaje = "ok"
+		except ValueError as e:
+			logger.error(str(e))
+			mensaje = "Valor no valido, revisar los valores que se ingresan."
+		except:
+			logger.error(sys.exc_info()[0])
+			mensaje = "Error al guardar datos de enfermeria."
+
+		response = JsonResponse({'isOk' : mensaje})
+		return HttpResponse(response.content)
+	else:
+		raise Http404
+
 def agregar_paciente(request):
 	if request.is_ajax():
 		#paciente = Paciente.objects().filter(curp=request.POST['curp'])
@@ -423,8 +467,7 @@ def agregar_paciente(request):
 			mensaje = "Error al crear el parciente."
 		
 		response = JsonResponse({'nombre' : request.POST['nombre'],'apellidoP' : request.POST['apellidoP'],
-		 'curp' : request.POST['curp'], 'correspondio' : 'None',
-		 'municipio' : municipio, 'isOk' : mensaje})
+		 'curp' : request.POST['curp'], 'correspondio' : 'None', 'municipio' : municipio, 'isOk' : mensaje})
 		
 		return HttpResponse(response.content)
 	else:

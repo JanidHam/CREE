@@ -1,0 +1,109 @@
+@media print{
+	@page {
+		margin: 0cm;
+		size: 280px 340.15px;
+	}
+
+	body {
+		font-size: 7pt;
+	}
+
+	aside {
+		display: none;
+		margin-left: -210px;
+	}
+
+	.main-content, {
+		margin-left: 0px;
+	}
+
+	.bckg-gray {
+		background-color: #B5B5B5 !important;
+	}
+
+	.border {
+		border: 1px solid #000;
+	}
+
+	.form-panel {
+		display: none;
+	}
+
+	.wrapper {
+		margin-top: 0px;
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
+	.col-sm-12, .col-sm-10, .col-sm-8, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2, .col-sm-1  {
+		float: left;
+		position: relative;
+	}
+
+	.col-sm-12 {
+		width: 100%;
+	}
+
+	.col-sm-1 {
+		width: 8.33333333%;
+	}
+
+	.col-sm-2 {
+		width: 16.6667%;
+	}
+
+	.col-sm-3 {
+		width: 25%;
+	}
+
+	.col-sm-4 {
+		width: 33.3333%;
+	}
+
+	.col-sm-5 {
+		width: 41.6667%;
+	}
+
+	.col-sm-6 {
+		width: 50%;
+	}
+
+	.col-sm-8 {
+		width: 66.6667%;
+	}
+
+	header.header {
+		display: none;
+	}
+
+	.page-header {
+		margin: 0px;
+		padding-bottom: 0px;
+	}
+
+	.print-view {
+		display: block;
+		padding-top: -10px !important;
+		margin-top: -40px !important;
+		/*height: 340.15px;
+		width: 280px;*/
+	}
+
+	.text-center {
+  		text-align: center;
+	}
+
+	.to-bottom {
+		bottom: 0px;
+		position: absolute;
+	}
+
+	img.cree-logo {
+		height: 50px;
+		width: 40px;
+	}	
+
+	ul.nav {
+		display: none;
+	}
+}

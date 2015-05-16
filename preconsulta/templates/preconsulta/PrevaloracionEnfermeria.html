@@ -1,0 +1,134 @@
+{% extends 'preconsulta/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} Prevaloracion Enfermeria {% endblock title %}
+
+{% block filesJS %}
+	<script src="{% static "preconsulta/assets/js/revision_enfermeria.js" %}"></script>
+{% endblock filesJS %}
+
+{% block filesCSS %}
+	<link rel="stylesheet" type="text/css" href="{% static "preconsulta/assets/css/enfermeria.css" %}"/>
+
+	<link rel="stylesheet" type="text/css" media="print" href="{% static "preconsulta/assets/css/enfermeria-mediaPrint.css" %}">
+{% endblock filesCSS %}
+
+{% block content %}
+<div class="row mt" id="form">
+	<div class="col-lg-12">
+		<div class="form-panel">
+			<h4 class="mb">Formulario Enfermeria</h4>
+			<form class="form-horizontal tasi-form" role="form">
+				{% csrf_token %}
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<input type="text" class="form-control text-uppercase" id="nombrePaciente" placeholder="NOMBRE PACIENTE" value="{{ nombreCompletoPaciente }}" disabled>
+					</div>					
+				</div>
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<input type="text" class="form-control text-uppercase" id="edadPaciente" placeholder="EDAD PACIENTE" value="{{ edad }}" disabled>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<input type="text" class="form-control text-uppercase" id="pesoPaciente" placeholder="PESO PACIENTE">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<input type="text" class="form-control text-uppercase" id="tallaPaciente" placeholder="TALLA PACIENTE">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<input type="text" class="form-control text-uppercase" id="fcPaciente" placeholder="F.C. PACIENTE">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<input type="text" class="form-control text-uppercase" id="taPaciente" placeholder="T.A. PACIENTE">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<input type="text" class="form-control text-uppercase" id="glucosaPaciente" placeholder="GLUC. PACIENTE">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<input type="text" class="form-control text-uppercase" id="cinturaPaciente" placeholder="CINTURA PACIENTE">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-12">					
+						<input type="text" class="form-control text-uppercase" id="fechaActual" placeholder="FECHA ACTUAL" value="{{ fecha }}" disabled>
+					</div>
+				</div>
+				<button class="btn btn-theme" id="printAndSetData" data-loading-text="Espere..."><i class="fa fa-heart"></i> Imprimir</button>
+				<button class="btn btn-theme" id="sendDataEnfermeriaPaciente" data-loading-text="Imprima primero..."><i class="fa fa-heart"></i> Guardar</button>
+			</form>
+		</div><!-- /form-panel -->
+	</div><!-- /col-lg-12 -->
+	<div class="col-sm-12 print-view text-center">
+		<div class="col-sm-12 page-header">
+			<img class="cree-logo" src="{% static "preconsulta/images/favicon.png" %}"/>
+			<h5>CENTRO DE REHABILITACION Y EDUCACION</h5>
+		</div>
+		<div class="col-sm-12">
+			<h6 class="text-center">Sistema de turnos de prevaloracion</h6>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-2">Nombre:</div>
+			<div class="col-sm-10">&nbsp;&nbsp;&nbsp;{{ nombreCompletoPaciente }}</div>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-2">Edad: </div>
+			<div class="col-sm-10 text-center">{{ edad }}</div>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-2">Peso: </div>
+			<div class="col-sm-10" id="printPeso"></div>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-2">Talla: </div>
+			<div class="col-sm-10" id="printTalla"></div>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-2">F.C. </div>
+			<div class="col-sm-10" id="printFC"></div>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-2">T.A. </div>
+			<div class="col-sm-10" id="printTA"></div>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-2">GLUC. </div>
+			<div class="col-sm-10" id="printGlucosa"></div>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-2">Cintura: </div>
+			<div class="col-sm-10" id="printCintura"></div>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-2">Medico: </div>
+			<div class="col-sm-10" id="printMedico"></div>
+		</div>
+		<div class="col-sm-12 color-black border">
+			<div class="col-sm-12 text-center">Fecha</div>
+		</div>
+		<div class="col-sm-12 color-black border">
+			<div class="col-sm-12 text-center">{{ fecha }}</div>
+		</div>
+		<div class="col-sm-12 color-black">
+			<div class="col-sm-12 text-center">{{ mensajeInformativo }}</div>
+		</div>
+	</div>
+</div>
+<!-- End form oculto para agregar pacientes nuevos-->
+<script>
+var CURP = "{{ curp }}";
+//console.log(CURP);
+</script>
+{% endblock content %}

@@ -46,9 +46,26 @@ class Expediente(models.Model):
 	fechaalta = models.DateField(blank=True)
 	servicios = models.ManyToManyField(ServicioCree, through='ServicioExpediente')
 	programas = models.ManyToManyField(ProgramaCree, through='ProgramaExpediente')
+	iscincomil = models.BooleanField(default=False)
 	#fechaalta = models.DateField(auto_now=True)
 	def __unicode__(self):
 		return self.claveexpediente + " " + self.paciente.nombre + " " + self.paciente.apellidoP
+
+class PacienteDataEnfermeria(models.Model):
+	paciente = models.ForeignKey(Paciente, related_name='dataenfermeria_paciente')
+	edad = models.IntegerField()
+	peso = models.CharField(max_length=10)
+	talla = models.CharField(max_length=20)
+	f_c = models.CharField(max_length=20)
+	t_a = models.CharField(max_length=20)
+	glucosa = models.CharField(max_length=20)
+	cintura = models.CharField(max_length=20)
+	enfermera = models.ForeignKey(UserProfile, related_name='dataenfermeria_usuario')
+	fechacreacion = models.DateField(auto_now=True)
+	mensaje_informativo = models.CharField(max_length=255)
+
+	def __unicode__(self):
+		return str(self.pk) + " " + self.paciente.nombre + " " + self.paciente.apellidoP
 
 #Aqui empiezan los modelos relacionados con los expedientes
 class HojaPrevaloracion(models.Model):
