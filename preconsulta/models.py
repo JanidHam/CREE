@@ -16,6 +16,7 @@ class Paciente(models.Model):
 	telefonocasa = models.CharField(max_length=20, blank=True)
 	telefonocelular = models.CharField(max_length=20, blank=True)
 	localidad = models.CharField(max_length=200, blank=True)
+	foto_perfil = models.ImageField(upload_to='pacientes/imagesProfiles', verbose_name='FotoPerfil', blank=True)
 	#Relaciones con otras tablas	
 	estadoprocedente = models.ForeignKey(Estado, related_name='paciente_estadoprocedente')
 	municipio = models.ForeignKey(Municipio, related_name='paciente_municipio')
@@ -116,6 +117,25 @@ class HojaFrontal(models.Model):
 
 	def __unicode__(self):
 		return "ID: " + str(self.id) + " " + self.expediente.claveexpediente + " - " + self.expediente.paciente.nombre + " " + self.expediente.paciente.apellidoP
+
+class HojaReferencia(models.Model):
+	folio = models.CharField(max_length=50)
+	nombre = models.CharField(max_length=80)
+	apellidoP = models.CharField(max_length=80)
+	apellidoM = models.CharField(max_length=80, blank=True)
+	curp = models.CharField(max_length=50)
+	edad = models.IntegerField()
+	genero = models.IntegerField()
+	fechacreacion = models.DateField(auto_now=True)
+	diagnostico = models.TextField()
+	antecedentes = models.TextField()
+	padecimiento_actual = models.TextField()
+	tratamientos = models.TextField()
+	estudios_realizados = models.TextField()
+	usuario = models.ForeignKey(UserProfile, related_name='hojareferencia_usuario')
+
+	def __unicode__(self):
+		return "ID: " + str(self.id) + " - " + self.nombre + " " + self.apellidoP
 
 class HistoriaClinica(models.Model):
 	edad = models.IntegerField()

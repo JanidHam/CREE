@@ -1,12 +1,11 @@
 @media print{
 	@page {
 		margin: 0cm;
-		size: portrait;
-		/*size: 280px 340.15px;*/
+		size: landscape;
 	}
 
 	body {
-		font-size: 7pt;
+		font-size: 8pt;
 	}
 
 	aside {
@@ -14,7 +13,7 @@
 		margin-left: -210px;
 	}
 
-	.main-content, {
+	.main-content, .tabpanel {
 		margin-left: 0px;
 	}
 
@@ -22,12 +21,21 @@
 		background-color: #B5B5B5 !important;
 	}
 
-	.border {
+	.bckg-white {
+		margin-left: -200px;
+		width: 1056px;
+	}
+
+	.padding-to-fit-rigth {
+		margin-right: 600px;
+	}
+
+	.border-soft {
 		border: 1px solid #000;
 	}
 
-	.form-panel {
-		display: none;
+	.dif-left {
+		width: 250px;
 	}
 
 	.wrapper {
@@ -42,6 +50,7 @@
 	}
 
 	.col-sm-12 {
+		
 		width: 100%;
 	}
 
@@ -73,25 +82,19 @@
 		width: 66.6667%;
 	}
 
+	.form-control {
+		font-size: .8em;
+		height: 30px;
+		border: 0px;
+		box-shadow: inset 0 0px 0 rgba(0,0,0,0);
+	}
+
 	header.header {
 		display: none;
 	}
 
-	.page-header {
-		margin: 0px;
-		padding-bottom: 0px;
-	}
-
-	.print-view {
-		display: block;
-		padding-top: -10px !important;
-		margin-top: -40px !important;
-		height: 340.15px;
-		width: 280px;
-	}
-
-	.text-center {
-  		text-align: center;
+	.marginB {
+		margin-bottom: 3px;
 	}
 
 	.to-bottom {
@@ -99,9 +102,13 @@
 		position: absolute;
 	}
 
-	img.cree-logo {
+	.text-min {
+		font-size: .5em;
+	}
+
+	img {
+		width: 50px;
 		height: 50px;
-		width: 40px;
 	}	
 
 	ul.nav {

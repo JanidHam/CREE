@@ -1,6 +1,6 @@
+#from django.views.decorators.csrf import csrf_exempt
 from django.db import IntegrityError, transaction
 from django.shortcuts import render, render_to_response, RequestContext, redirect, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
 from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1, ProgramaExpediente, PacienteDataEnfermeria
@@ -47,7 +47,11 @@ def home(request):
 					request.user.groups.get(name='TrabajoSocial')
 					grupo = "trabajoSocial"
 				except Group.DoesNotExist:
-					grupo = ""
+					try:
+						request.user.groups.get(name='Imprimir')
+						grupo = "imprimir"
+					except Group.DoesNotExist:
+						grupo = ""
 	
 	contexto = {'ocupaciones' : ocupaciones, 'escolaridades' : escoliridades, 'referidospor' : referidospor,
 	            'municipios' : municipios, 'estados' : estados, 'pacientes' : pacientes, 'grupo': grupo}
@@ -149,6 +153,18 @@ def imprimirDocumentos(request, paciente):
      'construccionViviendaE' : construccionViviendaE, 'barrerasViviendaE' : barrerasViviendaE, 'rows' : rows}
 
 	return render_to_response('preconsulta/ImprimirDocumentos.html', contexto, context_instance=RequestContext(request))
+
+@validViewPermissionImprimirDocumentos
+def imprimirDocumentosCaratula(request, paciente):
+	paciente = get_object_or_404(Paciente, curp=paciente)
+	expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
+	
+	estudioSE1 = EstudioSocioE1.objects.get(expediente__id=expediente.id)
+
+	contexto = {'curp' : paciente.curp, 'paciente' : paciente, 'expediente' : expediente, 
+	'estudioSE1' : estudioSE1,}
+
+	return render_to_response('preconsulta/ImprimirCaratula.html', contexto, context_instance=RequestContext(request))
 
 def addEstudioSocioeconomico(request):
 	if request.POST:
@@ -431,7 +447,7 @@ def agregar_paciente(request):
 			#municipio = Municipio.objects.get(descripcion=request.POST['localidad'])
 			#estado = Estado.objects.get(descripcion=request.POST['estado'])
 			pacienteTemp = Paciente.objects.create(
-				#nombre = request.POST['nombre'],
+				nombre = request.POST['nombre'],
 				apellidoP = request.POST['apellidoP'],
 				apellidoM = request.POST['apellidoM'],
 				curp = request.POST['curp'],

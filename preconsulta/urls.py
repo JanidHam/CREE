@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^revision-estudio-socioeconomico/(?P<paciente>[\w\-]+)/$', views.estudioSPrevaloracion, name='revision_estudio_socioeconomico'),
     url(r'^enfermeria/(?P<paciente>[\w\-]+)/$', views.enfermeriaPrevaloracion, name='enfermeria_prevaloracion'),
     url(r'^imprimir-documentos/(?P<paciente>[\w\-]+)/$', views.imprimirDocumentos, name='imprimir_documentos'),
+    url(r'^imprimir-documentos/caratula/(?P<paciente>[\w\-]+)/$', views.imprimirDocumentosCaratula, name='imprimir_documentos_caratula'),
 
     url(r'^agregar-paciente/$', views.agregar_paciente, name='agrega_paciente'),
     url(r'^agregar-enfermeria/$', views.addDataEnfermeria, name='agrega_enfermeria'),

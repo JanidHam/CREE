@@ -1,0 +1,38 @@
+{% extends 'preconsulta/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} Imprimir Documentos Caratula Expediente {% endblock title %}
+
+{% block filesJS %}
+	<script src="{% static "preconsulta/assets/js/imprimirDocumentos.js" %}"></script>
+{% endblock filesJS %}
+
+{% block filesCSS %}
+	<link rel="stylesheet" type="text/css" href="{% static "preconsulta/assets/css/imprimirDocumentos.css" %}"/>
+	<link rel="stylesheet" type="text/css" media="print" href="{% static "preconsulta/assets/css/mediaPrintCaratula.css" %}">
+{% endblock filesCSS %}
+
+{% block content %}
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#Caratula" aria-controls="Caratula" role="tab" data-toggle="tab">Caratula Expediente</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="Caratula">
+    	<div class="col-sm-12 bckg-white border-soft padding-to-fit-rigth">
+    		<div class="col-sm-12 border-soft padding-to-fit-rigth">
+    			<div class="col-sm-5 border-soft padding-to-fit-rigth">
+    				<img class="dif-left" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}"/>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

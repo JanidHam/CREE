@@ -90,9 +90,11 @@ function addPaciente() {
 
 function succesPaciente(data) {
   //console.log(data);
-  //console.log("aqui");
+  console.log("aqui");
   var data = JSON.parse(data);
   //console.log(data);
+  //Nota: agregar la funcion showPaciente aqui cuando fue correcto el agregar paciente.
+  //Cambiar el emit por un broadcast para que no lo emita al mismo cliente.
   if (data.isOk == "ok") {
     socket.emit('nuevo_paciente', data);
   } else {
@@ -122,7 +124,12 @@ function setURLByRol(curp) {
       return "revision-psicologica/" + curp;
   } else if (grupo === "trabajoSocial") {
       return "revision-estudio-socioeconomico/" + curp;
-  } else {
+  } else if (grupo === "imprimir") {
+      return "imprimir-documentos/" + curp;
+  } else if (grupo === "enfermeria") {
+      return "enfermeria/" + curp;
+    }
+    else {
       return "#";
   }
 }

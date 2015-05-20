@@ -45,7 +45,8 @@ INSTALLED_APPS = (
     'preconsulta',
     'userprofiles',
     'catalogos',
-    'django_extensions',    
+    'django_extensions',
+    'sorl.thumbnail',   
 )
 
 MIDDLEWARE_CLASSES = (
@@ -89,7 +90,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = '/opt/media/CREE'
+#MEDIA_ROOT = '/opt/media/CREE'
 MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)

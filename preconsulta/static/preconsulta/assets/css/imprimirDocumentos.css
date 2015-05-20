@@ -40,6 +40,13 @@ tr {
 	color: #000 !important;
 }
 
+.img-cree-hfrontral {
+	float: right;
+	margin-right: 15px;
+	height: 70px;
+	width: 70px;
+}
+
 .main-border {
 	border: 3px double #000;
 	padding-left: 0px;
