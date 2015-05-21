@@ -96,7 +96,11 @@ function succesPaciente(data) {
   //Nota: agregar la funcion showPaciente aqui cuando fue correcto el agregar paciente.
   //Cambiar el emit por un broadcast para que no lo emita al mismo cliente.
   if (data.isOk == "ok") {
-    socket.emit('nuevo_paciente', data);
+    try {
+      socket.emit('nuevo_paciente', data);
+    } catch(err) {
+      showPaciente(data);
+    }
   } else {
     alert(data.isOk);
   }
@@ -126,6 +130,8 @@ function setURLByRol(curp) {
       return "revision-estudio-socioeconomico/" + curp;
   } else if (grupo === "imprimir") {
       return "imprimir-documentos/" + curp;
+  } else if (grupo === "enfermeria") {
+      return "enfermeria/" + curp;
   } else if (grupo === "enfermeria") {
       return "enfermeria/" + curp;
     }

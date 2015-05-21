@@ -77,7 +77,7 @@ function setDataToPrint(){
 	$printMedico.append("DR. Eduardo Espadas Pinzon");
 	//$printMensaje.append("28 de mayo dia internacional de accion por la salud de la mujer")
 	$sendRevision.button('reset');
-
+	window.print();
 	return false;
 }
 

@@ -29,7 +29,7 @@ def home(request):
 	referidospor = Referidopor.objects.filter(is_active=True)
 	municipios = Municipio.objects.all()
 	estados = Estado.objects.filter(is_active=True)
-	pacientes = Paciente.objects.all()#filter(fechacreacion=date.today())
+	pacientes = Paciente.objects.filter(fechacreacion=date.today())
 	grupo = ""
 	try:
 		request.user.groups.get(name='Informacion')
@@ -51,7 +51,11 @@ def home(request):
 						request.user.groups.get(name='Imprimir')
 						grupo = "imprimir"
 					except Group.DoesNotExist:
-						grupo = ""
+						try:
+							request.user.groups.get(name='Enfermeria')
+							grupo = "enfermeria"
+						except Group.DoesNotExist:
+							grupo = ""
 	
 	contexto = {'ocupaciones' : ocupaciones, 'escolaridades' : escoliridades, 'referidospor' : referidospor,
 	            'municipios' : municipios, 'estados' : estados, 'pacientes' : pacientes, 'grupo': grupo}
@@ -171,15 +175,15 @@ def addEstudioSocioeconomico(request):
 		try:
 			with transaction.atomic():
 				mensaje = "Error al crear los estudios socio economicos"
-				#pdb.set_trace()
-				estuidoTemp = EstudioSocioE1.objects.filter(fechaestudio=date.today())
+				
+				paciente   = Paciente.objects.get(curp=request.POST['curp'])
+				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
+				
+				estuidoTemp = EstudioSocioE1.objects.filter(expediente__id=expediente.id, pefechaestudio=date.today())
 				if estuidoTemp:
 					mensaje = "Ya cuenta con un estudio socioeconomico el dia de hoy"
 					response = JsonResponse({'isOk' : mensaje})
-					return HttpResponse(response.content)
-
-				paciente   = Paciente.objects.get(curp=request.POST['curp'])
-				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
+					return HttpResponse(response.content)				
 
 				estructuraFamiliar = request.POST.getlist('EstructuraF[]')
 

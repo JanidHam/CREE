@@ -68,7 +68,11 @@ function getCheckedProgramas() {
 function checkIsDataIsCorrect(data) {
 	var data = JSON.parse(data);
 	if (data.isOk == "ok") {
-		socket.emit('dataIsSaveSucces_revision_medica', data);
+		try {
+			socket.emit('dataIsSaveSucces_revision_medica', data);
+		} catch(err) {
+			
+		}
 		window.location.replace("http://localhost:8000/preconsulta/");
 	} else {
 		alert(data.isOk);
