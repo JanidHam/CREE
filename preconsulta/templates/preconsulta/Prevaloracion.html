@@ -5,11 +5,11 @@
 {% block title %} Pacientes de Hoy {% endblock title %}
 
 {% block filesJS %}
-	<script src="{% static "preconsulta/assets/js/prevaloracion.js" %}"></script>
+    <script src="{% static "preconsulta/assets/js/prevaloracion.js" %}"></script>
 {% endblock filesJS %}
 
 {% block filesCSS %}
-	<link rel="stylesheet" type="text/css" href="{% static "preconsulta/assets/css/prevaloracion.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "preconsulta/assets/css/prevaloracion.css" %}"/>
 {% endblock filesCSS %}
 
 {% block content %}
@@ -20,161 +20,303 @@
 </div>
 {% if grupo == "informacion" %}
 <div class="alert alert-info" role="alert">
-	<strong>Al dar clic en el boton "Nuevo Paciente" se abrira el formulario para agregar al paciente.</strong>
-	<button id="showForm" type="submit" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Nuevo paciente</button>
+    <strong>Al dar clic en el boton "Nuevo Paciente" se abrira el formulario para agregar al paciente.</strong>
+    <button id="showForm" type="submit" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Nuevo paciente</button>
 </div>
 {% endif %}
 <!-- Start form oculto para agregar pacientes nuevos-->
 <div class="row mt formOculto" id="form">
-	<div class="col-lg-12">
-		<div class="form-panel">
-			<h4 class="mb"><i class="fa fa-angle-right"></i> Formulario para alta de paciente</h4>
-			<form class="form-horizontal tasi-form" role="form">
-				{% csrf_token %}
-				<div class="form-group">
-					<div class="col-lg-12">
-						<div class="col-sm-3">
-							<input type="text" class="form-control text-uppercase" id="curpPaciente" placeholder="CURP"required>
-						</div>					
-						<div class="col-sm-3">
-							<input type="text" class="form-control text-uppercase" id="nombrePaciente" placeholder="Nombre" required>
-						</div>
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="apellidoPPaciente" placeholder="Apellido Parterno" required>
-						</div>
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="apellidoMPaciente" placeholder="Apellido Materno">
-						</div>				
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-lg-12">
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="edadPaciente" placeholder="Edad" disabled required>
-						</div>
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="generoPaciente" placeholder="Genero" disabled required>
-						</div>
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="nacimientoPaciente" placeholder="Fecha Nacimiento" disabled required>
-						</div>
-						<div class="col-lg-3">
-							<input type="tel" class="form-control text-uppercase" id="telCasaPaciente" placeholder="Telefono Casa">
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-lg-12">
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="localidadPaciente" placeholder="Localidad">
-						</div>
-						<div class="col-lg-3">
-							<input type="tel" class="form-control text-uppercase" id="celularPaciente" placeholder="Celular">
-						</div>
-						<div class="col-lg-3">
-							<select class="form-control text-uppercase" id="estadoPaciente">
-								{% for edo in estados %}
-									<option value="{{edo.id}}"> {{edo.descripcion}} </option>
-								{% endfor %}
-							</select>
-						</div>
-						<div class="col-lg-3">
-							<select class="form-control text-uppercase" id="municipioPaciente">
-								{% for municipio in municipios %}
-									{% if  municipio.estado.id == 1 %}
-										<option value="{{municipio.id}}"> {{municipio.descripcion}} </option>
-									{% endif %}
-								{% endfor %}
-							</select>
-						</div>
-					</div>					
-				</div>
-				<div class="form-group">
-					<div class="col-lg-12">
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="callePaciente" placeholder="Calle">
-						</div>
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="entreCallesPaciente" placeholder="Entre Calles">
-						</div>
-						<div class="col-lg-3">
-							<select class="form-control text-uppercase" id="ocupacionPaciente">
-								{% for o in ocupaciones %}
-									<option value="{{o.id}}"> {{o.descripcion}} </option>
-								{% endfor %}
-							</select>
-						</div>
-						<div class="col-lg-3">
-							<select class="form-control text-uppercase" id="referidoporPaciente">
-								{% for r in referidospor %}
-									<option value="{{r.id}}"> {{r.descripcion}} </option>
-								{% endfor %}
-							</select>
-						</div>						
-					</div>					
-				</div>
-				<div class="form-group">
-					<div class="col-lg-12">
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="coloniaPaciente" placeholder="Colonia">
-						</div>
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="numCasaPaciente" placeholder="Num Casa">
-						</div>
-						<div class="col-lg-3">
-							<input type="text" class="form-control text-uppercase" id="codigoPostalPaciente" placeholder="Codigo Postal">
-						</div>
-						<div class="col-lg-3">
-							<select class="form-control text-uppercase" id="escolaridadPaciente">
-								{% for e in escolaridades %}
-									<option value="{{e.id}}"> {{e.descripcion}} </option>
-								{% endfor %}
-							</select>
-						</div>
-					</div>					
-				</div>
-					<button class="btn btn-theme03 gorigth" id="AgregarPaciente" data-loading-text="Espere..."><i class="fa fa-heart"></i> Agregar paciente</button>
-			</form>
-		</div><!-- /form-panel -->
-	</div><!-- /col-lg-12 -->
+    <div class="col-lg-12">
+        <div class="form-panel">
+            <h4 class="mb"><i class="fa fa-angle-right"></i> Formulario para alta de paciente</h4>
+            <form class="form-horizontal tasi-form" role="form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control text-uppercase" id="curpPaciente" placeholder="CURP"required>
+                        </div>                  
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control text-uppercase" id="nombrePaciente" placeholder="Nombre" required>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="apellidoPPaciente" placeholder="Apellido Parterno" required>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="apellidoMPaciente" placeholder="Apellido Materno">
+                        </div>              
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="edadPaciente" placeholder="Edad" disabled required>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="generoPaciente" placeholder="Genero" disabled required>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="nacimientoPaciente" placeholder="Fecha Nacimiento" disabled required>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="tel" class="form-control text-uppercase" id="telCasaPaciente" placeholder="Telefono Casa">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <div class="col-lg-3">
+                            <input type="tel" class="form-control text-uppercase" id="celularPaciente" placeholder="Celular">
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="localidadPaciente" placeholder="Localidad">
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control text-uppercase" id="estadoPaciente">
+                                {% for edo in estados %}
+                                    <option value="{{edo.id}}"> {{edo.descripcion}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control text-uppercase" id="municipioPaciente">
+                                {% for municipio in municipios %}
+                                    {% if  municipio.estado.id == 1 %}
+                                        <option value="{{municipio.id}}"> {{municipio.descripcion}} </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>                  
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="callePaciente" placeholder="Calle">
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="entreCallesPaciente" placeholder="Entre Calles">
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control text-uppercase" id="ocupacionPaciente">
+                                {% for o in ocupaciones %}
+                                    <option value="{{o.id}}"> {{o.descripcion}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control text-uppercase" id="referidoporPaciente">
+                                {% for r in referidospor %}
+                                    <option value="{{r.id}}"> {{r.descripcion}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>                      
+                    </div>                  
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="coloniaPaciente" placeholder="Colonia">
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control text-uppercase" id="numCasaPaciente" placeholder="Num Casa">
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="tel" class="form-control text-uppercase" id="codigoPostalPaciente" placeholder="Codigo Postal">
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control text-uppercase" id="escolaridadPaciente">
+                                {% for e in escolaridades %}
+                                    <option value="{{e.id}}"> {{e.descripcion}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>                  
+                </div>
+                    <button class="btn btn-theme03 gorigth" id="AgregarPaciente" data-loading-text="Espere..."><i class="fa fa-heart"></i> Agregar paciente</button>
+            </form>
+        </div><!-- /form-panel -->
+    </div><!-- /col-lg-12 -->
 </div>
 <!-- End form oculto para agregar pacientes nuevos-->
 
 <!--poner un div debajo del titulo-->
 <div class="form-panel">
-	<h4><i class="fa fa-angle-right"></i> Lista de pacientes de hoy</h4>
-	<section class="lst-pacientes" id="listPacientes">
-	{% for paciente in pacientes %}
-			{% if paciente.correspondio == False %}
-				<a href="#">
-			{% elif grupo == "informacion" %}
-				<a href="#">
-			{% elif grupo == "revisionMedica"%}
-				<a href="revision-medica/{{paciente.curp}}/">					
-			{% elif grupo == "revisionPsicologica"%}
-				<a href="revision-psicologica/{{paciente.curp}}/">
-			{% elif grupo == "trabajoSocial"%}
-				<a href="revision-estudio-socioeconomico/{{paciente.curp}}/">
-			{% elif grupo == "enfermeria"%}
-				<a href="enfermeria/{{paciente.curp}}/">
-			{% elif grupo == "imprimir"%}
-				<a href="imprimir-documentos/{{paciente.curp}}/">
-			{% else %}
-				<a href="#">
-			{% endif %}					
-			<div class="row showback {{paciente.correspondio}}" id="{{paciente.curp}}">
-				<div class="col-lg-6">
-			{{paciente.nombre}} {{paciente.apellidoP}}			
-				</div>
-				<div class="col-lg-6 goright">
-					{{paciente.municipio.descripcion}}
-					{# {{paciente.estadoprocedente.descripcion}} - {{paciente.municipio.descripcion}} #}
-				</div>
-			{# <p class="gorigth"> {{paciente.estadoprocendete.descripcion}}</p> #}
-			</div>
-		</a>
-	{% endfor %}
-	</section>
+    <h4><i class="fa fa-angle-right"></i> Lista de pacientes de hoy</h4>
+    <section class="lst-pacientes" id="listPacientes">
+    {% for paciente in pacientes %}
+            {% if paciente.correspondio == False %}
+                <a href="#">
+            {% elif grupo == "informacion" %}
+                <a href="#" data-toggle="modal" data-target="#modalEditPaciente">
+            {% elif grupo == "revisionMedica"%}
+                <a href="revision-medica/{{paciente.curp}}/">                   
+            {% elif grupo == "revisionPsicologica"%}
+                <a href="revision-psicologica/{{paciente.curp}}/">
+            {% elif grupo == "trabajoSocial"%}
+                <a href="revision-estudio-socioeconomico/{{paciente.curp}}/">
+            {% elif grupo == "enfermeria"%}
+                <a href="enfermeria/{{paciente.curp}}/">
+            {% elif grupo == "imprimir"%}
+                <a href="imprimir-documentos/{{paciente.curp}}/">
+            {% else %}
+                <a href="#">
+            {% endif %}                 
+            <div class="row showback {{paciente.correspondio}}" id="{{paciente.curp}}">
+                <div class="col-lg-6">
+            {{paciente.nombre}} {{paciente.apellidoP}}          
+                </div>
+                <div class="col-lg-6 goright">
+                    {{paciente.municipio.descripcion}}
+                    {# {{paciente.estadoprocedente.descripcion}} - {{paciente.municipio.descripcion}} #}
+                </div>
+            {# <p class="gorigth"> {{paciente.estadoprocendete.descripcion}}</p> #}
+            </div>
+        </a>
+    {% endfor %}
+    </section>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modalEditPaciente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Titulo del Modal</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal tasi-form color-black" role="form">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <label for="paciente-curp" class="control-label">CURP:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-curp">
+                    </div>                  
+                    <div class="col-sm-3">
+                        <label for="paciente-nombre" class="control-label">NOMBRE:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-nombre">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-apellidoP" class="control-label">PATERNO:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-apellidoP">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-apellidoM" class="control-label">MATERNO:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-apellidoM">
+                    </div>              
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <label for="paciente-edad" class="control-label">EDAD:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-edad" disabled>
+                    </div>                  
+                    <div class="col-sm-3">
+                        <label for="paciente-genero" class="control-label">GENERO:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-genero" disabled>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-nacimiento" class="control-label">NACIMIENTO:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-nacimiento" disabled>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-telcasa" class="control-label">TEL CASA:</label>
+                        <input type="text" class="form-control" id="paciente-telcasa">
+                    </div>              
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <label for="paciente-telcelular" class="control-label">CELULAR:</label>
+                        <input type="text" class="form-control" id="paciente-telcelular">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-localidad" class="control-label">LOCALIDAD:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-localidad">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-estadoprocedente" class="control-label">ESTADO:</label>
+                        <select class="form-control text-uppercase" id="paciente-estadoprocedente">
+                            {% for edo in estados %}
+                                <option value="{{edo.id}}"> {{edo.descripcion}} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-municipio" class="control-label">MUNICIPIO:</label>
+                        <select class="form-control text-uppercase" id="paciente-municipio">
+                            {% for municipio in municipios %}
+                                {% if  municipio.estado.id == 1 %}
+                                    <option value="{{municipio.id}}"> {{municipio.descripcion}} </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>              
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <label for="paciente-calle" class="control-label">CALLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-calle">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-entrecalles" class="control-label">ENTRE CALLES:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-entrecalles">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-ocupacion" class="control-label">OCUPACION:</label>
+                        <select class="form-control text-uppercase" id="paciente-ocupacion">
+                            {% for o in ocupaciones %}
+                                <option value="{{o.id}}"> {{o.descripcion}} </option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-referidopor" class="control-label">REFERIDO POR:</label>
+                        <select class="form-control text-uppercase" id="paciente-referidopor">
+                            {% for r in referidospor %}
+                                <option value="{{r.id}}"> {{r.descripcion}} </option>
+                            {% endfor %}
+                        </select>
+                    </div>              
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <label for="paciente-colonia" class="control-label">COLONIA:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-colonia">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-numcasa" class="control-label">NUM CASA:</label>
+                        <input type="text" class="form-control text-uppercase" id="paciente-numcasa">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-codigopostal" class="control-label">CODIGO POSTAL:</label>
+                        <input type="tel" class="form-control" id="paciente-codigopostal">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="paciente-escolaridad" class="control-label">ESCOLARIDAD:</label>
+                        <select class="form-control text-uppercase" id="paciente-escolaridad">
+                            {% for e in escolaridades %}
+                                <option value="{{e.id}}"> {{e.descripcion}} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success" id="updatePacienteModal" data-dismiss="modal">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
 var grupo = "{{ grupo }}";

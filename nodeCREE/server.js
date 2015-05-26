@@ -32,6 +32,10 @@ io.on('connection', function(socket) {
 		io.emit('mostrar_paciente', data);		
 	});
 
+	socket.on('update_paciente_succes', function() {
+		io.emit('update_paciente_reloadpage');		
+	});
+
 	socket.on('addHojaPrevaloracion', function(data) {
 		var values = querystring.stringify(data);
 		var options = {

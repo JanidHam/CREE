@@ -119,17 +119,20 @@
     
     <script type="text/javascript" src="{% static "preconsulta/assets/js/gritter/js/jquery.gritter.js" %}"></script>
     <script type="text/javascript" src="{% static "preconsulta/assets/js/gritter-conf.js" %}"></script>	   
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <!-- <script src="http://localhost:3000/socket.io/socket.io.js"></script> -->
 
     <script type="text/javascript">
+      var hostname = window.location.hostname;
+      var puertoNodeJS = "3000";
+      var urlServerNodeJS = hostname + ":" + puertoNodeJS;
       var $logout = $('#logout');
 
       var usuario = "{{ request.user }}";
-
-      //console.log(usuario);
+      
+      document.write('<script src="http://' + urlServerNodeJS + '/socket.io/socket.io.js"></scr'+'ipt>')
 
       function logout() {
-        window.location.replace("http://localhost:8000/login/logout/");
+        window.location.href = "/login/logout";
       }
 
       $logout.click( logout )

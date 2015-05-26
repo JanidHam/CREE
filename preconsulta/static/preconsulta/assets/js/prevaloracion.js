@@ -1,6 +1,6 @@
-$(document).on('ready', main_discusiones);
+$(document).on('ready', main_configAjax);
 
-function main_discusiones() {
+function main_configAjax() {
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
       if(settings.type == "POST"){
@@ -39,9 +39,8 @@ var $form    = $('#form'),
 //Variables globales
 try {
   $nodeAlert.hide();
-var socket = io.connect("http://localhost:3000");
+  var socket = io.connect("http://" + urlServerNodeJS);
 } catch(err) {
-  console.log("servidor caido");
   socket = null;
   $nodeAlert.show();
   //Ya se maneja el error si no esta corriendo el servidor de nodeJS, falta mostrar un mensaje
@@ -78,8 +77,8 @@ function addPaciente() {
       escolaridad : $escolaridadInput.val(),
       //usuario : user.toUpperCase(),
     }   
-    cleanForm();
     $.post('/preconsulta/agregar-paciente/', datosPaciente , succesPaciente);
+    cleanForm();
     show_hideForm();
     //console.log(datos);
     //socket.emit('nuevo_paciente', datosPaciente);
@@ -89,10 +88,7 @@ function addPaciente() {
 }
 
 function succesPaciente(data) {
-  //console.log(data);
-  console.log("aqui");
   var data = JSON.parse(data);
-  //console.log(data);
   //Nota: agregar la funcion showPaciente aqui cuando fue correcto el agregar paciente.
   //Cambiar el emit por un broadcast para que no lo emita al mismo cliente.
   if (data.isOk == "ok") {
@@ -111,12 +107,16 @@ function showPaciente(data) {
   if (data.isOk == "ok") {
     var listapacientes = $('#listPacientes');    
     listapacientes.append('<a href="' + setURLByRol(data.curp) + 
-      '/"> <div class="row showback None" data-correspondio="' + data.correspondio + '" data-curp="' + 
+      '/"' + setClassToEditPaciente() + '><div class="row showback None" data-correspondio="' + data.correspondio + '" data-curp="' + 
       data.curp + '" id="' + data.curp + '"> <div class="col-lg-6">' + data.nombre + ' ' + data.apellidoP + 
       '</div><div class="col-lg-6 goright">' + data.municipio + '</div></div></a>');
     $('.badge').text(parseInt($('.badge').text()) + 1);
-    //alert("Paciente agregado con exito.");
   }
+}
+
+function setClassToEditPaciente() {
+  if (grupo === "informacion")
+    return 'data-toggle="modal" data-target="#modalEditPaciente"';
 }
 
 function setURLByRol(curp) {
@@ -132,17 +132,12 @@ function setURLByRol(curp) {
       return "imprimir-documentos/" + curp;
   } else if (grupo === "enfermeria") {
       return "enfermeria/" + curp;
-  } else if (grupo === "enfermeria") {
-      return "enfermeria/" + curp;
-    }
-    else {
+  } else {
       return "#";
   }
 }
 
 function updateEstatusPaciente(data) {
-  //var data = JSON.parse(data);
-  //console.log(data);  
   if (data.isOk == "ok") {
     
     var correspondio = "True";
@@ -155,8 +150,6 @@ function updateEstatusPaciente(data) {
       var $a = $paciente.parent();
       $a.attr('href', '#');
     }
-    //console.log($paciente);
-    //console.log($('#' + data.curp).attr('class'));
   } 
 }
 
@@ -166,7 +159,6 @@ function show_hideForm() {
 }
 
 function validForm() {
-  return true;
   if ($curpInput.val() !== '') {
     if ($nombreInput.val() !== '') {
       if ($apellidoPInput.val() !== '') {
@@ -211,7 +203,6 @@ function cleanForm() {
 }
 
 function fillDataCurp() {
-	//console.log($curpInput.val().length);
   if ($curpInput.val() !== '') {
     if ($curpInput.val().length > 17) {
       //var fechaNacimientoShort = $curpInput.val().substring(4,10);
@@ -298,7 +289,111 @@ function getEdad(fecha) {
   return edad;
 }
 
+function isUpdateCorrect(data) {
+  var data = JSON.parse(data)
+  if (data.isOk === "ok") {
+    socket.emit('update_paciente_succes');
+  } else {
+    alert(data.isOk);
+  }
+}
+
+function pacienteUpdateCorrectReloadPage() {
+  location.reload();
+}
+
+function fillDataCurpToEditPaciente() {
+  if ($('#paciente-curp').val() !== '') {
+    if ($('#paciente-curp').val().length > 17) {
+      //var fechaNacimientoShort = $curpInput.val().substring(4,10);
+      var fechaNacimiento = curp2date($('#paciente-curp').val(), true);
+      var genero          = getGenero($('#paciente-curp').val().substring(10,11));
+      var edad            = getEdad(curp2date($('#paciente-curp').val(), false));
+
+      $('#paciente-curp').val().toUpperCase();
+      $('#paciente-genero').val(genero);
+      $('#paciente-nacimiento').val(fechaNacimiento);
+      $('#paciente-edad').val(edad);
+      //console.log(genero);
+    } else {
+        cleanDataCurpEditPacienteInvalid();
+    } 
+  }
+}
+
+function cleanDataCurpEditPacienteInvalid() {
+  $('#paciente-curp').val('');
+  $('#paciente-edad').val('');
+  $('#paciente-nacimiento').val('');
+  $('#paciente-genero').val('');
+  alert("La 'CURP' no tiene el formato correcto.");
+}
+
 // Eventos
+
+$('#modalEditPaciente').on('show.bs.modal', function (event) {
+  var itemPaciente = $(event.relatedTarget) // Element that triggered the modal
+  var curpPaciente = itemPaciente.children().attr('id')
+  var modal = $(this)
+  
+  $.post('/preconsulta/get-paciente/', {curpPaciente : curpPaciente} , function(data){
+    var dataPaciente = JSON.parse(data)
+    modal.find('.modal-title').text(dataPaciente.nombre + " " + dataPaciente.apellidoP + " - " + curpPaciente)
+    modal.find('#paciente-curp').val(curpPaciente)
+    modal.find('#paciente-nombre').val(dataPaciente.nombre)
+    modal.find('#paciente-apellidoP').val(dataPaciente.apellidoP)
+    modal.find('#paciente-apellidoM').val(dataPaciente.apellidoM)
+    fillDataCurpToEditPaciente();
+    //modal.find('#paciente-edad').val(dataPaciente.edad)
+    //modal.find('#paciente-genero').val(dataPaciente.genero)
+    //modal.find('#paciente-nacimiento').val(dataPaciente.nacimiento)
+    modal.find('#paciente-telcasa').val(dataPaciente.telcasa)
+    modal.find('#paciente-telcelular').val(dataPaciente.telcelular)
+    modal.find('#paciente-localidad').val(dataPaciente.localidad)
+    modal.find('#paciente-estadoprocedente').val(dataPaciente.idEstado)
+    modal.find('#paciente-municipio').val(dataPaciente.idMunicipio)
+    modal.find('#paciente-calle').val(dataPaciente.calle)
+    modal.find('#paciente-entrecalles').val(dataPaciente.entrecalles)
+    modal.find('#paciente-ocupacion').val(dataPaciente.idOcupacion)
+    modal.find('#paciente-referidopor').val(dataPaciente.idReferidopor)
+    modal.find('#paciente-colonia').val(dataPaciente.colonia)
+    modal.find('#paciente-numcasa').val(dataPaciente.numerocasa)
+    modal.find('#paciente-codigopostal').val(dataPaciente.codigopostal)
+    modal.find('#paciente-escolaridad').val(dataPaciente.idEscolaridad)
+  })
+
+})
+
+$('#modalEditPaciente').on('click', '#updatePacienteModal', function(){
+  var modal = $('#modalEditPaciente') // Element that triggered the modal
+  var titulo = modal.find('.modal-title').text()
+  var curpPaciente = titulo.split(" - ")
+  
+  var newDataPaciente = {
+        curpPaciente : curpPaciente[1],
+        curp : modal.find('#paciente-curp').val(),
+        nombre : modal.find('#paciente-nombre').val().toUpperCase(),
+        apellidoP : modal.find('#paciente-apellidoP').val().toUpperCase(),
+        apellidoM : modal.find('#paciente-apellidoM').val().toUpperCase(),
+        edad : modal.find('#paciente-edad').val(),
+        genero : getGeneroInt(modal.find('#paciente-genero').val()),
+        fechaN : modal.find('#paciente-nacimiento').val(),
+        telCasa : modal.find('#paciente-telcasa').val(),
+        celular : modal.find('#paciente-telcelular').val(),
+        localidad : modal.find('#paciente-localidad').val().toUpperCase(),
+        calle : modal.find('#paciente-calle').val().toUpperCase(),
+        entreCalles : modal.find('#paciente-entrecalles').val().toUpperCase(),
+        colonia : modal.find('#paciente-colonia').val().toUpperCase(),
+        numCasa : modal.find('#paciente-numcasa').val().toUpperCase(),
+        codigoPostal : modal.find('#paciente-codigopostal').val(),
+        referidopor : modal.find('#paciente-referidopor').val(),
+        estado : modal.find('#paciente-estadoprocedente').val(),
+        municipio : modal.find('#paciente-municipio').val(),
+        ocupacion : modal.find('#paciente-ocupacion').val(),
+        escolaridad : modal.find('#paciente-escolaridad').val(),
+  }
+  $.post('/preconsulta/update-paciente/', newDataPaciente , isUpdateCorrect )
+})
 
 $showForm.click( show_hideForm )
 
@@ -306,6 +401,10 @@ $sendPaciente.click( addPaciente )
 
 $curpInput.focusout( fillDataCurp )
 
+$('#paciente-curp').focusout( fillDataCurpToEditPaciente )
+
 socket.on('mostrar_paciente', showPaciente );
 
 socket.on('correspondio_paciente', updateEstatusPaciente );
+
+socket.on('update_paciente_reloadpage', pacienteUpdateCorrectReloadPage)

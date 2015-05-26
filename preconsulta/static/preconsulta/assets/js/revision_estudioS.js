@@ -1,6 +1,6 @@
-$(document).on('ready', main_discusiones);
+$(document).on('ready', main_configAjax);
 
-function main_discusiones() {
+function main_configAjax() {
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             if(settings.type == "POST"){
@@ -20,7 +20,7 @@ $('#clasificacionNueva').change(function() {
 }
 //Variables globales
 try {
-	var socket = io.connect("http://localhost:3000");
+	var socket = io.connect("http://" + urlServerNodeJS);
 } catch(err) {
   socket = null;
   //Ya se maneja el error si no esta corriendo el servidor de nodeJS, falta mostrar un mensaje
@@ -68,42 +68,37 @@ function show_hideJusticacion() {
 
 function sendDataRevision() {
     if (validEstudio()) {
-    $sendRevision.button('loading');
-    getDeficitExcedente();
-	var datosRevision = {
-		//consultorio : $consultorio.val(),        
-		nombreEntrevistado : $nombreEntrevistado.val().toUpperCase(),
-		apellidoEntrevistado : $apellidoEntrevistado.val().toUpperCase(),
-		motivoEstudio : $motivoEstudio.val(),
-		estadoCivil : $estadoCivil.val(),
-		deficit : $deficit.val(),
-		excedente : $excedente.val(),
-		tipoVivienda : $tipoVivienda.val(),
-		ingresos : getIngresos(),
-		egresos : getEgresos(),
-		servicios : getServiciosVivienda(),
-		construccion : getConstruccionVivienda(),
-		tenencias : getTenenciasVivienda(),
-		barrerasE : getBarrerasExternasVivienda(),
-		barrerasI : getBarrerasInternasVivienda(),
-        componentes : getComponentesVivienda(),
-		curp : CURP,
-        EstructuraF : getEstructuraFamiliar(),
-        diagnosticoPlanS : $diagnosticoPlanS.val().toUpperCase(),
-        datosSignificativos : $datosSignificativos.val().toUpperCase(),
-        cantidadBanios: $cantidadBanios.val(),
-        cantidadRecamaras: $cantidadRecamaras.val(),
-        clasifacionEconomica: $clasificacionE.val(),
-        justificacionClasf: $textJustificacionC.val().toUpperCase(),
-        parentescoEntrevistado : $parentescoEntrevistado.val(),
-	}
-    //$.post('guardar-encuesta-contestada/', { 'fecha': idinput.val(), 'tasks[]': tasks, 'tasksP[]': tasksPreguntas }, actualizar_encuestas);
-    $.post('/preconsulta/agregar-estudio-socio-economico/', datosRevision , checkIsDataIsCorrect);
-	/*try {
-		socket.emit('addEstudioSEconomico', datosRevision);
-	} catch(err) {
-	  alert("No se encuentra disponible el servicio.");
-	}*/
+        $sendRevision.button('loading');
+        getDeficitExcedente();
+    	var datosRevision = {
+    		//consultorio : $consultorio.val(),        
+    		nombreEntrevistado : $nombreEntrevistado.val().toUpperCase(),
+    		apellidoEntrevistado : $apellidoEntrevistado.val().toUpperCase(),
+    		motivoEstudio : $motivoEstudio.val(),
+    		estadoCivil : $estadoCivil.val(),
+    		deficit : $deficit.val(),
+    		excedente : $excedente.val(),
+    		tipoVivienda : $tipoVivienda.val(),
+    		ingresos : getIngresos(),
+    		egresos : getEgresos(),
+    		servicios : getServiciosVivienda(),
+    		construccion : getConstruccionVivienda(),
+    		tenencias : getTenenciasVivienda(),
+    		barrerasE : getBarrerasExternasVivienda(),
+    		barrerasI : getBarrerasInternasVivienda(),
+            componentes : getComponentesVivienda(),
+    		curp : CURP,
+            EstructuraF : getEstructuraFamiliar(),
+            diagnosticoPlanS : $diagnosticoPlanS.val().toUpperCase(),
+            datosSignificativos : $datosSignificativos.val().toUpperCase(),
+            cantidadBanios: $cantidadBanios.val(),
+            cantidadRecamaras: $cantidadRecamaras.val(),
+            clasifacionEconomica: $clasificacionE.val(),
+            justificacionClasf: $textJustificacionC.val().toUpperCase(),
+            parentescoEntrevistado : $parentescoEntrevistado.val(),
+    	}
+        //$.post('guardar-encuesta-contestada/', { 'fecha': idinput.val(), 'tasks[]': tasks, 'tasksP[]': tasksPreguntas }, actualizar_encuestas);
+        $.post('/preconsulta/agregar-estudio-socio-economico/', datosRevision , checkIsDataIsCorrect);
 	}
 	
 	return false;
@@ -181,7 +176,7 @@ function getIngresos() {
             //ingresos.push($ingresos[i].value);
     		ingresos.push(JSON.stringify({'id' : $ingresos[i].attributes['id'].value, 'valor' : $ingresos[i].value }));
     };
-    //console.log(ingresos);
+
     return ingresos;
 }
 
@@ -193,7 +188,7 @@ function getEgresos() {
     	if ($egresos[i].value !== "") 
     		egresos.push(JSON.stringify({'id': $egresos[i].attributes['id'].value, 'valor' : $egresos[i].value }));
     };
-    //console.log(egresos);
+
     return egresos;
 }
 
@@ -203,7 +198,7 @@ function getComponentesVivienda() {
     $('input:checkbox[name=componentesVivienda]:checked').each(function() {
         componentes.push($(this).val());        
     });
-	//console.log(componentes);
+
     return componentes;
 }
 
@@ -213,7 +208,7 @@ function getServiciosVivienda() {
     $('input:checkbox[name=serviciosVivienda]:checked').each(function() {
         servicios.push($(this).val());        
     });
-    //console.log(servicios);
+
     return servicios;
 }
 
@@ -223,7 +218,7 @@ function getTenenciasVivienda() {
     $('input:checkbox[name=tenenciasVivienda]:checked').each(function() {
         tenencias.push($(this).val());        
     });
-    //console.log(tenencias);
+
     return tenencias;
 }
 
@@ -233,7 +228,7 @@ function getConstruccionVivienda() {
     $('input:checkbox[name=construccionVivienda]:checked').each(function() {
         construccion.push($(this).val());        
     });
-    //console.log(construccion);
+
     return construccion;
 }
 
@@ -243,7 +238,7 @@ function getBarrerasInternasVivienda() {
     $('input:checkbox[name=barrerasInternasVivienda]:checked').each(function() {
         barrerasI.push($(this).val());        
     });
-    //console.log(barrerasI);
+
     return barrerasI;
 }
 
@@ -253,15 +248,15 @@ function getBarrerasExternasVivienda() {
     $('input:checkbox[name=barrerasExternasVivienda]:checked').each(function() {
         barrerasE.push($(this).val());        
     });
-    //console.log(barrerasE);
+
     return barrerasE;
 }
 
 function checkIsDataIsCorrect(data) {
     var data = JSON.parse(data);
     console.log(data);
-    if (data.isOk == "ok") {        
-        window.location.replace("http://localhost:8000/preconsulta/");
+    if (data.isOk == "ok") {  
+        window.location.href = "/preconsulta/";
     } else {
         alert(data.isOk);
         $sendRevision.button('reset');
@@ -273,5 +268,3 @@ function checkIsDataIsCorrect(data) {
 $sendRevision.click( sendDataRevision )
 
 $addEstructuraF.click( addEstructuraFamiliar )
-
-//socket.on('addEstudioSEconomico_respuesta', checkIsDataIsCorrect );

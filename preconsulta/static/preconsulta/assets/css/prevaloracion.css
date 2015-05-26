@@ -2,6 +2,10 @@
 	font-size: 1em !important;
 }
 
+.color-black {
+	color: #000;
+}
+
 .formOculto {
 	display: none;
 }

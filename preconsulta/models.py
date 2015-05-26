@@ -34,7 +34,7 @@ class Paciente(models.Model):
 	correspondio = models.NullBooleanField()
 	usuariocreacion = models.ForeignKey(UserProfile, related_name='paciente_usuario')
 	#creadopor = models.CharField(max_length=255)
-	fechacreacion = models.DateField(auto_now=True)
+	fechacreacion = models.DateField(auto_now_add=True)#el auto_now_add sirve para poner la fecha de creacion sin el add se pone la fecha en la que se modifica
 
 	def __unicode__(self):
 		return self.curp + " - " + self.nombre + " " + self.apellidoP
@@ -43,7 +43,7 @@ class Expediente(models.Model):
 	claveexpediente = models.CharField(unique=True, max_length=50)
 	paciente = models.ForeignKey(Paciente, related_name='expediente_paciente')
 	is_active = models.BooleanField(default=True)
-	fechacreacion = models.DateField(auto_now=True)
+	fechacreacion = models.DateField(auto_now_add=True)
 	fechaalta = models.DateField(blank=True)
 	servicios = models.ManyToManyField(ServicioCree, through='ServicioExpediente')
 	programas = models.ManyToManyField(ProgramaCree, through='ProgramaExpediente')
@@ -62,7 +62,7 @@ class PacienteDataEnfermeria(models.Model):
 	glucosa = models.CharField(max_length=20)
 	cintura = models.CharField(max_length=20)
 	enfermera = models.ForeignKey(UserProfile, related_name='dataenfermeria_usuario')
-	fechacreacion = models.DateField(auto_now=True)
+	fechacreacion = models.DateField(auto_now_add=True)
 	mensaje_informativo = models.CharField(max_length=255)
 
 	def __unicode__(self):
@@ -75,7 +75,7 @@ class HojaPrevaloracion(models.Model):
 	psicologia = models.TextField(blank=True)
 	diagnosticonosologico2 = models.TextField(blank=True)
 	canalizacion = models.TextField()
-	fechacreacion = models.DateField(auto_now=True)
+	fechacreacion = models.DateField(auto_now_add=True)
 	edad = models.IntegerField()
 	#Relaciones con otras tablas
 	ocupacion = models.ForeignKey(Ocupacion, related_name='hojaprevaloracion_ocupacion')
@@ -110,7 +110,7 @@ class ProgramaExpediente(models.Model):
 
 class HojaFrontal(models.Model):
 	edad = models.IntegerField()
-	fechacreacion = models.DateField(auto_now=True)
+	fechacreacion = models.DateField(auto_now_add=True)
 	diagnosticonosologico = models.TextField()
 	usuario = models.ForeignKey(UserProfile, related_name='hojafrontal_usuario')
 	expediente = models.ForeignKey(Expediente, related_name='hojafrontal_expediente')
@@ -126,7 +126,7 @@ class HojaReferencia(models.Model):
 	curp = models.CharField(max_length=50)
 	edad = models.IntegerField()
 	genero = models.IntegerField()
-	fechacreacion = models.DateField(auto_now=True)
+	fechacreacion = models.DateField(auto_now_add=True)
 	diagnostico = models.TextField()
 	antecedentes = models.TextField()
 	padecimiento_actual = models.TextField()
@@ -161,7 +161,7 @@ class TarjetonTerapia(models.Model):
 	edad = models.IntegerField()
 	fechacreacion = models.DateTimeField(auto_now=True)
 	doctor = models.ForeignKey(UserProfile, related_name='tarjetonterapia_doctor')
-	fechaingresoterapias = models.DateField(auto_now=True)
+	fechaingresoterapias = models.DateField(auto_now_add=True)
 	diagnostico = models.TextField()
 	indicaciones = models.TextField()
 	expediente = models.ForeignKey(Expediente, related_name='tarjetonterapia_expediente')
@@ -197,7 +197,7 @@ class CartaConsetimiento(models.Model):
 class EstudioSocioE1(models.Model):
 	edad = models.IntegerField()
 	estadocivil = models.CharField(max_length=20)
-	fechaestudio = models.DateField(auto_now=True)
+	fechaestudio = models.DateField(auto_now_add=True)
 	consultorio = models.IntegerField()
 	#Entrevistado
 	nombreentevistado = models.CharField(max_length=200)

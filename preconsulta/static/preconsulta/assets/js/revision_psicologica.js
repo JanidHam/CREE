@@ -1,6 +1,6 @@
-$(document).on('ready', main_discusiones);
+$(document).on('ready', main_configAjax);
 
-function main_discusiones() {
+function main_configAjax() {
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
       if(settings.type == "POST"){
@@ -34,16 +34,15 @@ function sendDataRevision() {
 		//usuario : 2,
 	}
 	$.post('/preconsulta/agregar-hoja-prevaloracion-psicologia/', datosRevision , checkIsDataIsCorrect);
-	//socket.emit('addPsicologiaHojaPrevaloracion', datosRevision);
-	//window.location.replace("http://localhost:8000/preconsulta/");
+	
 	return false;
 }
 
 function checkIsDataIsCorrect(data) {
 	var data = JSON.parse(data);
 	//console.log(data);
-	if (data.isOk == "ok") {		
-		window.location.replace("http://localhost:8000/preconsulta/");
+	if (data.isOk == "ok") {
+		window.location.href = "/preconsulta/";
 	} else {
 		alert(data.isOk);
 		$sendRevision.button('reset');

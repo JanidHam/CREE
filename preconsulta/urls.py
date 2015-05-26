@@ -20,4 +20,7 @@ urlpatterns = patterns('',
     url(r'^agregar-hoja-prevaloracion/$', views.addHojaPrevaloracion, name='agregar_hoja_prevaloracion'),
     url(r'^agregar-hoja-prevaloracion-psicologia/$', views.addPsicologiaHojaPrevaloracion, name='agregar_hoja_prevaloracion_psicologica'),
     url(r'^agregar-estudio-socio-economico/$', views.addEstudioSocioeconomico, name='agregar_hoja_prevaloracion_estudio_socioeconomico'),
+
+    url(r'^get-paciente/$', views.get_paciente, name='obtiene_paciente'),
+    url(r'^update-paciente/$', views.update_paciente, name='actualiza_paciente'),
 )

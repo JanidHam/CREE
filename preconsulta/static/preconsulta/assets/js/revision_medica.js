@@ -1,6 +1,6 @@
-$(document).on('ready', main_discusiones);
+$(document).on('ready', main_configAjax);
 
-function main_discusiones() {
+function main_configAjax() {
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
       if(settings.type == "POST"){
@@ -11,7 +11,7 @@ function main_discusiones() {
 }
 //Variables globales
 try {
-var socket = io.connect("http://localhost:3000");
+	var socket = io.connect("http://" + urlServerNodeJS);
 } catch(err) {
   socket = null;
   //Ya se maneja el error si no esta corriendo el servidor de nodeJS, falta mostrar un mensaje
@@ -23,8 +23,6 @@ var $form    = $('#form'),
 	$canalizacion               = $('#canalizacion'),
 	$motivoConsulta             = $('#motivoConsulta'),
 	$diagnosticoNosologico      = $('#diagnosticoNosologico');
-
-
 
 //Funciones
 function sendDataRevision() {
@@ -42,8 +40,7 @@ function sendDataRevision() {
 	}
 	console.log(datosRevision);
 	$.post('/preconsulta/agregar-hoja-prevaloracion/', datosRevision , checkIsDataIsCorrect);
-	//socket.emit('addHojaPrevaloracion', datosRevision);
-	//window.location.replace("http://localhost:8000/preconsulta/");
+	
 	return false;
 }
 
@@ -73,7 +70,7 @@ function checkIsDataIsCorrect(data) {
 		} catch(err) {
 			
 		}
-		window.location.replace("http://localhost:8000/preconsulta/");
+		window.location.href = "/preconsulta/";
 	} else {
 		alert(data.isOk);
 		$sendRevision.button('reset');

@@ -10,15 +10,7 @@ function main_configAjax() {
   });
   $sendRevision.button('loading');
 }
-//Variables globales
-/*try {
-var socket = io.connect("http://localhost:3000");
-} catch(err) {
-  socket = null;
-  //Ya se maneja el error si no esta corriendo el servidor de nodeJS, falta mostrar un mensaje
-  //de error para informar que no se guardaran los cambios
-}
-*/
+
 var $sendRevision = $('#sendDataEnfermeriaPaciente');
 
 var $printAndSetData = $('#printAndSetData');
@@ -58,9 +50,8 @@ function sendDataRevision() {
 
 function checkIsDataIsCorrect(data) {
 	var data = JSON.parse(data);
-	//console.log(data);
 	if (data.isOk == "ok") {
-		//window.location.replace("http://localhost:8000/preconsulta/");
+		window.location.href = "/preconsulta/";
 	} else {
 		alert(data.isOk);
 		$sendRevision.button('reset');
@@ -86,5 +77,3 @@ function setDataToPrint(){
 $printAndSetData.click( setDataToPrint );
 
 $sendRevision.click( sendDataRevision );
-
-//socket.on('addPsicologiaHojaPrevaloracion_respuesta', checkIsDataIsCorrect );

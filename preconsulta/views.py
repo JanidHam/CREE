@@ -170,6 +170,64 @@ def imprimirDocumentosCaratula(request, paciente):
 
 	return render_to_response('preconsulta/ImprimirCaratula.html', contexto, context_instance=RequestContext(request))
 
+def update_paciente(request):
+	if request.POST:
+		paciente = get_object_or_404(Paciente, curp=request.POST['curpPaciente'])
+		try:
+			mensaje = "Error al crear el parciente."
+			u = User.objects.get(username=request.user)
+
+			paciente.curp = request.POST['curp']
+			paciente.nombre = request.POST['nombre']
+			paciente.apellidoP = request.POST['apellidoP']
+			paciente.apellidoM = request.POST['apellidoM']
+			paciente.edad = request.POST['edad']
+			paciente.genero = request.POST['genero']
+			paciente.fechanacimiento = request.POST['fechaN']
+			paciente.telefonocasa = request.POST['telCasa']
+			paciente.telefonocelular = request.POST['celular']
+			paciente.localidad = request.POST['localidad']
+			paciente.estadoprocedente__id = request.POST['estado']
+			paciente.municipio__id = request.POST['municipio']
+			paciente.referidopor__id = request.POST['referidopor']
+			paciente.escolaridad__id = request.POST['escolaridad']
+			paciente.ocupacion__id = request.POST['ocupacion']
+			paciente.calle = request.POST['calle']
+			paciente.entrecalles = request.POST['entreCalles']
+			paciente.colonia = request.POST['colonia']
+			paciente.numerocasa = request.POST['numCasa']
+			paciente.codigopostal = request.POST['codigoPostal']
+			#paciente.usuariocreacion__id = u.perfil_usuario.id
+			paciente.save()
+			mensaje = "ok"
+		except IntegrityError as e:
+			logger.error(str(e))
+			mensaje = "La curp del paciente ya existe en la base de datos."
+		except ValueError as e:
+			logger.error(str(e))
+			mensaje = "Valor no valido, revisar los valores que se ingresan."
+		except:
+			logger.error(sys.exc_info()[0])
+			mensaje = "Error al crear el parciente."
+		response = JsonResponse({'isOk': mensaje})
+		return HttpResponse(response.content)
+	else:
+		raise Http404
+
+def get_paciente(request):
+	if request.POST:
+		paciente = get_object_or_404(Paciente, curp=request.POST['curpPaciente'])
+		response = JsonResponse({'nombre': paciente.nombre, 'apellidoP': paciente.apellidoP, 'apellidoM': paciente.apellidoM,
+								'edad': paciente.edad, 'genero': paciente.genero, 'nacimiento':paciente.fechanacimiento,
+								'telcasa': paciente.telefonocasa, 'telcelular': paciente.telefonocelular, 'localidad': paciente.localidad,
+								'idEstado': paciente.estadoprocedente.id, 'idMunicipio': paciente.municipio.id, 'idReferidopor': paciente.referidopor.id,
+								'idEscolaridad': paciente.escolaridad.id, 'idOcupacion': paciente.ocupacion.id, 'calle': paciente.calle,
+								'entrecalles': paciente.entrecalles, 'colonia': paciente.colonia, 'numerocasa': paciente.numerocasa,
+								'codigopostal': paciente.codigopostal})
+		return HttpResponse(response.content)
+	else:
+		raise Http404
+
 def addEstudioSocioeconomico(request):
 	if request.POST:
 		try:
@@ -178,13 +236,13 @@ def addEstudioSocioeconomico(request):
 				
 				paciente   = Paciente.objects.get(curp=request.POST['curp'])
 				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
-				
-				estuidoTemp = EstudioSocioE1.objects.filter(expediente__id=expediente.id, pefechaestudio=date.today())
+				print "antes de ver el estudio existente"
+				estuidoTemp = EstudioSocioE1.objects.filter(expediente__id=expediente.id, fechaestudio=date.today())
 				if estuidoTemp:
 					mensaje = "Ya cuenta con un estudio socioeconomico el dia de hoy"
 					response = JsonResponse({'isOk' : mensaje})
 					return HttpResponse(response.content)				
-
+				print "empezando los post"
 				estructuraFamiliar = request.POST.getlist('EstructuraF[]')
 
 				ingresos     = request.POST.getlist('ingresos[]')
@@ -195,7 +253,7 @@ def addEstudioSocioeconomico(request):
 				tenenciasV    = request.POST.getlist('tenencias[]')
 				barrerasIV    = request.POST.getlist('barrerasI[]')
 				barrerasEV    = request.POST.getlist('barrerasE[]')
-
+				print "antes de estudio"
 				u = User.objects.get(username=request.user)
 				estudio1 = EstudioSocioE1.objects.create(
 					edad = paciente.edad,
@@ -218,7 +276,7 @@ def addEstudioSocioeconomico(request):
 					motivoclasificacion = request.POST['justificacionClasf'],
 					parentescoentrevistado = request.POST['parentescoEntrevistado'],
 					)
-
+				print "estudio ok"
 				for i in estructuraFamiliar:
 					estructura = json.loads(i)
 					EstructuraFamiliaESE1.objects.create(
