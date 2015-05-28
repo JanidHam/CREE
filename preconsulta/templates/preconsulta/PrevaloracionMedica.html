@@ -14,29 +14,39 @@
 
 {% block content %}
 <!-- Start form oculto para agregar pacientes nuevos-->
-<div class="row mt" id="form">
+<div class="row mt color-black" id="form">
 	<div class="col-lg-12">
 		<div class="form-panel">
 			<h3 class="mb">Formulario revision medica</h3>
 			<form class="form-horizontal tasi-form" role="form">
 				{% csrf_token %}
 				<div class="form-group">
-					<div class="col-lg-12">					
-						<textarea class="form-control text-uppercase" id="motivoConsulta" placeholder="MOTIVO DE CONSULTA" rows="5"></textarea>
+					<div class="col-lg-12">
+						<label for="motivoConsulta" class="control-label">MOTIVO DE CONSULTA:</label>
+						<textarea class="form-control text-uppercase" id="motivoConsulta" placeholder="MOTIVO DE CONSULTA" rows="5">{% if hojaPrevaloracion %}{{ hojaPrevaloracion.motivoconsulta }}{% endif %}</textarea>
 					</div>					
 				</div>
 				<div class="form-group">
-					<div class="col-lg-12">					
-						<textarea class="form-control text-uppercase" id="diagnosticoNosologico" placeholder="DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ" rows="5"></textarea>
+					<div class="col-lg-12">
+						<label for="diagnosticoNosologico" class="control-label">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ:</label>
+						<textarea class="form-control text-uppercase" id="diagnosticoNosologico" placeholder="DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ" rows="5">{% if hojaPrevaloracion %}{{ hojaPrevaloracion.diagnosticonosologico }}{% endif %}</textarea>
 					</div>					
 				</div>
-				<h4 class="mb">CITA A:  (SERVICIOS DEL CREE)</h4>
+				<h4 class="mb">CITA A: (SERVICIOS DEL CREE)</h4>
 				<div class="form-group">							
-					{% for servicio in servicios %}						
+					{% for servicio in servicios %}
 						<div class="col-lg-4">
 							<div class="input-group">
 								<span class="input-group-addon" style="background-color: #FFF;">
-									<input type="checkbox" aria-label="..." value="{{servicio.id}}" name="servicios">
+									<input type="checkbox" aria-label="..." value="{{servicio.id}}" name="servicios" 
+									{% if expediente %}
+									 {% for s in expediente.servicios.all %}
+										{% if s.id == servicio.id %}
+											checked
+										{% endif %}
+									 {% endfor %}
+									{% endif %}
+									>
 								</span>
 								<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
 							</div><!-- /input-group -->
@@ -44,17 +54,26 @@
 					{% endfor %}						
 				</div>
 				<div class="form-group">
-					<div class="col-lg-12">					
-						<input type="text" class="form-control text-uppercase" id="canalizacion" placeholder="CANALIZACION A: (EXTRAINSTITUCIONAL)"></textarea>
+					<div class="col-lg-12">
+						<label for="canalizacion" class="control-label">CANALIZACION A: (EXTRAINSTITUCIONAL):</label>
+						<input type="text" class="form-control text-uppercase" id="canalizacion" placeholder="CANALIZACION A: (EXTRAINSTITUCIONAL)" value="{% if hojaPrevaloracion %}{{ hojaPrevaloracion.canalizacion }}{% endif %}">
 					</div>					
 				</div>
-				<h4 class="mb">INTEGRAR AL PROGRAMA DE :</h4>
+				<h4 class="mb">INTEGRAR AL PROGRAMA DE:</h4>
 				<div class="form-group">							
 					{% for programa in programas %}						
 						<div class="col-lg-4">
 							<div class="input-group">
 								<span class="input-group-addon" style="background-color: #FFF;">
-									<input type="checkbox" aria-label="..." value="{{programa.id}}" name="programas">
+									<input type="checkbox" aria-label="..." value="{{programa.id}}" name="programas" 
+									{% if expediente %}
+									 {% for p in expediente.programas.all %}
+										{% if p.id == programa.id %}
+											checked
+										{% endif %}
+									 {% endfor %}
+									{% endif %}
+									>
 								</span>
 								<input type="text" class="form-control" aria-label="..." placeholder="{{programa.programa}}"  disabled>
 							</div><!-- /input-group -->
@@ -62,6 +81,7 @@
 					{% endfor %}						
 				</div>
 					<button class="btn btn-theme" id="RevisionPaciente" data-loading-text="Espere..."><i class="fa fa-heart"></i> Guardar</button>
+					<input type="text" class="form-control hidden" aria-label="..." disabled value="{% if hojaPrevaloracion %}{{ hojaPrevaloracion.id }}{% endif %}" id="claveHoja">
 			</form>
 		</div><!-- /form-panel -->
 	</div><!-- /col-lg-12 -->

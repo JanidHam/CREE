@@ -20,16 +20,20 @@ try {
 var $sendRevision = $('#RevisionPaciente');
 
 var $form    = $('#form'),
-	$canalizacion               = $('#canalizacion'),
-	$motivoConsulta             = $('#motivoConsulta'),
-	$diagnosticoNosologico      = $('#diagnosticoNosologico');
+	$claveHoja             = $('#claveHoja'),
+	$canalizacion          = $('#canalizacion'),
+	$motivoConsulta        = $('#motivoConsulta'),
+	$diagnosticoNosologico = $('#diagnosticoNosologico');
 
 //Funciones
 function sendDataRevision() {
 	$sendRevision.button('loading');
 	var serviciostemp = getCheckedServicios();
 	var programastemp = getCheckedProgramas();
-
+	var clave = $claveHoja.val();
+	if (clave !== '')
+		clave = -1
+	
 	var datosRevision = {
 		canalizacion : $canalizacion.val().toUpperCase(),
 		motivoConsulta : $motivoConsulta.val().toUpperCase(),
@@ -37,8 +41,9 @@ function sendDataRevision() {
 		'servicios[]' : serviciostemp,
 		'programas[]' : programastemp,
 		curp : CURP,
+		clave : clave,
 	}
-	console.log(datosRevision);
+	
 	$.post('/preconsulta/agregar-hoja-prevaloracion/', datosRevision , checkIsDataIsCorrect);
 	
 	return false;

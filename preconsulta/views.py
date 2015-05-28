@@ -66,7 +66,16 @@ def revisionMedica(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	servicios = ServicioCree.objects.filter(is_active=True)
 	programas = ProgramaCree.objects.filter(is_active=True)
-	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente}
+	tmpHojaPrevaloracion = HojaPrevaloracion
+	expediente = Expediente
+	try:
+		expediente = Expediente.objects.get(paciente__id=tmppaciente.id,is_active=True)
+		tmpHojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id,fechacreacion=date.today())
+	except:
+		print "Hoja Prevaloracion no existe"
+	
+	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente, 
+				'hojaPrevaloracion': tmpHojaPrevaloracion, 'expediente': expediente}
 	return render_to_response('preconsulta/PrevaloracionMedica.html', contexto, context_instance=RequestContext(request))
 
 @validViewPermissionRevisionPsicologica
@@ -384,80 +393,138 @@ def addPsicologiaHojaPrevaloracion(request):
 #@csrf_exempt
 def addHojaPrevaloracion(request):
 	if request.POST:
-		try:
-			correspondio = False
-			with transaction.atomic():
-				mensaje = "Error al crear la hoja de prevaloracion"
+		if int(request.POST['clave']) > 0:
+			try:
+				with transaction.atomic():
+					servicios = request.POST.getlist('servicios[]')
+					programas = request.POST.getlist('programas[]')
+					
+					paciente = Paciente.objects.get(curp=request.POST['curp'])
+					hojaPrevaloracion = HojaPrevaloracion.objects.get(id=request.POST['clave'])
+					expediente = Expediente.objects.get(id=hojaPrevaloracion.expediente.id)
+					hojaFrontal = HojaFrontal.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
+					
+					if len(servicios) > 0:
+						paciente.correspondio = True
+						paciente.save()
+					else:
+						paciente.correspondio = False
+						paciente.save()
+					correspondio = paciente.correspondio
 
-				paciente = Paciente.objects.get(curp=request.POST['curp'])
-				if str(paciente.correspondio) == "True" or str(paciente.correspondio) == "False":
-					mensaje = "Ya cuenta con una hoja de prevaloracion hecha el dia de hoy."
-					response = JsonResponse({'curp' : request.POST['curp'], 'correspondio' : correspondio,
-								'isOk' : mensaje})
-					return HttpResponse(response.content)
-
-				servicios = request.POST.getlist('servicios[]')
-				programas = request.POST.getlist('programas[]')
-
-				if len(servicios) > 0:
-					paciente.correspondio = True
-					paciente.save()
-
-					claveExpediente = getUpdateConsecutiveExpendiete()
-					expediente = Expediente.objects.create(
-						claveexpediente = claveExpediente,
-						paciente_id = paciente.id,
-						fechaalta = "2015-03-30",
-						)
-					u = User.objects.get(username=request.user)
-					hojaPreValoracion = HojaPrevaloracion.objects.create(
-						motivoconsulta = request.POST['motivoConsulta'],
-						diagnosticonosologico = request.POST['diagnosticoNosologico'],
-						canalizacion = request.POST['canalizacion'],
-						edad = paciente.edad,
-						ocupacion_id = paciente.ocupacion.id,
-						referidopor_id = paciente.referidopor.id,
-						escolaridad_id = paciente.escolaridad.id,
-						doctor_id = u.perfil_usuario.id,
-						psicologo_id = 1,
-						expediente_id = expediente.id
-						)
+					hojaPrevaloracion.motivoconsulta = request.POST['motivoConsulta']
+					hojaPrevaloracion.diagnosticonosologico = request.POST['diagnosticoNosologico']
+					hojaPrevaloracion.canalizacion = request.POST['canalizacion']
+					hojaPrevaloracion.edad = paciente.edad
+					hojaPrevaloracion.ocupacion_id = paciente.ocupacion.id
+					hojaPrevaloracion.referidopor_id = paciente.referidopor.id
+					hojaPrevaloracion.escolaridad_id = paciente.escolaridad.id
+					hojaPrevaloracion.save()
+					
+					expediente.servicios.clear()
+					expediente.programas.clear()
 
 					for servicio in servicios:
+						print servicio
 						ServicioExpediente.objects.create(
 							expediente_id = expediente.id,
 							servicio_id = servicio,
-							hojaPrevaloracion_id = hojaPreValoracion.id,
+							hojaPrevaloracion_id = hojaPrevaloracion.id,
 							fechaBaja = date.today()
-							)
+						)
+
 					for programa in programas:
 						ProgramaExpediente.objects.create(
 							expediente_id = expediente.id,
 							programa_id = programa,
-							hojaPrevaloracion_id = hojaPreValoracion.id,
+							hojaPrevaloracion_id = hojaPrevaloracion.id,
 							fechaBaja = date.today()
-							)
-
-					hojaFrontal = HojaFrontal.objects.create(
-						edad = paciente.edad,
-						diagnosticonosologico = request.POST['diagnosticoNosologico'],
-						usuario_id = u.perfil_usuario.id,
-						expediente_id = expediente.id
 						)
 
-					correspondio = True
-				else:
-					paciente.correspondio = False
-					paciente.save()
+					hojaFrontal.diagnosticonosologico = request.POST['diagnosticoNosologico']
+					hojaFrontal.save()
 
-				mensaje = "ok"
+					mensaje = "ok"
+			except ValueError as e:
+				logger.error(str(e))
+				mensaje = "Valor no valido, revisar los valores que se ingresan."
+			except:
+				logger.error(sys.exc_info()[0])
+				mensaje = "Error al crear la hoja de prevaloracion."
+		else:
+			try:
+				correspondio = False
+				with transaction.atomic():
+					mensaje = "Error al crear la hoja de prevaloracion"
 
-		except ValueError as e:
-			logger.error(str(e))
-			mensaje = "Valor no valido, revisar los valores que se ingresan."
-		except:
-			logger.error(sys.exc_info()[0])
-			mensaje = "Error al crear la hoja de prevaloracion."
+					paciente = Paciente.objects.get(curp=request.POST['curp'])
+					if str(paciente.correspondio) == "True" or str(paciente.correspondio) == "False":
+						mensaje = "Ya cuenta con una hoja de prevaloracion hecha el dia de hoy."
+						response = JsonResponse({'curp' : request.POST['curp'], 'correspondio' : correspondio,
+									'isOk' : mensaje})
+						return HttpResponse(response.content)
+
+					servicios = request.POST.getlist('servicios[]')
+					programas = request.POST.getlist('programas[]')
+
+					if len(servicios) > 0:
+						paciente.correspondio = True
+						paciente.save()
+
+						claveExpediente = getUpdateConsecutiveExpendiete()
+						expediente = Expediente.objects.create(
+							claveexpediente = claveExpediente,
+							paciente_id = paciente.id,
+							fechaalta = "2015-03-30",
+							)
+						u = User.objects.get(username=request.user)
+						hojaPreValoracion = HojaPrevaloracion.objects.create(
+							motivoconsulta = request.POST['motivoConsulta'],
+							diagnosticonosologico = request.POST['diagnosticoNosologico'],
+							canalizacion = request.POST['canalizacion'],
+							edad = paciente.edad,
+							ocupacion_id = paciente.ocupacion.id,
+							referidopor_id = paciente.referidopor.id,
+							escolaridad_id = paciente.escolaridad.id,
+							doctor_id = u.perfil_usuario.id,
+							psicologo_id = 1,
+							expediente_id = expediente.id
+							)
+						print "Hoja prevaloracion creada"
+						for servicio in servicios:
+							ServicioExpediente.objects.create(
+								expediente_id = expediente.id,
+								servicio_id = servicio,
+								hojaPrevaloracion_id = hojaPreValoracion.id,
+								fechaBaja = date.today()
+								)
+						for programa in programas:
+							ProgramaExpediente.objects.create(
+								expediente_id = expediente.id,
+								programa_id = programa,
+								hojaPrevaloracion_id = hojaPreValoracion.id,
+								fechaBaja = date.today()
+								)
+
+						hojaFrontal = HojaFrontal.objects.create(
+							edad = paciente.edad,
+							diagnosticonosologico = request.POST['diagnosticoNosologico'],
+							usuario_id = u.perfil_usuario.id,
+							expediente_id = expediente.id
+							)
+
+						correspondio = True
+					else:
+						paciente.correspondio = False
+						paciente.save()
+
+					mensaje = "ok"
+			except ValueError as e:
+				logger.error(str(e))
+				mensaje = "Valor no valido, revisar los valores que se ingresan."
+			except:
+				logger.error(sys.exc_info()[0])
+				mensaje = "Error al crear la hoja de prevaloracion."
 
 		response = JsonResponse({'curp' : request.POST['curp'], 'correspondio' : correspondio,
 								'isOk' : mensaje})
