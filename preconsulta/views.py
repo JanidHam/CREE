@@ -8,7 +8,7 @@ from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referido
 from .utils import getUpdateConsecutiveExpendiete
 from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos
 from django.contrib.auth.models import User, Group
-from datetime import date
+from datetime import date, datetime
 from logs import logger
 import sys
 import json
@@ -88,7 +88,7 @@ def psicologicaPrevaloracion(request, paciente):
 def enfermeriaPrevaloracion(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	nombreCompletoPaciente = "%s %s %s" %(tmppaciente.nombre, tmppaciente.apellidoP, tmppaciente.apellidoM)
-	fechaActual = date.today()
+	fechaActual = datetime.now() #date.today()
 	mensajeInformativo = "28 de mayo dia internacional de accion por la salud de la mujer"
 	contexto = {'curp' : paciente, 'edad' : tmppaciente.edad, 'nombreCompletoPaciente' :  nombreCompletoPaciente,
 	'fecha' : fechaActual, 'mensajeInformativo' : mensajeInformativo}
@@ -151,8 +151,9 @@ def imprimirDocumentos(request, paciente):
 	construccionVivienda = ConstruccionVivienda.objects.filter(is_active=True).exclude(id__in=[con.id for con in construccionViviendaE])
 	barrerasVivienda = BarreraArquitectonicaVivienda.objects.filter(is_active=True).exclude(id__in=[b.id for b in barrerasViviendaE])
 	
+	rowsVacios = 20 - len(serviciosExpediente)
 	rows = list()
-	for i in range(20):
+	for i in range(rowsVacios):
 		rows.append(i)
 	contexto = {'curp' : paciente.curp, 'paciente' : paciente, 'expediente' : expediente,
 	 'hojaPrevaloracion': hojaPrevaloracion, 'hojaFrontal' : hojaFrontal, 'estudioSE1' : estudioSE1,

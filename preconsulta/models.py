@@ -62,7 +62,7 @@ class PacienteDataEnfermeria(models.Model):
 	glucosa = models.CharField(max_length=20)
 	cintura = models.CharField(max_length=20)
 	enfermera = models.ForeignKey(UserProfile, related_name='dataenfermeria_usuario')
-	fechacreacion = models.DateField(auto_now_add=True)
+	fechacreacion = models.DateTimeField(auto_now_add=True)
 	mensaje_informativo = models.CharField(max_length=255)
 
 	def __unicode__(self):

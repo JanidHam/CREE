@@ -267,7 +267,7 @@
     					<h4 class="text-center"><strong>HOJA FRONTAL</strong></h4>
     				</div>
     				<div class="col-sm-12 without-padding">
-    					<table class="table table-bordered table-Hfrontal">
+    					<table class="table ">
 						<thead>
 							<tr>
 								<th><strong>FECHA</strong></th>
@@ -298,7 +298,7 @@
 						<img class="center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" style="width: 100px;"/>
     				</div>
     				<div class="col-sm-6">
-    					<h5 class="text-center"><strong>"SISTEMA PARA EL DESARROLLO INTEGRAL DE LA FAMILIADIRECCIÓN GENERAL DE REHABILITACIÓN Y ASISTENCIA SOCIAL DIRECCIÓN DE REHABILITACION"</strong></h5>
+    					<h5 class="text-center"><strong>"SISTEMA PARA EL DESARROLLO INTEGRAL DE LA FAMILIA DIRECCIÓN GENERAL DE REHABILITACIÓN Y ASISTENCIA SOCIAL DIRECCIÓN DE REHABILITACION"</strong></h5>
     				</div>
     				<div class="col-sm-3">
 						<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 70px; height: 80px;"/>
@@ -783,8 +783,8 @@
     	</div>
     </div>
     <div role="tabpanel" class="tab-pane" id="Carnet">
-    	<div class="col-sm-12">
-    		<div class="col-sm-12 text-center">
+    	<div class="col-sm-12 without-padding">
+    		<div class="col-sm-12 text-center without-padding">
     			<div class="col-sm-6">
 	    			<table class="table table-bordered table-carnet">
 						<thead>
@@ -792,19 +792,28 @@
 								<th>FECHA</th>
 								<th>HORA</th>
 								<th>SERVICIO</th>
-								<th>PRESTADOR DEL SERVICIO</th>
+								<th>PRESTADOR SERVICIO</th>
 								<th>FIRMA ASIST.</th>
 							</tr>
 						</thead>
 						<tbody>
+							{% for servicio in serviciosExpediente %}
+								<tr>
+									<td></td>
+									<td></td>
+									<td>{{servicio.servicio}}</td>
+									<td></td>
+									<td></td>
+								</tr>
+							{% endfor %}
 							{% for r in rows %}
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
 							{% endfor %}
 						</tbody>
 					</table>
@@ -816,19 +825,28 @@
 								<th>FECHA</th>
 								<th>HORA</th>
 								<th>SERVICIO</th>
-								<th>PRESTADOR DEL SERVICIO</th>
+								<th>PRESTADOR SERVICIO</th>
 								<th>FIRMA ASIST.</th>
 							</tr>
 						</thead>
 						<tbody>
+							{% for servicio in serviciosExpediente %}
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							{% endfor %}
 							{% for r in rows %}
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
 							{% endfor %}
 						</tbody>
 					</table>
@@ -836,7 +854,7 @@
     		</div>
     		<div class="col-sm-12 page-break-carnet">
     		</div>
-    		<div class="col-sm-12">
+    		<div class="col-sm-12 without-padding">
     			<div class="col-sm-6">
     				<p class="without-margin color-black text-center border-soft">TERAPIAS</p>
 	    			<table class="table table-bordered table-carnet-half">
@@ -967,18 +985,18 @@
 					<p class="without-margin color-black text-min">EN CASA DE NO ASISTIR A SU CONSULTA O SERVICIO, FAVOR DE AVISAR 24 HRS. ANTES A LOS TELEFONOS 8161310, 8162169 OPC. 5. DIRECCION: CALLE 7 S/N AREA DEL FOVI, CAMPECHE, CAMPECHE.</p>
 					<p class="without-margin color-black text-min">QUEJAS Y/O SUGERENCIAS: informacion_cree@hotmail.com</p>
 				</div>
-				<div class="col-sm-6">
-					<h4 class="text-center">CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</h4>
-					<h5 class="text-center">CARNET DE CITAS</h5>
+				<div class="col-sm-6 without-padding">
+					<h3 class="text-center">CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</h3>
+					<h4 class="text-center">CARNET DE CITAS</h4>
 					<div class="col-sm-12 border-soft without-padding">
 						<div class="col-sm-12 without-padding">
-							<div class="col-sm-8">
-								<p class="without-margin color-black">Paciente: <strong>{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</strong></p>
+							<div class="col-sm-8 without-padding">
+								<p class="without-margin color-black">&nbsp;Paciente: <strong>{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</strong></p>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-2 without-padding">
 								<p class="without-margin color-black">Edad: <strong>{{ paciente.edad }}</strong></p>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-2 without-padding">
 								<p class="without-margin color-black">Genero: 
 									<strong>
 										{% if paciente.genero == 1 %}
@@ -1013,8 +1031,10 @@
 							</div>
 						</div>
 					</div>
-					<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 160px; height: 210px; padding-top: 15px;"/>
-					<h6 class="text-center">NUESTRO COMPROMISO ES SERVIRLE</h6>
+					<div class="col-sm-12">
+						<img class="center-block carnet-logoCree" src="{% static "preconsulta/images/favicon.png" %}" style="padding-top: 25px;"/>
+						<h6 class="text-center">NUESTRO COMPROMISO ES SERVIRLE</h6>
+					</div>
 				</div>
     		</div>
     	</div>

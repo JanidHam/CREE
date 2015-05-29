@@ -29,6 +29,22 @@
 		border: 1px solid #000;
 	}
 
+	.border-left {
+		border-left: 1px solid #000 !important;
+	}
+
+	.border-right {
+		border-right: 1px solid #000 !important;
+	}
+
+	.border-bottom {
+		border-bottom: 1px solid #000 !important;
+	}
+
+	.border-top {
+		border-top: 1px solid #000 !important;
+	}
+
 	.wrapper {
 		margin-top: 0px;
 		margin-left: 0px;
@@ -122,9 +138,9 @@
 	}
 
 	.table-Hfrontal {
-		font-size: 1em !important;
+		/*font-size: 1em !important;
 		height: 765px;
-		margin-left: 1px !important;
+		margin-left: 1px !important;*/
 	}
 
 	.text-min {
@@ -143,7 +159,13 @@
 	img {
 		width: 50px;
 		height: 50px;
-	}	
+	}
+
+	img.carnet-logoCree{
+		height: 220px; 
+		padding-top: 25px;
+		width: 190px; 
+	}
 
 	ul.nav {
 		display: none;
