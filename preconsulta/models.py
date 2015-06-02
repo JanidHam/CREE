@@ -229,7 +229,7 @@ class EstructuraFamiliaESE1(models.Model):
 	estadocivil = models.CharField(max_length=20)
 	edad = models.IntegerField()
 	#Relaciones con otras tablas	
-	estudiose = models.ForeignKey(EstudioSocioE1, related_name='estructurafamiliar_estadoprocedente')
+	estudiose = models.ForeignKey(EstudioSocioE1, related_name='estructurafamiliar_estudiosocioe1')
 	ocupacion = models.ForeignKey(Ocupacion, related_name='estructurafamiliar_ocupacion')
 	escolaridad = models.ForeignKey(Escolaridad, related_name='estructurafamiliar_escolaridad')
 
@@ -244,7 +244,7 @@ class EstudioSocioE2(models.Model):
 	cantidadbanios = models.IntegerField()
 	cantidadrecamaras = models.IntegerField()
 	#Relaciones con otras tablas	
-	estudiose = models.ForeignKey(EstudioSocioE1, related_name='estudiosocioe2_estadoprocedente')
+	estudiose = models.ForeignKey(EstudioSocioE1, related_name='estudiosocioe2_estudiosocioe1')
 	#usuariocreacion = models.ForeignKey(UserProfile, related_name='estudiosocioe2_usuario')
 	vivienda = models.ForeignKey(TipoVivienda, related_name='estudiosocioe2_vivienda')
 	componentevivienda = models.ManyToManyField(ComponenteVivienda, related_name='estudiosocioe2_componente')

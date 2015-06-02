@@ -31,32 +31,7 @@ def home(request):
 	municipios = Municipio.objects.all()
 	estados = Estado.objects.filter(is_active=True)
 	pacientes = Paciente.objects.filter(fechacreacion=date.today())
-	grupo = ""
-	try:
-		request.user.groups.get(name='Informacion')
-		grupo = "informacion"
-	except Group.DoesNotExist:
-		try:
-			request.user.groups.get(name='RevisionMedica')
-			grupo = "revisionMedica"
-		except Group.DoesNotExist:
-			try:
-				request.user.groups.get(name='RevisionPsicologica')
-				grupo = "revisionPsicologica"
-			except Group.DoesNotExist:
-				try:
-					request.user.groups.get(name='TrabajoSocial')
-					grupo = "trabajoSocial"
-				except Group.DoesNotExist:
-					try:
-						request.user.groups.get(name='Imprimir')
-						grupo = "imprimir"
-					except Group.DoesNotExist:
-						try:
-							request.user.groups.get(name='Enfermeria')
-							grupo = "enfermeria"
-						except Group.DoesNotExist:
-							grupo = ""
+	grupo = getUserGroupByRequest(request)
 	
 	contexto = {'ocupaciones' : ocupaciones, 'escolaridades' : escoliridades, 'referidospor' : referidospor,
 	            'municipios' : municipios, 'estados' : estados, 'pacientes' : pacientes, 'grupo': grupo}
@@ -138,23 +113,29 @@ def estudioSPrevaloracion(request, paciente):
 @validViewPermissionImprimirDocumentos
 def imprimirDocumentos(request, paciente):
 	paciente = get_object_or_404(Paciente, curp=paciente)
-	expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
-	
-	hojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id)
-	serviciosExpediente = ServicioExpediente.objects.filter(expediente__id=expediente.id)
-	programasExpediente = ProgramaExpediente.objects.filter(expediente__id=expediente.id)
-	servicios = ServicioCree.objects.filter(is_active=True).exclude(id__in=[s.servicio.id for s in serviciosExpediente])
-	programas = ProgramaCree.objects.filter(is_active=True).exclude(id__in=[p.programa.id for p in programasExpediente])
-	
-	hojaFrontal = HojaFrontal.objects.filter(expediente__id=expediente.id)
+	"""
+	Primero se hace el query de los encabezados (El expediente, hojas de prevaloracion y frontal, estudios socioeconomicos), 
+	si no cuenta con alguno de ellos y si no se hicieron el mismo dia respondera con un error 404
+	"""
+	try:
+		expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
+		hojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id)
+		serviciosExpediente = ServicioExpediente.objects.filter(expediente__id=expediente.id) #Los servicios con los que cuenta este expediente
+		programasExpediente = ProgramaExpediente.objects.filter(expediente__id=expediente.id) #Los programas con los que cuenta este expediente
+		servicios = ServicioCree.objects.filter(is_active=True).exclude(id__in=[s.servicio.id for s in serviciosExpediente]) #Los servicios que ofrece el 'CREE' excluyendo los que tiene el expediente solicitado
+		programas = ProgramaCree.objects.filter(is_active=True).exclude(id__in=[p.programa.id for p in programasExpediente]) #Los programas que ofrece el 'CREE' excluyendo los que tiene el expediente solicitado
+		
+		hojaFrontal = HojaFrontal.objects.filter(expediente__id=expediente.id)
 
-	estudioSE1 = EstudioSocioE1.objects.get(expediente__id=expediente.id)
-	estructuraFamiliar = EstructuraFamiliaESE1.objects.filter(estudiose__id=estudioSE1.id)
-	
-	estudioSE2 = EstudioSocioE2.objects.get(estudiose__id=estudioSE1.id)
+		estudioSE1 = EstudioSocioE1.objects.get(expediente__id=expediente.id)
+		estructuraFamiliar = EstructuraFamiliaESE1.objects.filter(estudiose__id=estudioSE1.id)
+		
+		estudioSE2 = EstudioSocioE2.objects.get(estudiose__id=estudioSE1.id)
+	except:
+		raise Http404
 	#tempIE = estudioSE2.ingresos_egresos.all()
-	ingresos_egresosEstudio = EstudioSocioE2IngresosEgresos.objects.filter(estudio__id=estudioSE2.id)
-	ingresos_egresos = IngresosEgresos.objects.filter(is_active=True).exclude(id__in=[ie.ingreso_egreso.id for ie in ingresos_egresosEstudio])
+	ingresos_egresosEstudio = EstudioSocioE2IngresosEgresos.objects.filter(estudio__id=estudioSE2.id) #Son los ingresos/egresos del estudio socio economico
+	ingresos_egresos = IngresosEgresos.objects.filter(is_active=True).exclude(id__in=[ie.ingreso_egreso.id for ie in ingresos_egresosEstudio]) #Son los ingresos/egresos del catalogo pero excluyendo los que tiene el estudio
 	componentesViviendaE = estudioSE2.componentevivienda.all()
 	serviciosViviendaE = estudioSE2.serviciovivienda.all()
 	tenenciasViviendaE = estudioSE2.tenenciavivienda.all()
@@ -262,13 +243,13 @@ def addEstudioSocioeconomico(request):
 				
 				paciente   = Paciente.objects.get(curp=request.POST['curp'])
 				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
-				print "antes de ver el estudio existente"
+				
 				estuidoTemp = EstudioSocioE1.objects.filter(expediente__id=expediente.id, fechaestudio=date.today())
 				if estuidoTemp:
 					mensaje = "Ya cuenta con un estudio socioeconomico el dia de hoy"
 					response = JsonResponse({'isOk' : mensaje})
 					return HttpResponse(response.content)				
-				print "empezando los post"
+
 				estructuraFamiliar = request.POST.getlist('EstructuraF[]')
 
 				ingresos     = request.POST.getlist('ingresos[]')
@@ -279,7 +260,7 @@ def addEstudioSocioeconomico(request):
 				tenenciasV    = request.POST.getlist('tenencias[]')
 				barrerasIV    = request.POST.getlist('barrerasI[]')
 				barrerasEV    = request.POST.getlist('barrerasE[]')
-				print "antes de estudio"
+
 				u = User.objects.get(username=request.user)
 				estudio1 = EstudioSocioE1.objects.create(
 					edad = paciente.edad,
@@ -302,7 +283,7 @@ def addEstudioSocioeconomico(request):
 					motivoclasificacion = request.POST['justificacionClasf'],
 					parentescoentrevistado = request.POST['parentescoEntrevistado'],
 					)
-				print "estudio ok"
+
 				for i in estructuraFamiliar:
 					estructura = json.loads(i)
 					EstructuraFamiliaESE1.objects.create(
@@ -330,30 +311,22 @@ def addEstudioSocioeconomico(request):
 
 				for i in ingresos:
 					ingreso = json.loads(i)
-					print ingreso
 					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=ingreso['id'], estudio_id=estudio2.id, monto=ingreso['valor'])
-
 				for i in egresos:
 					egreso = json.loads(i)
 					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=egreso['id'], estudio_id=estudio2.id, monto=egreso['valor'])
 				for i in serviciosV:
 					estudio2.serviciovivienda.add(i)
-					#servicio = ServicioVivienda.objects.filter(id=i)
 				for i in componentesV:
 					estudio2.componentevivienda.add(i)
-					#componente = ComponenteVivienda.objects.filter(id=i)
 				for i in construccionV:
 					estudio2.construccionvivienda.add(i)
-					#contruccion = ConstruccionVivienda.objects.filter(id=i)
 				for i in tenenciasV:
 					estudio2.tenenciavivienda.add(i)
-					#tenencia = TenenciaVivienda.objects.filter(id=i)
 				for i in barrerasIV:
 					estudio2.barreravivienda.add(i)
-					#barreraI = BarreraArquitectonicaVivienda.objects.filter(id=i)
 				for i in barrerasEV:
 					estudio2.barreravivienda.add(i)
-					#barreraE = BarreraArquitectonicaVivienda.objects.filter(id=i)
 
 				mensaje = "ok"
 
@@ -439,7 +412,8 @@ def addPsicologiaHojaPrevaloracion(request):
 #@csrf_exempt
 def addHojaPrevaloracion(request):
 	if request.POST:
-		if int(request.POST['clave']) > 0:
+		clave = RepresentsInt(request.POST['clave'])
+		if clave > 0:
 			try:
 				with transaction.atomic():
 					servicios = request.POST.getlist('servicios[]')
@@ -581,9 +555,8 @@ def addHojaPrevaloracion(request):
 
 def addDataEnfermeria(request):
 	if request.POST:
-		print "POST"
-		if int(request.POST['clave']) > 0:
-			print "ACTUALIZAR"
+		clave = RepresentsInt(request.POST['clave'])
+		if clave > 0:
 			try:
 				mensaje = "Error al actualizar datos de enfermeria."
 
@@ -693,3 +666,39 @@ def agregar_paciente(request):
 
 def my_custom_page_not_found_view(request):
 	render('404.html')
+
+def getUserGroupByRequest(request):
+	grupo = ""
+	try:
+		request.user.groups.get(name='Informacion')
+		grupo = "informacion"
+	except Group.DoesNotExist:
+		try:
+			request.user.groups.get(name='RevisionMedica')
+			grupo = "revisionMedica"
+		except Group.DoesNotExist:
+			try:
+				request.user.groups.get(name='RevisionPsicologica')
+				grupo = "revisionPsicologica"
+			except Group.DoesNotExist:
+				try:
+					request.user.groups.get(name='TrabajoSocial')
+					grupo = "trabajoSocial"
+				except Group.DoesNotExist:
+					try:
+						request.user.groups.get(name='Imprimir')
+						grupo = "imprimir"
+					except Group.DoesNotExist:
+						try:
+							request.user.groups.get(name='Enfermeria')
+							grupo = "enfermeria"
+						except Group.DoesNotExist:
+							grupo = ""
+	return grupo
+
+def RepresentsInt(valor):
+    try: 
+        value = int(valor)
+        return value
+    except ValueError:
+        return -1
