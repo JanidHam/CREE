@@ -92,12 +92,32 @@ def validViewPermissionImprimirDocumentos(view):
 		else:
 			try:
 				request.user.groups.get(name='Preconsulta')
-				"""try:					
-					request.user.groups.get(name='TrabajoSocial')
+				try:					
+					request.user.groups.get(name='Imprimir')
 				except Group.DoesNotExist:
 					raise Http404
 				else:
-					return view(request, paciente)"""
+					return view(request, paciente)
+			except Group.DoesNotExist:
+				raise Http404
+			else:
+					return view(request, paciente)
+	return wrapper
+
+def validViewPermissionEnfemeria(view):
+	@login_required(login_url='/login/')
+	def wrapper(request, paciente):
+		if request.user.is_superuser == True:
+			return view(request, paciente)
+		else:
+			try:
+				request.user.groups.get(name='Preconsulta')
+				try:					
+					request.user.groups.get(name='Enfermeria')
+				except Group.DoesNotExist:
+					raise Http404
+				else:
+					return view(request, paciente)
 			except Group.DoesNotExist:
 				raise Http404
 			else:

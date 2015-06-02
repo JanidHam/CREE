@@ -4,9 +4,9 @@ from django.shortcuts import render, render_to_response, RequestContext, redirec
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
 from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1, ProgramaExpediente, PacienteDataEnfermeria
-from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica
+from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica, MensajesEnfemeriaTicket
 from .utils import getUpdateConsecutiveExpendiete
-from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos
+from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos, validViewPermissionEnfemeria
 from django.contrib.auth.models import User, Group
 from datetime import date, datetime
 from logs import logger
@@ -15,7 +15,8 @@ import json
 #import pdb
 
 SERVICIO_ESTUDIO_SOCIOECONOMICO1 = "PRECONSULTA"
-SERVICIO_PSICOLOGIA = "PSICOLOGIA"
+SERVICIOS_EXCLUIDOS_MEDICO = ("PSICOLOGIA", "TRABAJO SOCIAL")
+PROGRAMAS_EXCLUIDOS_MEDICO = ("INCLUSION EDUCATIVA", "ESCUELA PARA FAMILIAS CON HIJOS CON DISCAPACIDAD", "INCLUSION LABORAL")
 CONSULTORIO = 1
 INGRESO = "INGRESO"
 EGRESO = "EGRESO"
@@ -64,15 +65,15 @@ def home(request):
 @validViewPermissionRevisionMedica
 def revisionMedica(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
-	servicios = ServicioCree.objects.filter(is_active=True)
-	programas = ProgramaCree.objects.filter(is_active=True)
+	servicios = ServicioCree.objects.filter(is_active=True).exclude(servicio__in=[s for s in SERVICIOS_EXCLUIDOS_MEDICO])
+	programas = ProgramaCree.objects.filter(is_active=True).exclude(programa__in=[p for p in PROGRAMAS_EXCLUIDOS_MEDICO])
 	tmpHojaPrevaloracion = HojaPrevaloracion
 	expediente = Expediente
 	try:
 		expediente = Expediente.objects.get(paciente__id=tmppaciente.id,is_active=True)
 		tmpHojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id,fechacreacion=date.today())
 	except:
-		print "Hoja Prevaloracion no existe"
+		expediente = Expediente
 	
 	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente, 
 				'hojaPrevaloracion': tmpHojaPrevaloracion, 'expediente': expediente}
@@ -81,17 +82,32 @@ def revisionMedica(request, paciente):
 @validViewPermissionRevisionPsicologica
 def psicologicaPrevaloracion(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
-	contexto = {'curp' : paciente}
+	servicios = ServicioCree.objects.filter(is_active=True, servicio__in=[s for s in SERVICIOS_EXCLUIDOS_MEDICO])
+	programas = ProgramaCree.objects.filter(is_active=True, programa__in=[p for p in PROGRAMAS_EXCLUIDOS_MEDICO])
+	tmpHojaPrevaloracion = HojaPrevaloracion
+	expediente = Expediente
+	try:
+		expediente = Expediente.objects.get(paciente__id=tmppaciente.id,is_active=True)
+		tmpHojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id,fechacreacion=date.today())
+	except:
+		expediente = Expediente
+	contexto = {'curp' : paciente, 'servicios': servicios, 'programas': programas,
+				'hojaPrevaloracion': tmpHojaPrevaloracion, 'expediente': expediente}
 	return render_to_response('preconsulta/PrevaloracionPsicologica.html', contexto, context_instance=RequestContext(request))
 
-#@validViewPermissionEnfemeria
+@validViewPermissionEnfemeria
 def enfermeriaPrevaloracion(request, paciente):
 	tmppaciente = get_object_or_404(Paciente, curp=paciente)
 	nombreCompletoPaciente = "%s %s %s" %(tmppaciente.nombre, tmppaciente.apellidoP, tmppaciente.apellidoM)
 	fechaActual = datetime.now() #date.today()
-	mensajeInformativo = "28 de mayo dia internacional de accion por la salud de la mujer"
+	mensajeInformativo = MensajesEnfemeriaTicket.objects.get(is_active=True)
+	dataEnfermeria = PacienteDataEnfermeria
+	try:
+		dataEnfermeria = PacienteDataEnfermeria.objects.get(paciente__id=tmppaciente.id,fechacreacion=date.today())
+	except:
+		dataEnfermeria = PacienteDataEnfermeria
 	contexto = {'curp' : paciente, 'edad' : tmppaciente.edad, 'nombreCompletoPaciente' :  nombreCompletoPaciente,
-	'fecha' : fechaActual, 'mensajeInformativo' : mensajeInformativo}
+	'fecha' : fechaActual, 'mensajeInformativo' : mensajeInformativo, 'dataEnfermeria': dataEnfermeria}
 	return render_to_response('preconsulta/PrevaloracionEnfermeria.html', contexto, context_instance=RequestContext(request))
 
 @validViewPermissionTrabajoSocial
@@ -364,18 +380,47 @@ def addPsicologiaHojaPrevaloracion(request):
 				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
 				hojaPrev = HojaPrevaloracion.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
 				u = User.objects.get(username=request.user)
-
+				
+				servicios = request.POST.getlist('servicios[]')
+				programas = request.POST.getlist('programas[]')
+				
 				hojaPrev.diagnosticonosologico2 = request.POST['diagnosticoNosologicoBreve']
 				hojaPrev.psicologia = request.POST['psicologia']
 				hojaPrev.psicologo_id = u.perfil_usuario.id
 				hojaPrev.save()
-
-				HojaFrontal.objects.create(
-					edad = paciente.edad,
-					diagnosticonosologico = request.POST['psicologia'],
-					usuario_id = u.perfil_usuario.id,
-					expediente_id = expediente.id
-				)
+				
+				#tmpVarS = expediente.servicios.filter(servicio__in=[s for s in SERVICIOS_EXCLUIDOS_MEDICO])
+				#tmpVarP = expediente.programas.filter(programa__in=[p for p in PROGRAMAS_EXCLUIDOS_MEDICO])
+				tmpVarS = ServicioExpediente.objects.filter(expediente__id=expediente.id).filter(servicio__servicio__in=[s for s in SERVICIOS_EXCLUIDOS_MEDICO])
+				tmpVarP = ProgramaExpediente.objects.filter(expediente__id=expediente.id).filter(programa__programa__in=[p for p in PROGRAMAS_EXCLUIDOS_MEDICO])
+				tmpVarS.delete()
+				tmpVarP.delete()
+				
+				for servicio in servicios:
+					ServicioExpediente.objects.create(
+						expediente_id = expediente.id,
+						servicio_id = servicio,
+						hojaPrevaloracion_id = hojaPrev.id,
+						fechaBaja = date.today()
+						)
+				for programa in programas:
+					ProgramaExpediente.objects.create(
+						expediente_id = expediente.id,
+						programa_id = programa,
+						hojaPrevaloracion_id = hojaPrev.id,
+						fechaBaja = date.today()
+						)
+				try:
+					hojaFront = HojaFrontal.objects.get(expediente__id=expediente.id, fechacreacion=date.today(), usuario__id=hojaPrev.psicologo.id)
+					hojaFront.diagnosticonosologico = request.POST['psicologia']
+					hojaFront.save()
+				except:
+					HojaFrontal.objects.create(
+						edad = paciente.edad,
+						diagnosticonosologico = request.POST['psicologia'],
+						usuario_id = u.perfil_usuario.id,
+						expediente_id = expediente.id
+					)
 
 				mensaje = "ok"
 
@@ -403,7 +448,7 @@ def addHojaPrevaloracion(request):
 					paciente = Paciente.objects.get(curp=request.POST['curp'])
 					hojaPrevaloracion = HojaPrevaloracion.objects.get(id=request.POST['clave'])
 					expediente = Expediente.objects.get(id=hojaPrevaloracion.expediente.id)
-					hojaFrontal = HojaFrontal.objects.get(expediente__id=expediente.id, fechacreacion=date.today())
+					hojaFrontal = HojaFrontal.objects.get(expediente__id=expediente.id, fechacreacion=date.today(), usuario__id=hojaPrevaloracion.doctor.id)
 					
 					if len(servicios) > 0:
 						paciente.correspondio = True
@@ -422,11 +467,12 @@ def addHojaPrevaloracion(request):
 					hojaPrevaloracion.escolaridad_id = paciente.escolaridad.id
 					hojaPrevaloracion.save()
 					
-					expediente.servicios.clear()
-					expediente.programas.clear()
+					tmpVarS = ServicioExpediente.objects.filter(expediente__id=expediente.id).exclude(servicio__servicio__in=[s for s in SERVICIOS_EXCLUIDOS_MEDICO])
+					tmpVarP = ProgramaExpediente.objects.filter(expediente__id=expediente.id).exclude(programa__programa__in=[p for p in PROGRAMAS_EXCLUIDOS_MEDICO])
+					tmpVarS.delete()
+					tmpVarP.delete()
 
 					for servicio in servicios:
-						print servicio
 						ServicioExpediente.objects.create(
 							expediente_id = expediente.id,
 							servicio_id = servicio,
@@ -441,7 +487,7 @@ def addHojaPrevaloracion(request):
 							hojaPrevaloracion_id = hojaPrevaloracion.id,
 							fechaBaja = date.today()
 						)
-
+					
 					hojaFrontal.diagnosticonosologico = request.POST['diagnosticoNosologico']
 					hojaFrontal.save()
 
@@ -491,7 +537,7 @@ def addHojaPrevaloracion(request):
 							psicologo_id = 1,
 							expediente_id = expediente.id
 							)
-						print "Hoja prevaloracion creada"
+						
 						for servicio in servicios:
 							ServicioExpediente.objects.create(
 								expediente_id = expediente.id,
@@ -535,32 +581,58 @@ def addHojaPrevaloracion(request):
 
 def addDataEnfermeria(request):
 	if request.POST:
-		try:
-			mensaje = "Error al guardar datos de enfermeria."
+		print "POST"
+		if int(request.POST['clave']) > 0:
+			print "ACTUALIZAR"
+			try:
+				mensaje = "Error al actualizar datos de enfermeria."
 
-			paciente = Paciente.objects.get(curp=request.POST['curp'])
-			u = User.objects.get(username=request.user)
+				paciente = Paciente.objects.get(curp=request.POST['curp'])
+				dataEnfermeria = PacienteDataEnfermeria.objects.get(id=request.POST['clave'])
+				
+				dataEnfermeria.peso = request.POST['peso']
+				dataEnfermeria.talla = request.POST['talla']
+				dataEnfermeria.f_c = request.POST['fc']
+				dataEnfermeria.t_a = request.POST['ta']
+				dataEnfermeria.glucosa = request.POST['gluc']
+				dataEnfermeria.cintura = request.POST['cintura']
 
-			dataEnfermeriaPaciente = PacienteDataEnfermeria.objects.create(
-				paciente_id = paciente.id,
-				edad = paciente.edad,
-				peso = request.POST['peso'],
-				talla = request.POST['talla'],
-				f_c = request.POST['fc'],
-				t_a = request.POST['ta'],
-				glucosa = request.POST['gluc'],
-				cintura = request.POST['cintura'],
-				enfermera_id = u.perfil_usuario.id,
-				mensaje_informativo = "Mensaje Informativo",#request.POST['mensajeInformativo'],
-				)
+				dataEnfermeria.save()
+				
+				mensaje = "ok"
+			except ValueError as e:
+				logger.error(str(e))
+				mensaje = "Valor no valido, revisar los valores que se ingresan."
+			except:
+				logger.error(sys.exc_info()[0])
+				mensaje = "Error al actualizar datos de enfermeria."
+		else:
+			try:
+				mensaje = "Error al guardar datos de enfermeria."
 
-			mensaje = "ok"
-		except ValueError as e:
-			logger.error(str(e))
-			mensaje = "Valor no valido, revisar los valores que se ingresan."
-		except:
-			logger.error(sys.exc_info()[0])
-			mensaje = "Error al guardar datos de enfermeria."
+				paciente = Paciente.objects.get(curp=request.POST['curp'])
+				u = User.objects.get(username=request.user)
+				
+				dataEnfermeriaPaciente = PacienteDataEnfermeria.objects.create(
+					paciente_id = paciente.id,
+					edad = paciente.edad,
+					peso = request.POST['peso'],
+					talla = request.POST['talla'],
+					f_c = request.POST['fc'],
+					t_a = request.POST['ta'],
+					glucosa = request.POST['gluc'],
+					cintura = request.POST['cintura'],
+					enfermera_id = u.perfil_usuario.id,
+					mensaje_informativo = request.POST['mensajeInformativo'],
+					)
+
+				mensaje = "ok"
+			except ValueError as e:
+				logger.error(str(e))
+				mensaje = "Valor no valido, revisar los valores que se ingresan."
+			except:
+				logger.error(sys.exc_info()[0])
+				mensaje = "Error al guardar datos de enfermeria."
 
 		response = JsonResponse({'isOk' : mensaje})
 		return HttpResponse(response.content)

@@ -22,6 +22,7 @@ var $form    = $('#form'),
 	$taPaciente = $('#taPaciente'),
 	$glucosaPaciente = $('#glucosaPaciente'),
 	$cinturaPaciente = $('#cinturaPaciente'),
+	$clave = $('#clave'),
 	$printPeso = $('#printPeso'),
 	$printTalla = $('#printTalla'),
 	$printFC = $('#printFC'),
@@ -41,6 +42,8 @@ function sendDataRevision() {
 		ta : $taPaciente.val(),
 		gluc : $glucosaPaciente.val(),
 		cintura : $cinturaPaciente.val(),
+		mensajeInformativo : $printMensaje.val(),
+		clave : $clave.val(),
 		curp : CURP,
 	}
 	$.post('/preconsulta/agregar-enfermeria/', datosRevision , checkIsDataIsCorrect);
@@ -59,13 +62,13 @@ function checkIsDataIsCorrect(data) {
 }
 
 function setDataToPrint(){
-	$printPeso.append("  " + $pesoPaciente.val());
-	$printTalla.append("  " + $tallaPaciente.val());
-	$printFC.append("  " + $fcPaciente.val());
-	$printTA.append("  " + $taPaciente.val());
-	$printGlucosa.append("  " + $glucosaPaciente.val());
-	$printCintura.append("  " + $cinturaPaciente.val());
-	$printMedico.append("DR. Eduardo Espadas Pinzon");
+	$printPeso.text("  " + $pesoPaciente.val());
+	$printTalla.text("  " + $tallaPaciente.val());
+	$printFC.text("  " + $fcPaciente.val());
+	$printTA.text("  " + $taPaciente.val());
+	$printGlucosa.text("  " + $glucosaPaciente.val());
+	$printCintura.text("  " + $cinturaPaciente.val());
+	$printMedico.text("DR. Eduardo Espadas Pinzon");
 	//$printMensaje.append("28 de mayo dia internacional de accion por la salud de la mujer")
 	$sendRevision.button('reset');
 	window.print();

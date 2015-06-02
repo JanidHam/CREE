@@ -13,7 +13,7 @@
 {% endblock filesCSS %}
 
 {% block content %}
-<!-- WEATHER-2 PANEL -->
+<!-- WEATHER-2 PANEL 
 <div class="col-lg-4 col-md-4 col-sm-4 mb">
 	<div class="weather-2 pn">
 		<div class="weather-2-header">
@@ -25,7 +25,7 @@
 					<p class="small">Thu Apr 14, 2014</p>
 				</div>
 			</div>
-		</div><!-- /weather-2 header -->
+		</div>
 		<div class="row centered">
 			<img src="{% static "preconsulta/images/avatar.jpeg" %}" class="img-circle" width="120">			
 		</div>
@@ -42,7 +42,7 @@
 			</div>
 		</div>
 	</div>
-</div><! --/col-md-4 -->
+</div>--><! --/col-md-4 -->
 <div class="row mt" id="form">
 	<div class="col-lg-12">
 		<div class="form-panel">
@@ -51,13 +51,55 @@
 				{% csrf_token %}
 				<div class="form-group">
 					<div class="col-lg-12">					
-						<textarea class="form-control text-uppercase" id="psicologia" placeholder="PSICOLOGIA" rows="5"></textarea>
+						<textarea class="form-control text-uppercase" id="psicologia" placeholder="PSICOLOGIA" rows="5">{% if hojaPrevaloracion %}{{ hojaPrevaloracion.psicologia }}{% endif %}</textarea>
 					</div>					
 				</div>
 				<div class="form-group">
 					<div class="col-lg-12">					
-						<input type="text" class="form-control text-uppercase" id="diagnosticoNosologicoBreve" placeholder="DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)">
+						<input type="text" class="form-control text-uppercase" id="diagnosticoNosologicoBreve" placeholder="DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)" value="{% if hojaPrevaloracion %}{{ hojaPrevaloracion.diagnosticonosologico2 }}{% endif %}">
 					</div>					
+				</div>
+				<h4 class="mb">CITA A: (SERVICIOS DEL CREE)</h4>
+				<div class="form-group">							
+					{% for servicio in servicios %}
+						<div class="col-lg-4">
+							<div class="input-group">
+								<span class="input-group-addon" style="background-color: #FFF;">
+									<input type="checkbox" aria-label="..." value="{{servicio.id}}" name="servicios" 
+									{% if expediente %}
+									 {% for s in expediente.servicios.all %}
+										{% if s.id == servicio.id %}
+											checked
+										{% endif %}
+									 {% endfor %}
+									{% endif %}
+									>
+								</span>
+								<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
+							</div><!-- /input-group -->
+						</div>
+					{% endfor %}						
+				</div>
+				<h4 class="mb">INTEGRAR AL PROGRAMA DE:</h4>
+				<div class="form-group">							
+					{% for programa in programas %}						
+						<div class="col-lg-4">
+							<div class="input-group">
+								<span class="input-group-addon" style="background-color: #FFF;">
+									<input type="checkbox" aria-label="..." value="{{programa.id}}" name="programas" 
+									{% if expediente %}
+									 {% for p in expediente.programas.all %}
+										{% if p.id == programa.id %}
+											checked
+										{% endif %}
+									 {% endfor %}
+									{% endif %}
+									>
+								</span>
+								<input type="text" class="form-control" aria-label="..." placeholder="{{programa.programa}}"  disabled>
+							</div><!-- /input-group -->
+						</div>
+					{% endfor %}						
 				</div>
 					<button class="btn btn-theme" id="RevisionPaciente" data-loading-text="Espere..."><i class="fa fa-heart"></i> Guardar</button>
 			</form>

@@ -31,8 +31,6 @@ function sendDataRevision() {
 	var serviciostemp = getCheckedServicios();
 	var programastemp = getCheckedProgramas();
 	var clave = $claveHoja.val();
-	if (clave !== '')
-		clave = -1
 	
 	var datosRevision = {
 		canalizacion : $canalizacion.val().toUpperCase(),

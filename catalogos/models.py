@@ -84,6 +84,14 @@ class IngresosEgresos(models.Model):
 
 	def __unicode__(self):
 		return self.tipo + ": " + self.descripcion
+
+class MensajesEnfemeriaTicket(models.Model):
+	mensaje = models.CharField(max_length=255)
+	fechacreacion = models.DateField(auto_now_add=True)
+	is_active = models.BooleanField(default=True)
+
+	def __unicode__(self):
+		return self.mensaje
 #Fin de los catalogos del proceso de prevaloracion
 
 """

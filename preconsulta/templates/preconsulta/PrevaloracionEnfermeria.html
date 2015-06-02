@@ -33,32 +33,32 @@
 				</div>
 				<div class="form-group">
 					<div class="col-lg-12">					
-						<input type="text" class="form-control text-uppercase" id="pesoPaciente" placeholder="PESO PACIENTE">
+						<input type="text" class="form-control text-uppercase" id="pesoPaciente" placeholder="PESO PACIENTE" value="{% if dataEnfermeria %}{{ dataEnfermeria.peso }}{% endif %}">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-lg-12">					
-						<input type="text" class="form-control text-uppercase" id="tallaPaciente" placeholder="TALLA PACIENTE">
+						<input type="text" class="form-control text-uppercase" id="tallaPaciente" placeholder="TALLA PACIENTE" value="{% if dataEnfermeria %}{{ dataEnfermeria.talla }}{% endif %}">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-lg-12">					
-						<input type="text" class="form-control text-uppercase" id="fcPaciente" placeholder="F.C. PACIENTE">
+						<input type="text" class="form-control text-uppercase" id="fcPaciente" placeholder="F.C. PACIENTE" value="{% if dataEnfermeria %}{{ dataEnfermeria.f_c }}{% endif %}">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-lg-12">					
-						<input type="text" class="form-control text-uppercase" id="taPaciente" placeholder="T.A. PACIENTE">
+						<input type="text" class="form-control text-uppercase" id="taPaciente" placeholder="T.A. PACIENTE" value="{% if dataEnfermeria %}{{ dataEnfermeria.t_a }}{% endif %}">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-lg-12">					
-						<input type="text" class="form-control text-uppercase" id="glucosaPaciente" placeholder="GLUC. PACIENTE">
+						<input type="text" class="form-control text-uppercase" id="glucosaPaciente" placeholder="GLUC. PACIENTE" value="{% if dataEnfermeria %}{{ dataEnfermeria.glucosa }}{% endif %}">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-lg-12">					
-						<input type="text" class="form-control text-uppercase" id="cinturaPaciente" placeholder="CINTURA PACIENTE">
+						<input type="text" class="form-control text-uppercase" id="cinturaPaciente" placeholder="CINTURA PACIENTE" value="{% if dataEnfermeria %}{{ dataEnfermeria.cintura }}{% endif %}">
 					</div>
 				</div>
 				<div class="form-group">
@@ -68,6 +68,7 @@
 				</div>
 				<button class="btn btn-theme" id="printAndSetData" data-loading-text="Espere..."><i class="fa fa-heart"></i> Imprimir</button>
 				<button class="btn btn-theme" id="sendDataEnfermeriaPaciente" data-loading-text="Imprima primero..."><i class="fa fa-heart"></i> Guardar</button>
+				<input type="text" class="form-control hidden" aria-label="..." disabled value="{% if dataEnfermeria %}{{ dataEnfermeria.id }}{% endif %}" id="clave">
 			</form>
 		</div><!-- /form-panel -->
 	</div><!-- /col-lg-12 -->
@@ -122,7 +123,7 @@
 			<div class="col-sm-12 text-center">{{ fecha }}</div>
 		</div>
 		<div class="col-sm-12 color-black">
-			<div class="col-sm-12 text-center">{{ mensajeInformativo }}</div>
+			<div class="col-sm-12 text-center">{{ mensajeInformativo.mensaje }}</div>
 		</div>
 	</div>
 </div>
