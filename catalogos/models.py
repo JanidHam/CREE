@@ -92,6 +92,20 @@ class MensajesEnfemeriaTicket(models.Model):
 
 	def __unicode__(self):
 		return self.mensaje
+
+class EstadoCivil(models.Model):
+	estado_civil = models.CharField(max_length=200)
+	is_active = models.BooleanField(default=True)
+
+	def __unicode__(self):
+		return self.estado_civil
+
+class Parentesco(models.Model):
+	parentesco = models.CharField(max_length=200)
+	is_active = models.BooleanField(default=True)
+
+	def __unicode__(self):
+		return self.parentesco
 #Fin de los catalogos del proceso de prevaloracion
 
 """

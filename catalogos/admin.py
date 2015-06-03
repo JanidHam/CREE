@@ -4,6 +4,8 @@ from .models import *
 admin.site.register(Estado)
 admin.site.register(Municipio)
 admin.site.register(Ocupacion)
+admin.site.register(Parentesco)
+admin.site.register(EstadoCivil)
 admin.site.register(Escolaridad)
 admin.site.register(Referidopor)
 admin.site.register(ServicioCree)

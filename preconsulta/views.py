@@ -4,7 +4,7 @@ from django.shortcuts import render, render_to_response, RequestContext, redirec
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
 from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1, ProgramaExpediente, PacienteDataEnfermeria
-from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica, MensajesEnfemeriaTicket
+from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica, MensajesEnfemeriaTicket, EstadoCivil, Parentesco
 from .utils import getUpdateConsecutiveExpendiete
 from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos, validViewPermissionEnfemeria
 from django.contrib.auth.models import User, Group
@@ -101,13 +101,30 @@ def estudioSPrevaloracion(request, paciente):
 	barrerasInternasVivienda = BarreraArquitectonicaVivienda.objects.filter(tipo=INTERNAS,is_active=True)
 	barrerasExternasVivienda = BarreraArquitectonicaVivienda.objects.filter(tipo=EXTERNAS,is_active=True)
 	clasificacionEconomica = ClasificacionEconomica.objects.filter(is_active=True)
+	estadoCivil = EstadoCivil.objects.filter(is_active=True)
+	parentesco = Parentesco.objects.filter(is_active=True)
+	estudioSE1 = EstudioSocioE1
+	estudioSE2 = EstudioSocioE2
+	expediente = Expediente
+	estructuraFamiliar = EstructuraFamiliaESE1
+	try:
+		expediente = Expediente.objects.get(paciente__id=tmppaciente.id, is_active=True)
+		estudioSE1 = EstudioSocioE1.objects.get(expediente__id=expediente.id, fechaestudio=date.today())
+		estudioSE2 = EstudioSocioE2.objects.get(estudiose__id=estudioSE1.id)
+		estructuraFamiliar = EstructuraFamiliaESE1.objects.get(estudiose__id=estudioSE1.id)
+	except:
+		pass
 
-	contexto = {'ocupaciones' : ocupaciones, 'motivosEsutdio' : motivosEstudio, 'egresos' : egresos,
-	'ingresos' : ingresos, 'tipoVivienda' : tipoVivienda, 'componentesVivienda' : componenteVivienda,
-	'servicioVivienda' : servicioVivienda, 'tenenciaVivienda' : tenenciaVivienda,
-	'construccionVivienda' : construccionVivienda, 'barrerasInternasVivienda' : barrerasInternasVivienda,
-	'barrerasExternasVivienda' : barrerasExternasVivienda, 'escolaridades' : escolaridades, 'curp' : paciente,
-	'clasificacionEconomica' : clasificacionEconomica}
+	contexto = {
+		'ocupaciones' : ocupaciones, 'motivosEsutdio' : motivosEstudio, 'egresos' : egresos,
+		'ingresos' : ingresos, 'tipoVivienda' : tipoVivienda, 'componentesVivienda' : componenteVivienda,
+		'servicioVivienda' : servicioVivienda, 'tenenciaVivienda' : tenenciaVivienda,
+		'construccionVivienda' : construccionVivienda, 'barrerasInternasVivienda' : barrerasInternasVivienda,
+		'barrerasExternasVivienda' : barrerasExternasVivienda, 'escolaridades' : escolaridades, 'curp' : paciente,
+		'clasificacionEconomica' : clasificacionEconomica, 'estudioSE1': estudioSE1, 'estudioSE2': estudioSE2,
+		'estructuraFamiliar': estructuraFamiliar, 'estadoCivil': estadoCivil, 'parentesco': parentesco
+	}
+
 	return render_to_response('preconsulta/PrevaloracionEstudioS.html', contexto, context_instance=RequestContext(request))
 
 @validViewPermissionImprimirDocumentos

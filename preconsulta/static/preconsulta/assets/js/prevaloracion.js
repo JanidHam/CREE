@@ -38,7 +38,7 @@ var $form    = $('#form'),
 
 //Variables globales
 try {
-  $nodeAlert.hide();
+  //$nodeAlert.hide();
   var socket = io.connect("http://" + urlServerNodeJS);
 } catch(err) {
   socket = null;
