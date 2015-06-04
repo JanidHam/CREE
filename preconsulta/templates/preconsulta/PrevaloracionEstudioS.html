@@ -24,22 +24,30 @@
 				<div class="form-group">
 					<div class="col-lg-12">
 						<div class="col-lg-4">
-							<div class="input-group">									
-								<span class="input-group-addon">Clasificacion Economica</span>
-								<select class="form-control" id="clasificacionE" disabled>
-									{% for e in clasificacionEconomica %}
-										<option value="{{e.id}}"> {{e.clasificacion}} </option>
-									{% endfor %}
-								</select>
-							</div>
+							<label for="clasificacionE" class="control-label">CLASIFICACION ECONOMICA:</label>
+							<select class="form-control" id="clasificacionE" disabled>
+								{% for e in clasificacionEconomica %}
+									<option value="{{e.id}}" {% if estudioSE1.clasificacion.id == e.id %}selected="true"{% endif %}> {{e.clasificacion}} </option>
+								{% endfor %}
+
+							</select>
 						</div>
 						<div class="col-lg-4">
+							<label for="clasificacionNueva" class="control-label">CHECK PARA CAMBIAR LA CLASIFICACION</label>
 							<div class="input-group">
 								<span class="input-group-addon add-on-white">
 									<input type="checkbox" aria-label="..." id="clasificacionNueva">
 								</span>
 								<input type="text" class="form-control" aria-label="..." placeholder="Al dar clic podra cambiar la clasificacion"  disabled>
 							</div>	
+						</div>
+						<div class="col-lg-4">
+							<label for="motivoEstudio" class="control-label">MOTIVO ESTUDIO:</label>
+							<select class="form-control" id="motivoEstudio">
+								{% for motivo in motivosEsutdio %}				
+									<option value="{{motivo.id}}" {% if estudioSE1.motivoestudio.id == e.id %}selected="true"{% endif %}> {{motivo.motivoestudio}} </option>
+								{% endfor %}
+							</select>
 						</div>
 					</div>
 				</div>
@@ -61,42 +69,141 @@
 							<input type="text" class="form-control text-uppercase" id="apellidoEntrevistado" placeholder="Apellidos Entrevistado" value="{% if estudioSE1 %}{{ estudioSE1.apellidosentevistado }}{% endif %}">
 						</div>
 						<div class="col-lg-3">
-							<div class="input-group">									
-								<span class="input-group-addon">Estado Civil</span>
-								<select class="form-control" id="estadoCivil">	
-									{% for ec in estadoCivil %}
-										<option value="{{ec.estado_civil}}"> {{ec.estado_civil}} </option>
-									{% endfor %}
-								</select>
-							</div>
+							<label for="estadoCivil" class="control-label">ESTADO CIVIL:</label>
+							<select class="form-control" id="estadoCivil">	
+								{% for ec in estadoCivil %}
+									<option value="{{ec.estado_civil}}" {% if estudioSE1.estadocivil == ec.estado_civil %}selected="true"{% endif %}> {{ec.estado_civil}} </option>
+								{% endfor %}
+							</select>
 						</div>
 						<div class="col-lg-3">
-							<div class="input-group">
-								<span class="input-group-addon">Parentesco</span>
-								<select class="form-control" id="parentescoEntrevistado">	
-									{% for p in parentesco %}
-										<option value="{{p.parentesco}}"> {{p.parentesco}} </option>
-									{% endfor %}
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-lg-12">
-						<div class="col-lg-6">
-							<div class="input-group">									
-								<span class="input-group-addon">Motivo Estudio</span>
-								<select class="form-control" id="motivoEstudio">
-									{% for motivo in motivosEsutdio %}				
-									<option value="{{motivo.id}}"> {{motivo.motivoestudio}} </option>
-									{% endfor %}
-								</select>
-							</div>
+							<label for="parentescoEntrevistado" class="control-label">PARENTESCO:</label>
+							<select class="form-control" id="parentescoEntrevistado">	
+								{% for p in parentesco %}
+									<option value="{{p.parentesco}}" {% if estudioSE1.parentescoentrevistado == p.parentesco %}selected="true"{% endif %}> {{p.parentesco}} </option>
+								{% endfor %}
+							</select>
 						</div>
 					</div>
 				</div>
 				<h4 class="mb page-header">Situacion Economica</h4>
+				<div class="form-group">
+					<div class="col-lg-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">INGRESOS</div>
+							<div class="panel-body">
+								{% for ingreso in ingresos_egresosEstudio %}
+									{% if ingreso.ingreso_egreso.tipo == "INGRESO" %}
+										<div class="col-lg-6">
+											<label for="{{ingreso.ingreso_egreso.id}}" class="control-label">{{ingreso.ingreso_egreso.descripcion}}:</label>
+											<div class="input-group">									
+												<span class="input-group-addon">$</span>
+												<input type="text" class="form-control" name="ingresos" id="{{ingreso.ingreso_egreso.id}}" placeholder="{{ingreso.ingreso_egreso.descripcion}}"
+												value = "{{ingreso.monto}}">
+											</div>
+										</div>	
+									{% endif %}
+								{% endfor %}
+								{% for ingreso in ingresos_egresos %}
+									{% if ingreso.tipo == "INGRESO" %}
+										<div class="col-lg-6">
+											<label for="{{ingreso.id}}" class="control-label">{{ingreso.descripcion}}:</label>
+											<div class="input-group">									
+												<span class="input-group-addon">$</span>
+												<input type="text" class="form-control" name="ingresos" id="{{ingreso.id}}" placeholder="{{ingreso.descripcion}}">
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">EGRESOS</div>
+							<div class="panel-body">
+							{% for egreso in ingresos_egresosEstudio %}
+									{% if egreso.ingreso_egreso.tipo == "EGRESO" %}
+										<div class="col-lg-6">
+											<label for="{{egreso.ingreso_egreso.id}}" class="control-label">{{egreso.ingreso_egreso.descripcion}}:</label>
+											<div class="input-group">									
+												<span class="input-group-addon">$</span>
+												<input type="text" class="form-control" name="egresos" id="{{egreso.ingreso_egreso.id}}" placeholder="{{egreso.ingreso_egreso.descripcion}}"
+												value = "{{egreso.monto}}">
+											</div>
+										</div>	
+									{% endif %}
+								{% endfor %}
+								{% for egreso in ingresos_egresos %}
+									{% if egreso.tipo == "EGRESO" %}
+										<div class="col-lg-6">
+											<label for="{{egreso.id}}" class="control-label">{{egreso.descripcion}}:</label>
+											<div class="input-group">									
+												<span class="input-group-addon">$</span>
+												<input type="text" class="form-control" name="egresos" id="{{egreso.id}}" placeholder="{{egreso.descripcion}}">
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 hidden">
+						<div class="input-group">
+							<span class="input-group-addon">$</span>
+							<input type="text" class="form-control" id="deficit" placeholder="DEFICIT"value="{% if estudioSE2 %}{{estudioSE2.deficit}}{% else %}0{% endif %}">
+						</div>
+						<div class="input-group">									
+							<span class="input-group-addon">$</span>
+							<input type="text" class="form-control" id="excedente" placeholder="EXCEDENTE" value="{% if estudioSE2 %}{{estudioSE2.excedente}}{% else %}0{% endif %}">
+						</div>
+					</div>
+				</div>
+				<!--
+				<div class="form-group">
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">EGRESOS</div>
+							<div class="panel-body">
+							{% for egreso in ingresos_egresosEstudio %}
+									{% if egreso.ingreso_egreso.tipo == "EGRESO" %}
+										<div class="col-lg-3">
+											<label for="{{egreso.ingreso_egreso.id}}" class="control-label">{{egreso.ingreso_egreso.descripcion}}:</label>
+											<div class="input-group">									
+												<span class="input-group-addon">$</span>
+												<input type="text" class="form-control" name="ingresos" id="{{egreso.ingreso_egreso.id}}" placeholder="{{egreso.ingreso_egreso.descripcion}}"
+												value = "{{egreso.monto}}">
+											</div>
+										</div>	
+									{% endif %}
+								{% endfor %}
+								{% for egreso in ingresos_egresos %}
+									{% if egreso.tipo == "EGRESO" %}
+										<div class="col-lg-3">
+											<label for="{{egreso.id}}" class="control-label">{{egreso.descripcion}}:</label>
+											<div class="input-group">									
+												<span class="input-group-addon">$</span>
+												<input type="text" class="form-control" name="ingresos" id="{{egreso.id}}" placeholder="{{egreso.descripcion}}">
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 hidden">
+						<div class="input-group">
+							<span class="input-group-addon">$</span>
+							<input type="text" class="form-control" id="deficit" placeholder="DEFICIT"value="{% if estudioSE2 %}{{estudioSE2.deficit}}{% else %}0{% endif %}">
+						</div>
+						<div class="input-group">									
+							<span class="input-group-addon">$</span>
+							<input type="text" class="form-control" id="excedente" placeholder="EXCEDENTE" value="{% if estudioSE2 %}{{estudioSE2.excedente}}{% else %}0{% endif %}">
+						</div>
+					</div>
+				</div>
+				-->
+				<!--
 				<div class="form-group">
 					<div class="col-lg-12">
 						<div class="col-lg-4">
@@ -136,7 +243,8 @@
 							</div>
 						</div>
 					</div>		
-				</div>				
+				</div>
+				-->				
 				<div class="col-lg-12 page-header">
 					<div class="col-lg-4">
 						<h4 class="mb">Caracteristicas de la Vivienda</h4>
@@ -144,7 +252,7 @@
 					<div class="col-lg-8">
 					<select class="form-control" id="tipoVivienda">
 						{% for tipo in tipoVivienda %}
-						<option value="{{tipo.id}}"> {{tipo.vivienda}} </option>
+						<option value="{{tipo.id}}" {% if estudioSE2.vivienda.id == tipo.id %}selected="true"{% endif %}> {{tipo.vivienda}} </option>
 						{% endfor %}
 					</select>
 					</div>
@@ -157,13 +265,21 @@
 								{% for componente in componentesVivienda %}
 								<div class="input-group">
 									<span class="input-group-addon add-on-white">
-										<input type="checkbox" aria-label="..." value="{{componente.id}}" name="componentesVivienda">
+										<input type="checkbox" aria-label="..." value="{{componente.id}}" name="componentesVivienda"
+										{% for c in estudioSE2.componentevivienda.all %}
+											{% if c.id == componente.id %}
+												checked
+											{% endif %}
+									 	{% endfor %}
+										>
 									</span>
 									<input type="text" class="form-control" aria-label="..." placeholder="{{componente.componente}}"  disabled>
 								</div>
 								{% endfor %}
-								<input type="text" class="form-control text-uppercase" id="cantidadBanios" placeholder="No. Baños">
-								<input type="text" class="form-control text-uppercase" id="cantidadRecamaras" placeholder="No. Recamaras">
+								<label for="cantidadBanios" class="control-label">No. BAÑOS:</label>
+								<input type="text" class="form-control text-uppercase" id="cantidadBanios" placeholder="No. Baños" value="{% if estudioSE2 %}{{estudioSE2.cantidadbanios}}{% endif %}">
+								<label for="cantidadRecamaras" class="control-label">No. RECAMARAS:</label>
+								<input type="text" class="form-control text-uppercase" id="cantidadRecamaras" placeholder="No. Recamaras" value="{% if estudioSE2 %}{{estudioSE2.cantidadrecamaras}}{% endif %}">
 							</div>
 						</div>
 					</div>
@@ -174,7 +290,13 @@
 								{% for servicio in servicioVivienda %}
 								<div class="input-group">
 									<span class="input-group-addon add-on-white">
-										<input type="checkbox" aria-label="..." value="{{servicio.id}}" name="serviciosVivienda">
+										<input type="checkbox" aria-label="..." value="{{servicio.id}}" name="serviciosVivienda"
+										{% for s in estudioSE2.serviciovivienda.all %}
+											{% if s.id == servicio.id %}
+												checked
+											{% endif %}
+									 	{% endfor %}
+										>
 									</span>
 									<input type="text" class="form-control" aria-label="..." placeholder="{{servicio.servicio}}"  disabled>
 								</div>
@@ -189,7 +311,13 @@
 								{% for tenencia in tenenciaVivienda %}
 								<div class="input-group">
 									<span class="input-group-addon add-on-white">
-										<input type="checkbox" aria-label="..." value="{{tenencia.id}}" name="tenenciasVivienda">
+										<input type="checkbox" aria-label="..." value="{{tenencia.id}}" name="tenenciasVivienda"
+										{% for t in estudioSE2.tenenciavivienda.all %}
+											{% if t.id == tenencia.id %}
+												checked
+											{% endif %}
+									 	{% endfor %}
+										>
 									</span>
 									<input type="text" class="form-control" aria-label="..." placeholder="{{tenencia.tenencia}}"  disabled>
 								</div>
@@ -206,7 +334,13 @@
 								{% for construccion in construccionVivienda %}
 								<div class="input-group">
 									<span class="input-group-addon add-on-white">
-										<input type="checkbox" aria-label="..." value="{{construccion.id}}" name="construccionVivienda">
+										<input type="checkbox" aria-label="..." value="{{construccion.id}}" name="construccionVivienda" 
+										{% for c in estudioSE2.construccionvivienda.all %}
+											{% if c.id == construccion.id %}
+												checked
+											{% endif %}
+									 	{% endfor %}
+										>
 									</span>
 									<input type="text" class="form-control" aria-label="..." placeholder="{{construccion.componente}}"  disabled>
 								</div>
@@ -217,42 +351,68 @@
 					<div class="col-lg-4">
 						<div class="panel panel-default">
 							<div class="panel-heading">Barreras Internas Vivienda</div>
-							<div class="panel-body">					
-								{% for bInternas in barrerasInternasVivienda %}
-								<div class="input-group">
-									<span class="input-group-addon add-on-white">
-										<input type="checkbox" aria-label="..." value="{{bInternas.id}}" name="barrerasInternasVivienda">
-									</span>
-									<input type="text" class="form-control" aria-label="..." placeholder="{{bInternas.barrera}}"  disabled>
-								</div>
-								{% endfor %}
+							<div class="panel-body">
+							{% for barreraInterna in barrerasViviendaEstudio %}
+								{% if barreraInterna.tipo == "INTERNAS" %}
+									<div class="input-group">
+										<span class="input-group-addon add-on-white">
+											<input type="checkbox" aria-label="..." value="{{barreraInterna.id}}" name="barrerasInternasVivienda" checked>
+										</span>
+										<input type="text" class="form-control" aria-label="..." placeholder="{{barreraInterna.barrera}}"  disabled>
+									</div>
+								{% endif %}
+							{% endfor %}
+							{% for barreraInterna in barrerasVivienda %}
+								{% if barreraInterna.tipo == "INTERNAS" %}
+									<div class="input-group">
+										<span class="input-group-addon add-on-white">
+											<input type="checkbox" aria-label="..." value="{{barreraInterna.id}}" name="barrerasInternasVivienda">
+										</span>
+										<input type="text" class="form-control" aria-label="..." placeholder="{{barreraInterna.barrera}}"  disabled>
+									</div>
+								{% endif %}
+							{% endfor %}
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-4">
 						<div class="panel panel-default">
 							<div class="panel-heading">Barreras Externas Vivienda</div>
-							<div class="panel-body">				
-								{% for bExternas in barrerasExternasVivienda %}
-								<div class="input-group">
-									<span class="input-group-addon add-on-white">
-										<input type="checkbox" aria-label="..." value="{{bExternas.id}}" name="barrerasExternasVivienda">
-									</span>
-									<input type="text" class="form-control" aria-label="..." placeholder="{{bExternas.barrera}}"  disabled>
-								</div>
-								{% endfor %}
+							<div class="panel-body">
+							{% for barreraExterna in barrerasViviendaEstudio %}
+								{% if barreraExterna.tipo == "EXTERNAS" %}
+									<div class="input-group">
+										<span class="input-group-addon add-on-white">
+											<input type="checkbox" aria-label="..." value="{{barreraExterna.id}}" name="barrerasExternasVivienda" checked>
+										</span>
+										<input type="text" class="form-control" aria-label="..." placeholder="{{barreraExterna.barrera}}"  disabled>
+									</div>
+								{% endif %}
+							{% endfor %}
+							{% for barreraExterna in barrerasVivienda %}
+								{% if barreraExterna.tipo == "EXTERNAS" %}
+									<div class="input-group">
+										<span class="input-group-addon add-on-white">
+											<input type="checkbox" aria-label="..." value="{{barreraExterna.id}}" name="barrerasExternasVivienda">
+										</span>
+										<input type="text" class="form-control" aria-label="..." placeholder="{{barreraExterna.barrera}}"  disabled>
+									</div>
+								{% endif %}
+							{% endfor %}
 							</div>
 						</div>
 					</div>					
 				</div>
 				<div class="form-group">
-					<div class="col-lg-12">	
-						<textarea class="form-control text-uppercase" id="datosSignificativos" placeholder="DATOS SIGNIFICATIVOS DE LA FAMILIA Y USUARIO" rows="5"></textarea>
+					<div class="col-lg-12">
+						<label for="datosSignificativos" class="control-label">DATOS SIGNIFICATIVOS DE LA FAMILIA Y USUARIO:</label>
+						<textarea class="form-control text-uppercase" id="datosSignificativos" placeholder="DATOS SIGNIFICATIVOS DE LA FAMILIA Y USUARIO" rows="5">{% if estudioSE2 %}{{estudioSE2.datosignificativo}}{% endif %}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-lg-12">	
-						<textarea class="form-control text-uppercase" id="diagnosticoPlanS" placeholder="DIAGNOSTICO Y PLAN SOCIAL" rows="5"></textarea>
+					<div class="col-lg-12">
+						<label for="diagnosticoPlanS" class="control-label">DIAGNOSTICO Y PLAN SOCIAL:</label>
+						<textarea class="form-control text-uppercase" id="diagnosticoPlanS" placeholder="DIAGNOSTICO Y PLAN SOCIAL" rows="5">{% if estudioSE2 %}{{estudioSE2.diagnosticoplansocial}}{% endif %}</textarea>
 					</div>					
 				</div>
 				<div class="col-lg-12 page-header">
@@ -288,45 +448,49 @@
 					</div>			
 				<div id="estructura-familiar">
 					<div class="form-group" id="form-estructura">
-						<div class="col-lg-12">
-							<div class="col-lg-2">
-								<input type="text" class="form-control text-uppercase" id="nombreFamiliar" placeholder="Nombre Familiar" name="nombreFamiliar">
+						{% if estructuraFamiliar %}
+						
+						{% else %}
+							<div class="col-lg-12">
+								<div class="col-lg-2">
+									<input type="text" class="form-control text-uppercase" id="nombreFamiliar" placeholder="Nombre Familiar" name="nombreFamiliar">
+								</div>
+								<div class="col-lg-2">
+									<input type="text" class="form-control text-uppercase" id="apellidosFamiliar" placeholder="Apellidos Familiar" name="apellidosFamiliar">
+								</div>
+								<div class="col-lg-1">
+									<input type="text" class="form-control text-uppercase" id="edadFamiliar" placeholder="Edad" name="edadFamiliar">
+								</div>
+								<div class="col-lg-2">
+									<select class="form-control" id="parentesco" name="parentescoFamiliar">	
+										{% for p in parentesco %}
+											<option value="{{p.parentesco}}"> {{p.parentesco}} </option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<select class="form-control" id="estadoCivilFamiliar" name="estadoCivilFamiliar">	
+										{% for ec in estadoCivil %}
+											<option value="{{ec.estado_civil}}"> {{ec.estado_civil}} </option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<select class="form-control" id="ocupacionFamiliar" name="ocupacionFamiliar">
+										{% for o in ocupaciones %}
+											<option value="{{o.id}}"> {{o.descripcion}} </option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<select class="form-control" id="escolaridadFamiliar" name="escolaridadFamiliar">
+										{% for e in escolaridades %}
+											<option value="{{e.id}}"> {{e.descripcion}} </option>
+										{% endfor %}
+									</select>
+								</div>
 							</div>
-							<div class="col-lg-2">
-								<input type="text" class="form-control text-uppercase" id="apellidosFamiliar" placeholder="Apellidos Familiar" name="apellidosFamiliar">
-							</div>
-							<div class="col-lg-1">
-								<input type="text" class="form-control text-uppercase" id="edadFamiliar" placeholder="Edad" name="edadFamiliar">
-							</div>
-							<div class="col-lg-2">
-								<select class="form-control" id="parentesco" name="parentescoFamiliar">	
-									{% for p in parentesco %}
-										<option value="{{p.parentesco}}"> {{p.parentesco}} </option>
-									{% endfor %}
-								</select>
-							</div>
-							<div class="col-lg-2">
-								<select class="form-control" id="estadoCivilFamiliar" name="estadoCivilFamiliar">	
-									{% for ec in estadoCivil %}
-										<option value="{{ec.estado_civil}}"> {{ec.estado_civil}} </option>
-									{% endfor %}
-								</select>
-							</div>
-							<div class="col-lg-2">
-								<select class="form-control" id="ocupacionFamiliar" name="ocupacionFamiliar">
-									{% for o in ocupaciones %}
-										<option value="{{o.id}}"> {{o.descripcion}} </option>
-									{% endfor %}
-								</select>
-							</div>
-							<div class="col-lg-2">
-								<select class="form-control" id="escolaridadFamiliar" name="escolaridadFamiliar">
-									{% for e in escolaridades %}
-										<option value="{{e.id}}"> {{e.descripcion}} </option>
-									{% endfor %}
-								</select>
-							</div>
-						</div>		
+						{% endif %}	
 					</div>
 				</div>
 					<button class="btn btn-theme" id="RevisionPaciente" data-loading-text="Espere..."><i class="fa fa-heart"></i> Guardar</button>

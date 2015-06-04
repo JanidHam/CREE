@@ -244,19 +244,27 @@ function getGeneroInt(genero) {
 }
 
 function curp2date(curp, isInput) {
-  var m = curp.match( /^\w{4}(\w{2})(\w{2})(\w{2})/ );
   
-  var anyo = parseInt(m[1],10)+1900;
-  var mes = parseInt(m[2], 10);
-  var dia = parseInt(m[3], 10);
+  var m    = curp.match( /^\w{4}(\w{2})(\w{2})(\w{2})(\w{6})(\w{1})/ )
+  var anyo = parseInt(m[1],10) + 1900
+  var mes  = parseInt(m[2], 10)
+  var dia  = parseInt(m[3], 10)
+
+  if (validIsLetterInCurp(m[5]))
+    anyo = parseInt(m[1],10) + 2000
   
   if( anyo < 1950 ) { anyo += 100; }
   if (dia < 10) { dia = '0' + dia };
   if (mes < 10) { mes = '0' + mes };
-  if (isInput)
+  if (isInput)//Este valor determina si desea regresarlo en el formato año/mes/dia (en casa de ser true)
     return anyo + '-' + mes + '-' + dia;
-  else
-    return dia + '-' + mes + '-' + anyo;
+  
+  return dia + '-' + mes + '-' + anyo;
+}
+
+function validIsLetterInCurp(value) {
+  var pattern = /[a-zA-Z]/
+  return pattern.test(value)
 }
 
 function getEdad(fecha) {
