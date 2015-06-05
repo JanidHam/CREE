@@ -120,6 +120,10 @@
 		margin-bottom: 3px;
 	}
 
+	.margin-bottom-5 {
+		margin-bottom: 5px !important;
+	}
+
 	.page-break-carnet {
 		height: 530px;
 	}
@@ -130,11 +134,35 @@
 	}
 
 	table {
+		color: #000;
+		line-height: 1.42857143;
 		font-size: .8em;
+		border-color: #000 !important;
 	}
 
 	.table-bordered {
-  		border: 1px solid #000 !important;
+  		border: 2px solid #000 !important;
+	}
+
+	td {
+		border-right: 2px solid #000 !important;
+	}
+
+	tr {
+		border: 2px solid #000 !important;
+	}
+	td {
+		border: 2px solid #000 !important;
+	}
+	table>thead>tr>th
+	{
+		border: 2px solid #000 !important;
+	}
+	table>tbody>tr>td{
+		border: 2px solid #000 !important;
+	}
+	tr>td {
+		border: 2px solid #000 !important;
 	}
 
 	.table-Hfrontal {
@@ -144,7 +172,7 @@
 	}
 
 	.text-min {
-		font-size: .5em;
+		font-size: .7em;
 	}
 
 	.table-carnet {

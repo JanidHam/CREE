@@ -5,7 +5,7 @@ img {
 table {
 	color: #000;
 	line-height: 1.42857143;
-  	color: #333;
+	border-color: #000 !important;
 }
 
 .table-carnet {
@@ -15,10 +15,24 @@ table {
 .table-carnet-half {
 	height: 175px;
 }
-/*
+.table-bordered {
+  	border: 2px solid #000 !important;
+}
+
 tr {
-	border: 1px solid #ddd;
-}*/
+	border: 2px solid #000 !important;
+}
+table>thead>tr>th
+	{
+		border: 2px solid #000 !important;
+	}
+
+td {
+	border: 2px solid #000 !important;
+}
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	padding: 7px !important;
+}
 
 .addon-empty {
 	padding-left: 20px !important;

@@ -39,7 +39,7 @@
     					<h4 class="text-center"><strong>HOJA DE PREVALORACION</strong></h4>
     				</div>
     				<div class="col-sm-3">
-						<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 70px; height: 70px;"/>
+						<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 70px; height: 80px;"/>
     				</div>
     			</div>
 				<div class="col-sm-12 bckg-gray without-padding">
@@ -231,7 +231,7 @@
     			<div class="col-sm-12 without-padding">
     				<div class="col-sm-6">
 						<img class="center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" style="width: 100px;"/>
-						<h5 class="text-center"><strong>CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</strong></h5>
+						<h4 class="text-center"><strong>CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</strong></h4>
     				</div>
     				
     				<div class="col-sm-6 main-border-wihtoutHeight">
@@ -278,9 +278,9 @@
 						<tbody>
 							{% for hFrontal in hojaFrontal %}
 								<tr>
-									<td>{{ hFrontal.fechacreacion }}</td>
-									<td>{{ hFrontal.diagnosticonosologico }}</td>
-									<td>{{ hFrontal.usuario.user.first_name }} {{ hFrontal.usuario.user.last_name }} {{ hFrontal.usuario.cedula_profesional}}</td>
+									<td style="border: 2px solid #000 !important;">{{ hFrontal.fechacreacion }}</td>
+									<td style="border: 2px solid #000 !important;">{{ hFrontal.diagnosticonosologico }}</td>
+									<td style="border: 2px solid #000 !important;">{{ hFrontal.usuario.user.first_name }} {{ hFrontal.usuario.user.last_name }} {{ hFrontal.usuario.cedula_profesional}}</td>
 								</tr>
 							{% endfor %}
 						</tbody>
@@ -298,7 +298,7 @@
 						<img class="center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" style="width: 100px;"/>
     				</div>
     				<div class="col-sm-6">
-    					<h5 class="text-center"><strong>CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</strong></h5>
+    					<h4 class="text-center"><strong>CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</strong></h4>
     				</div>
     				<div class="col-sm-3">
 						<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 70px; height: 80px;"/>
@@ -783,36 +783,36 @@
     	</div>
     </div>
     <div role="tabpanel" class="tab-pane" id="Carnet">
-    	<div class="col-sm-12 without-padding">
+    	<div class="col-sm-12 without-padding bckg-white">
     		<div class="col-sm-12 text-center without-padding">
     			<div class="col-sm-6">
 	    			<table class="table table-bordered table-carnet">
 						<thead>
 							<tr>
-								<th>FECHA</th>
-								<th>HORA</th>
-								<th>SERVICIO</th>
-								<th>PRESTADOR SERVICIO</th>
-								<th>FIRMA ASIST.</th>
+								<th style="border: 2px solid #000 !important;">FECHA</th>
+								<th style="border: 2px solid #000 !important;">HORA</th>
+								<th style="border: 2px solid #000 !important;">SERVICIO</th>
+								<th style="border: 2px solid #000 !important;">PRESTADOR SERVICIO</th>
+								<th style="border: 2px solid #000 !important;">FIRMA ASIST.</th>
 							</tr>
 						</thead>
 						<tbody>
 							{% for servicio in serviciosExpediente %}
 								<tr>
-									<td></td>
-									<td></td>
-									<td>{{servicio.servicio}}</td>
-									<td></td>
-									<td></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;">{{servicio.servicio}}</td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
 								</tr>
 							{% endfor %}
 							{% for r in rows %}
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
 								</tr>
 							{% endfor %}
 						</tbody>
@@ -822,30 +822,30 @@
 	    			<table class="table table-bordered table-carnet">
 						<thead>
 							<tr>
-								<th>FECHA</th>
-								<th>HORA</th>
-								<th>SERVICIO</th>
-								<th>PRESTADOR SERVICIO</th>
-								<th>FIRMA ASIST.</th>
+								<th style="border: 2px solid #000 !important;">FECHA</th>
+								<th style="border: 2px solid #000 !important;">HORA</th>
+								<th style="border: 2px solid #000 !important;">SERVICIO</th>
+								<th style="border: 2px solid #000 !important;">PRESTADOR SERVICIO</th>
+								<th style="border: 2px solid #000 !important;">FIRMA ASIST.</th>
 							</tr>
 						</thead>
 						<tbody>
 							{% for servicio in serviciosExpediente %}
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
 								</tr>
 							{% endfor %}
 							{% for r in rows %}
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
+									<td style="border: 2px solid #000 !important;"></td>
 								</tr>
 							{% endfor %}
 						</tbody>
@@ -855,141 +855,147 @@
     		<div class="col-sm-12 page-break-carnet">
     		</div>
     		<div class="col-sm-12 without-padding">
-    			<div class="col-sm-6">
-    				<p class="without-margin color-black text-center border-soft">TERAPIAS</p>
+    			<div class="col-sm-6 without-margin without-padding" style="margin-top: -20px !important; padding-right: 15px !important;">
+    				<p class="without-margin color-black text-center border-soft bckg-gray">TERAPIAS</p>
 	    			<table class="table table-bordered table-carnet-half">
 						<thead>
 							<tr>
-								<th>SERVICIO</th>
-								<th>LUN</th>
-								<th>MAR</th>
-								<th>MIE</th>
-								<th>JUE</th>
-								<th>VIE</th>
+								<th style="border: 2px solid #000 !important;">SERVICIO</th>
+								<th style="border: 2px solid #000 !important;">LUN</th>
+								<th style="border: 2px solid #000 !important;">MAR</th>
+								<th style="border: 2px solid #000 !important;">MIE</th>
+								<th style="border: 2px solid #000 !important;">JUE</th>
+								<th style="border: 2px solid #000 !important;">VIE</th>
+								<th style="border: 2px solid #000 !important;">PRESTADOR SERVICIO</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="border: 2px solid #000 !important;">TERAPIA FISICA</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+							</tr>
+							<tr>
+								<td style="border: 2px solid #000 !important;">TERAPIA OCUP.</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+							</tr>
+							<tr>
+								<td style="border: 2px solid #000 !important;">C.T.A</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+							</tr>
+							<tr>
+								<td style="border: 2px solid #000 !important;">TERAPIA DE LENG.</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+							</tr>
+							<tr>
+								<td style="border: 2px solid #000 !important;">E.M.T</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+							</tr>
+						</tbody>
+					</table>
+					<p class="without-margin color-black text-center border-soft bckg-gray">PROGRAMAS</p>
+	    			<table class="table table-bordered table-carnet-half">
+						<thead>
+							<tr>
+								<th style="border: 2px solid #000 !important;">SERVICIO</th>
+								<th style="border: 2px solid #000 !important;">LUN</th>
+								<th style="border: 2px solid #000 !important;">MAR</th>
+								<th style="border: 2px solid #000 !important;">MIE</th>
+								<th style="border: 2px solid #000 !important;">JUE</th>
+								<th style="border: 2px solid #000 !important;">VIE</th>
 								<th>PRESTADOR SERVICIO</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>TERAPIA FISICA</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td style="border: 2px solid #000 !important;">INC. EDUCATIVA</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
 							</tr>
 							<tr>
-								<td>TERAPIA OCUP.</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td style="border: 2px solid #000 !important;">INC. LABORAL</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
 							</tr>
 							<tr>
-								<td>C.T.A</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td style="border: 2px solid #000 !important;">GERONTOLOGIA</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
 							</tr>
 							<tr>
-								<td>TERAPIA DE LENG.</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td style="border: 2px solid #000 !important;">PREV. PAD. C.D</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
 							</tr>
 							<tr>
-								<td>E.M.T</td>
+								<td style="border: 2px solid #000 !important;">ESC. PARA FAMILIAS</td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+								<td style="border: 2px solid #000 !important;"></td>
+							</tr>
+							<tr>
+								<td style="border: 2px solid #000 !important;">U.B.R.</td>
+								<td style="border-rigth: transparent;"></td>
 								<td></td>
 								<td></td>
 								<td></td>
 								<td></td>
 								<td></td>
-								<td></td>
+								<!--<td style="border: 2px solid #000 !important;"></td>-->
 							</tr>
 						</tbody>
 					</table>
-					<p class="without-margin color-black text-center border-soft">PROGRAMAS</p>
-	    			<table class="table table-bordered table-carnet-half">
-						<thead>
-							<tr>
-								<th>SERVICIO</th>
-								<th>LUN</th>
-								<th>MAR</th>
-								<th>MIE</th>
-								<th>JUE</th>
-								<th>VIE</th>
-								<th>PRESTADOR SERVICIO</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>INC. EDUCATIVA</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>INC. LABORAL</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>GERONTOLOGIA</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>PREV. PAD. C.D</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>ESC. PARA FAMILIAS</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>U.B.R.</td>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
-					<p class="without-margin color-black text-min">EN CASA DE NO ASISTIR A SU CONSULTA O SERVICIO, FAVOR DE AVISAR 24 HRS. ANTES A LOS TELEFONOS 8161310, 8162169 OPC. 5. DIRECCION: CALLE 7 S/N AREA DEL FOVI, CAMPECHE, CAMPECHE.</p>
-					<p class="without-margin color-black text-min">QUEJAS Y/O SUGERENCIAS: informacion_cree@hotmail.com</p>
+					<p class="without-margin color-black text-min">EN CASA DE NO ASISTIR A SU CONSULTA O SERVICIO, FAVOR DE AVISAR 24 HRS. ANTES A LOS TELEFONOS 8161310, 8162169 OPC. 5. DIRECCION: CALLE 7 S/N AREA DEL FOVI, CAMPECHE, CAMPECHE. QUEJAS Y/O SUGERENCIAS: informacion_cree@hotmail.com</p>
+					<!--<p class="without-margin color-black text-min">QUEJAS Y/O SUGERENCIAS: informacion_cree@hotmail.com</p>-->
 				</div>
 				<div class="col-sm-6 without-padding">
 					<h3 class="text-center">CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</h3>
 					<h4 class="text-center">CARNET DE CITAS</h4>
 					<div class="col-sm-12 border-soft without-padding">
-						<div class="col-sm-12 without-padding">
+						<div class="col-sm-12 without-padding margin-bottom-5">
 							<div class="col-sm-8 without-padding">
 								<p class="without-margin color-black">&nbsp;Paciente: <strong>{{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}}</strong></p>
 							</div>
@@ -1010,21 +1016,12 @@
 								</p>
 							</div>
 						</div>
-						<div class="col-sm-12 without-padding">
-							<div class="col-sm-4">
-								<p class="without-margin color-black">Expediente: <strong>{{ expediente.claveexpediente }}</strong></p>
-							</div>
-							<div class="col-sm-2">
-								<p class="without-margin color-black">Clue: <strong>{{ paciente.edad }}</strong></p>
-							</div>
-							<div class="col-sm-6">
-								<p class="without-margin color-black">Curp: <strong>{{ paciente.curp }}</strong>
-								</p>
-							</div>
+						<div class="col-sm-12 without-padding margin-bottom-5">
+								<p class="without-margin color-black">&nbsp;Expediente: <strong>{{ expediente.claveexpediente }}</strong>&nbsp;&nbsp;Clue: <strong>{{ paciente.edad }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;Curp: <strong>{{ paciente.curp }}</strong>
 						</div>
-						<div class="col-sm-12 without-padding">
-							<div class="col-sm-8">
-								<p class="without-margin color-black">Municipio: <strong>{{ paciente.estadoprocedente.descripcion }},{{ paciente.municipio.descripcion}}</strong></p>
+						<div class="col-sm-12 without-padding margin-bottom-5">
+							<div class="col-sm-8 without-padding">
+								<p class="without-margin color-black">&nbsp;Municipio: <strong>{{ paciente.estadoprocedente.descripcion }}-{{ paciente.municipio.descripcion}}</strong></p>
 							</div>
 							<div class="col-sm-4">
 								<p class="without-margin color-black">Clasificacion: <strong>{{ estudioSE1.clasificacion }}</strong></p>
