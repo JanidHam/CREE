@@ -109,23 +109,24 @@ def estudioSPrevaloracion(request, paciente):
 	estudioSE1               = EstudioSocioE1
 	estudioSE2               = EstudioSocioE2
 	expediente               = Expediente
-	estructuraFamiliar       = EstructuraFamiliaESE1
+	estructuraFamiliar       = EstructuraFamiliaESE1.objects
 	ingresos_egresosEstudio  = EstudioSocioE2IngresosEgresos
 	ingresos_egresos         = IngresosEgresos
-	barrerasViviendaE        = BarreraArquitectonicaVivienda
+	barrerasViviendaEstudio  = BarreraArquitectonicaVivienda
 	barrerasVivienda         = BarreraArquitectonicaVivienda
 	try:
 		expediente              = Expediente.objects.get(paciente__id=tmppaciente.id, is_active=True)
 		estudioSE1              = EstudioSocioE1.objects.get(expediente__id=expediente.id, fechaestudio=date.today())
 		estudioSE2              = EstudioSocioE2.objects.get(estudiose__id=estudioSE1.id)
-		estructuraFamiliar      = EstructuraFamiliaESE1.objects.get(estudiose__id=estudioSE1.id)
+		estructuraFamiliar      = EstructuraFamiliaESE1.objects.filter(estudiose__id=estudioSE1.id)
 		ingresos_egresosEstudio = EstudioSocioE2IngresosEgresos.objects.filter(estudio__id=estudioSE2.id) #Son los ingresos/egresos del estudio socio economico
 		ingresos_egresos        = IngresosEgresos.objects.filter(is_active=True).exclude(id__in=[ie.ingreso_egreso.id for ie in ingresos_egresosEstudio]) #Son los ingresos/egresos del catalogo pero excluyendo los que tiene el estudio
 		barrerasViviendaEstudio = estudioSE2.barreravivienda.all()
 		barrerasVivienda        = BarreraArquitectonicaVivienda.objects.filter(is_active=True).exclude(id__in=[b.id for b in barrerasViviendaEstudio])
 	except:
-		pass
-
+		ingresos_egresos = IngresosEgresos.objects.filter(is_active=True)
+		barrerasVivienda = BarreraArquitectonicaVivienda.objects.filter(is_active=True)
+	
 	contexto = {
 		'ocupaciones' : ocupaciones, 'motivosEsutdio' : motivosEstudio, 'egresos' : egresos,
 		'ingresos' : ingresos, 'tipoVivienda' : tipoVivienda, 'componentesVivienda' : componenteVivienda,
@@ -135,7 +136,7 @@ def estudioSPrevaloracion(request, paciente):
 		'clasificacionEconomica' : clasificacionEconomica, 'estudioSE1': estudioSE1, 'estudioSE2': estudioSE2,
 		'estructuraFamiliar': estructuraFamiliar, 'estadoCivil': estadoCivil, 'parentesco': parentesco,
 		'ingresos_egresosEstudio': ingresos_egresosEstudio, 'ingresos_egresos': ingresos_egresos, 'barrerasVivienda': barrerasVivienda,
-		'barrerasViviendaEstudio': barrerasViviendaEstudio,
+		'barrerasViviendaEstudio': barrerasViviendaEstudio
 	}
 
 	return render_to_response('preconsulta/PrevaloracionEstudioS.html', contexto, context_instance=RequestContext(request))
@@ -327,7 +328,7 @@ def addEstudioSocioeconomico(request):
 						escolaridad_id    = estructura['escolaridadF'],
 						edad              = estructura['edadF'],
 						)
-
+				print "estudio 1 y estrcutura"
 				estudio2 = EstudioSocioE2.objects.create(
 					deficit               = request.POST['deficit'],
 					excedente             = request.POST['excedente'],

@@ -5,4 +5,5 @@ $( document ).ready(function() {
     $('#id_username').attr('placeholder', 'USUARIO');
     $('#id_password').attr('placeholder', 'CONTRASEÑA');
     $('#id_password').attr('type', 'password');
+    $('#id_username').focus();
 });

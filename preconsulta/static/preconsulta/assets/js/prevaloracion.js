@@ -253,7 +253,6 @@ function curp2date(curp, isInput) {
   if (validIsLetterInCurp(m[5]))
     anyo = parseInt(m[1],10) + 2000
   
-  if( anyo < 1950 ) { anyo += 100; }
   if (dia < 10) { dia = '0' + dia };
   if (mes < 10) { mes = '0' + mes };
   if (isInput)//Este valor determina si desea regresarlo en el formato año/mes/dia (en casa de ser true)

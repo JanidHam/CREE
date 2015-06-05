@@ -31,7 +31,7 @@ var $sendRevision   = $('#RevisionPaciente');
 var $addEstructuraF = $('#addEstructuraFamiliar');
 
 
-var $deficit                    = $('#deficit'),
+    var $deficit                = $('#deficit'),
     $excedente                  = $('#excedente'),
     $estadoCivil                = $('#estadoCivil'),
     //$consultorio              = $('#consultorio'),
@@ -46,6 +46,8 @@ var $deficit                    = $('#deficit'),
     $datosSignificativos        = $('#datosSignificativos'),
     $apellidoEntrevistado       = $('#apellidoEntrevistado'),
     $parentescoEntrevistado     = $('#parentescoEntrevistado'),
+    $egresos                    = $('input:text[name=egresos]'),
+    $ingresos                   = $('input:text[name=ingresos]'),
     $justificacionClasificacion = $('#justificacionClasificacion');
 
 
@@ -69,7 +71,7 @@ function show_hideJusticacion() {
 function sendDataRevision() {
     if (validEstudio()) {
         $sendRevision.button('loading');
-        getDeficitExcedente();
+        //getDeficitExcedente();
     	var datosRevision = {
     		//consultorio : $consultorio.val(),        
     		nombreEntrevistado : $nombreEntrevistado.val().toUpperCase(),
@@ -125,8 +127,33 @@ function validEstudio() {
     return false;
 }
 
+function getTotalIngresos() {
+    var tempTotal = 0
+    for (var i = 0; i < $ingresos.length; i++) {
+        if ($ingresos[i].value !== "")
+            tempTotal += parseInt($ingresos[i].value)
+        else
+            console.log('no es numero')
+    }
+    $excedente.val(tempTotal)
+    //console.log($excedente.val())
+}
+
+function getTotalEgresos() {
+    var tempTotal = 0
+    for (var i = 0; i < $egresos.length; i++) {
+        if ($egresos[i].value !== "")
+            tempTotal += parseInt($egresos[i].value)
+        else
+            console.log('no es numero')
+    }
+    $deficit.val(tempTotal)
+    //console.log($deficit.val())
+}
+
 function getDeficitExcedente() {
-    $ingresos = $('input:text[name=ingresos]');
+
+    /*$ingresos = $('input:text[name=ingresos]');
     $egresos = $('input:text[name=egresos]');
     var Total = 0;
     for (var i = 0; i < $ingresos.length; i++) {
@@ -141,6 +168,7 @@ function getDeficitExcedente() {
         $excedente.val(Total);
     else
         $deficit.val(Total);
+    */
 }
 
 function getEstructuraFamiliar() {
@@ -268,3 +296,7 @@ function checkIsDataIsCorrect(data) {
 $sendRevision.click( sendDataRevision )
 
 $addEstructuraF.click( addEstructuraFamiliar )
+
+$ingresos.focusout( getTotalIngresos )
+
+$egresos.focusout( getTotalEgresos )
