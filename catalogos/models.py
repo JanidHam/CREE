@@ -94,7 +94,7 @@ class MensajesEnfemeriaTicket(models.Model):
 		return self.mensaje
 
 class MensajesCartaConsentimiento(models.Model):
-	mensaje       = models.CharField(max_length=255)
+	mensaje       = models.TextField()
 	fechacreacion = models.DateField(auto_now_add=True)
 	is_active     = models.BooleanField(default=True)
 
