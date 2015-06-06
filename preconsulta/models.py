@@ -168,31 +168,36 @@ class TarjetonTerapia(models.Model):
 
 class CartaConsetimiento(models.Model):
 	edad                    = models.IntegerField()
-	fechacreacion           = models.DateTimeField(auto_now=True)
-	diagnostico             = models.TextField()
+	fechacreacion           = models.DateTimeField(auto_now_add=True)
+	#diagnostico            = models.TextField() no lleva diagnostico
 	#Responsable del paciente
-	nombreresponsable       = models.CharField(max_length=150)
-	apellidosponsable       = models.CharField(max_length=150)
-	edadresponsable         = models.IntegerField()
-	genero                  = models.IntegerField()
-	parentesco              = models.CharField(max_length=50)
+	nombreresponsable       = models.CharField(blank=True,max_length=150)
+	apellidosresponsable    = models.CharField(blank=True,max_length=150)
+	edadresponsable         = models.CharField(blank=True, max_length=15)
+	generoresponsable       = models.CharField(blank=True, max_length=15)
+	telefonoresponsable     = models.CharField(blank=True, max_length=15)
+	parentescoresponsable   = models.CharField(blank=True,max_length=50)
 	#Domicilio del responsable
-	calleresponsable        = models.CharField(max_length=200)
-	entrecallesresponsable  = models.CharField(max_length=200)
-	coloniaresponsable      = models.CharField(max_length=200)
-	numerocasaresponsable   = models.CharField(max_length=20)
-	codigopostalresponsable = models.IntegerField()
+	#calleresponsable        = models.CharField(max_length=200)
+	#entrecallesresponsable  = models.CharField(max_length=200)
+	#numerocasaresponsable   = models.CharField(max_length=20)
+	domicilioresponsable    = models.CharField(blank=True,max_length=255)
+	coloniaresponsable      = models.CharField(blank=True,max_length=200)
+	codigopostalresponsable = models.CharField(blank=True, max_length=15)
 	#Domicilio paciente
 	calle                   = models.CharField(max_length=200)
 	entrecalles             = models.CharField(max_length=200)
-	colonia                 = models.CharField(max_length=200)
 	numerocasa              = models.CharField(max_length=20)
+	colonia                 = models.CharField(max_length=200)
 	codigopostal            = models.IntegerField()
 	#Relaciones con otras tablas	
 	estadoprocedente        = models.ForeignKey(Estado, related_name='cartaconsentimiento_estadoprocedente')
 	municipio               = models.ForeignKey(Municipio, related_name='cartaconsentimiento_municipio')
 	doctor                  = models.ForeignKey(UserProfile, related_name='cartaconsentimiento_doctor')
 	expediente              = models.ForeignKey(Expediente, related_name='cartaconsentimiento_expediente')
+
+	def __unicode__(self):
+		return self.expediente.claveexpediente
 
 class EstudioSocioE1(models.Model):
 	edad                   = models.IntegerField()

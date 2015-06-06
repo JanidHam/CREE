@@ -87,6 +87,66 @@
 	</div><!-- /col-lg-12 -->
 </div>
 <!-- End form oculto para agregar pacientes nuevos-->
+<!-- Modal -->
+<div class="modal fade" id="modalEditPaciente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Titulo del Modal</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal tasi-form color-black" role="form">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <label for="nombreResponsable" class="control-label">NOMBRE RESPONSABLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="nombreResponsable">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="apellidosResponsable" class="control-label">APELLIDOS RESPONSABLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="apellidosResponsable">
+                    </div>                  
+                    <div class="col-sm-3">
+                        <label for="edadResponsable" class="control-label">EDAD RESPONSABLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="edadResponsable">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="generoResponsable" class="control-label">GENERO RESPONSABLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="generoResponsable">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="parentescoResponsable" class="control-label">PARENTESCO RESPONSABLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="parentescoResponsable">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="domicilioResponsable" class="control-label">DOMICILIO RESPONSABLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="domicilioResponsable">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="coloniaResponsable" class="control-label">COLONIA RESPONSABLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="coloniaResponsable">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="codigopostalResponsable" class="control-label">C.P. RESPONSABLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="codigopostalResponsable">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="telefonoResponsable" class="control-label">TELEFONO RESPONSABLE:</label>
+                        <input type="text" class="form-control text-uppercase" id="telefonoResponsable">
+                    </div>
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success" id="updatePacienteModal" data-dismiss="modal">Guardar Datos</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal -->
 <script>
 var CURP = "{{ curp }}";
 var user = "{{ user }}";

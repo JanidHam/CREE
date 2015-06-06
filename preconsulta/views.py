@@ -3,8 +3,8 @@ from django.db import IntegrityError, transaction
 from django.shortcuts import render, render_to_response, RequestContext, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
-from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1, ProgramaExpediente, PacienteDataEnfermeria
-from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica, MensajesEnfemeriaTicket, EstadoCivil, Parentesco
+from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1, ProgramaExpediente, PacienteDataEnfermeria, CartaConsetimiento
+from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica, MensajesEnfemeriaTicket, EstadoCivil, Parentesco, MensajesCartaConsentimiento
 from .utils import getUpdateConsecutiveExpendiete
 from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos, validViewPermissionEnfemeria
 from django.contrib.auth.models import User, Group
@@ -566,6 +566,37 @@ def addHojaPrevaloracion(request):
 							diagnosticonosologico = request.POST['diagnosticoNosologico'],
 							usuario_id            = u.perfil_usuario.id,
 							expediente_id         = expediente.id
+							)
+						"""
+						if paciente.edad > 18:
+							print request.POST['nombreResponsable']       #= ""
+							print request.POST['apellidosResponsable']    #= ""
+							print request.POST['edadResponsable']         #= ""
+							print request.POST['parentescoResponsable']   #= ""
+							print request.POST['domicilioResponsable']    #= ""
+							print request.POST['coloniaResponsable']      #= ""
+							print request.POST['codigopostalResponsable'] #= ""
+						"""
+						cartaConsentimiento = CartaConsetimiento.objects.create(
+							edad                    = paciente.edad,
+							calle                   = paciente.calle,
+							entrecalles             = paciente.entrecalles,
+							numerocasa              = paciente.numerocasa,
+							colonia                 = paciente.colonia,
+							codigopostal            = paciente.codigopostal,
+							estadoprocedente_id     = paciente.estadoprocedente.id,
+							municipio_id            = paciente.municipio.id,
+							nombreresponsable       = request.POST['nombreResponsable'],
+							apellidosresponsable    = request.POST['apellidosResponsable'],
+							edadresponsable         = request.POST['edadResponsable'],
+							generoresponsable       = request.POST['generoResponsable'],
+							parentescoresponsable   = request.POST['parentescoResponsable'],
+							domicilioresponsable    = request.POST['domicilioResponsable'],
+							coloniaresponsable      = request.POST['coloniaResponsable'],
+							codigopostalresponsable = request.POST['codigopostalResponsable'],
+							telefonoresponsable     = request.POST['telefonoResponsable'],
+							doctor_id               = u.perfil_usuario.id,
+							expediente_id           = expediente.id
 							)
 
 						correspondio = True

@@ -20,10 +20,19 @@ try {
 var $sendRevision = $('#RevisionPaciente');
 
 var $form    = $('#form'),
-	$claveHoja             = $('#claveHoja'),
-	$canalizacion          = $('#canalizacion'),
-	$motivoConsulta        = $('#motivoConsulta'),
-	$diagnosticoNosologico = $('#diagnosticoNosologico');
+	$claveHoja               = $('#claveHoja'),
+	$canalizacion            = $('#canalizacion'),
+	$motivoConsulta          = $('#motivoConsulta'),
+	$diagnosticoNosologico   = $('#diagnosticoNosologico'),
+	$nombreResponsable       = $('#nombreResponsable'),
+	$apellidosResponsable    = $('#apellidosResponsable'),
+	$edadResponsable         = $('#edadResponsable'),
+	$generoResponsable       = $('#generoResponsable'),
+	$parentescoResponsable   = $('#parentescoResponsable'),
+	$domicilioResponsable    = $('#domicilioResponsable'),
+	$coloniaResponsable      = $('#coloniaResponsable'),
+	$codigopostalResponsable = $('#codigopostalResponsable'),
+	$telefonoResponsable     = $('#telefonoResponsable');
 
 //Funciones
 function sendDataRevision() {
@@ -40,8 +49,17 @@ function sendDataRevision() {
 		'programas[]' : programastemp,
 		curp : CURP,
 		clave : clave,
+		nombreResponsable: $nombreResponsable.val().toUpperCase(),
+		apellidosResponsable: $apellidosResponsable.val().toUpperCase(),
+		edadResponsable: $edadResponsable.val(),
+		generoResponsable: $generoResponsable.val().toUpperCase(),
+		parentescoResponsable: $parentescoResponsable.val().toUpperCase(),
+		domicilioResponsable: $domicilioResponsable.val().toUpperCase(),
+		coloniaResponsable: $coloniaResponsable.val().toUpperCase(),
+		codigopostalResponsable: $codigopostalResponsable.val(),
+		telefonoResponsable: $telefonoResponsable.val()
 	}
-	
+	console.log(datosRevision);
 	$.post('/preconsulta/agregar-hoja-prevaloracion/', datosRevision , checkIsDataIsCorrect);
 	
 	return false;
