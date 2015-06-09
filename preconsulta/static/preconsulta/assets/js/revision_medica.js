@@ -32,15 +32,53 @@ var $form    = $('#form'),
 	$domicilioResponsable    = $('#domicilioResponsable'),
 	$coloniaResponsable      = $('#coloniaResponsable'),
 	$codigopostalResponsable = $('#codigopostalResponsable'),
-	$telefonoResponsable     = $('#telefonoResponsable');
+	$telefonoResponsable     = $('#telefonoResponsable'),
+	$modal                   = $('#modalResponsablePaciente');
+
+var modalOptions = {
+	keyboard: false,
+	backdrop: 'static',
+}
 
 //Funciones
 function sendDataRevision() {
-	$sendRevision.button('loading');
-	var serviciostemp = getCheckedServicios();
-	var programastemp = getCheckedProgramas();
-	var clave = $claveHoja.val();
+	$sendRevision.button('loading')
+	var serviciostemp = getCheckedServicios()
+	var programastemp = getCheckedProgramas()
+	var clave = $claveHoja.val()
+
+	if ( edadPaciente < 18 || edadPaciente >= 65 ) {
+		$modal.modal(modalOptions)
+		$modal.modal('show')
+		return false
+	}
 	
+	setDataAndSed(serviciostemp, programastemp, clave)
+	/*var datosRevision = {
+		canalizacion : $canalizacion.val().toUpperCase(),
+		motivoConsulta : $motivoConsulta.val().toUpperCase(),
+		diagnosticoNosologico : $diagnosticoNosologico.val().toUpperCase(),		
+		'servicios[]' : serviciostemp,
+		'programas[]' : programastemp,
+		curp : CURP,
+		clave : clave,
+		nombreResponsable: $nombreResponsable.val().toUpperCase(),
+		apellidosResponsable: $apellidosResponsable.val().toUpperCase(),
+		edadResponsable: $edadResponsable.val(),
+		generoResponsable: $generoResponsable.val().toUpperCase(),
+		parentescoResponsable: $parentescoResponsable.val().toUpperCase(),
+		domicilioResponsable: $domicilioResponsable.val().toUpperCase(),
+		coloniaResponsable: $coloniaResponsable.val().toUpperCase(),
+		codigopostalResponsable: $codigopostalResponsable.val(),
+		telefonoResponsable: $telefonoResponsable.val()
+	}
+	
+	$.post('/preconsulta/agregar-hoja-prevaloracion/', datosRevision , checkIsDataIsCorrect);
+	*/
+	return false;
+}
+
+function setDataAndSed(serviciostemp, programastemp, clave) {
 	var datosRevision = {
 		canalizacion : $canalizacion.val().toUpperCase(),
 		motivoConsulta : $motivoConsulta.val().toUpperCase(),
@@ -59,10 +97,8 @@ function sendDataRevision() {
 		codigopostalResponsable: $codigopostalResponsable.val(),
 		telefonoResponsable: $telefonoResponsable.val()
 	}
-	console.log(datosRevision);
-	$.post('/preconsulta/agregar-hoja-prevaloracion/', datosRevision , checkIsDataIsCorrect);
 	
-	return false;
+	$.post('/preconsulta/agregar-hoja-prevaloracion/', datosRevision , checkIsDataIsCorrect);
 }
 
 function getCheckedServicios() {
@@ -102,4 +138,14 @@ function checkIsDataIsCorrect(data) {
 
 $sendRevision.click( sendDataRevision )
 
-socket.on('addHojaPrevaloracion_Respuesta', checkIsDataIsCorrect );
+socket.on('addHojaPrevaloracion_Respuesta', checkIsDataIsCorrect )
+
+$modal.on('click', '#saveHojaPrevaloracion', function(){
+  	var serviciostemp = getCheckedServicios()
+	var programastemp = getCheckedProgramas()
+	var clave = $claveHoja.val()
+
+	setDataAndSed(serviciostemp, programastemp, clave)
+
+	return false
+})

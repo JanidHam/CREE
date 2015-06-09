@@ -42,17 +42,20 @@ def revisionMedica(request, paciente):
 	tmppaciente          = get_object_or_404(Paciente, curp=paciente)
 	servicios            = ServicioCree.objects.filter(is_active=True).exclude(servicio__in=[s for s in SERVICIOS_EXCLUIDOS_MEDICO])
 	programas            = ProgramaCree.objects.filter(is_active=True).exclude(programa__in=[p for p in PROGRAMAS_EXCLUIDOS_MEDICO])
-	tmpHojaPrevaloracion = HojaPrevaloracion
-	expediente           = Expediente
+	parentesco           = Parentesco.objects.filter(is_active=True)
+	tmpHojaPrevaloracion = None#HojaPrevaloracion
+	expediente           = None#Expediente#None
 	try:
 		expediente           = Expediente.objects.get(paciente__id=tmppaciente.id,is_active=True)
 		tmpHojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id,fechacreacion=date.today())
 	except:
-		pass
+		expediente = None
+		#pass
 		#expediente = Expediente
 	
 	contexto = {'servicios' : servicios, 'programas' : programas, 'curp' : paciente, 
-				'hojaPrevaloracion': tmpHojaPrevaloracion, 'expediente': expediente}
+				'hojaPrevaloracion': tmpHojaPrevaloracion, 'expediente': expediente, 
+				'edad':tmppaciente.edad, 'parentesco': parentesco}
 	return render_to_response('preconsulta/PrevaloracionMedica.html', contexto, context_instance=RequestContext(request))
 
 @validViewPermissionRevisionPsicologica
@@ -60,13 +63,14 @@ def psicologicaPrevaloracion(request, paciente):
 	tmppaciente          = get_object_or_404(Paciente, curp=paciente)
 	servicios            = ServicioCree.objects.filter(is_active=True, servicio__in=[s for s in SERVICIOS_EXCLUIDOS_MEDICO])
 	programas            = ProgramaCree.objects.filter(is_active=True, programa__in=[p for p in PROGRAMAS_EXCLUIDOS_MEDICO])
-	tmpHojaPrevaloracion = HojaPrevaloracion
-	expediente           = Expediente
+	tmpHojaPrevaloracion = None#HojaPrevaloracion
+	expediente           = None#Expediente
 	try:
 		expediente           = Expediente.objects.get(paciente__id=tmppaciente.id,is_active=True)
 		tmpHojaPrevaloracion = HojaPrevaloracion.objects.get(expediente__id=expediente.id,fechacreacion=date.today())
 	except:
-		pass
+		expediente = None
+		#pass
 		#expediente = Expediente
 	contexto = {'curp' : paciente, 'servicios': servicios, 'programas': programas,
 				'hojaPrevaloracion': tmpHojaPrevaloracion, 'expediente': expediente}
@@ -78,7 +82,7 @@ def enfermeriaPrevaloracion(request, paciente):
 	nombreCompletoPaciente = "%s %s %s" %(tmppaciente.nombre, tmppaciente.apellidoP, tmppaciente.apellidoM)
 	fechaActual            = datetime.now() #date.today()
 	mensajeInformativo     = MensajesEnfemeriaTicket.objects.get(is_active=True)
-	dataEnfermeria         = PacienteDataEnfermeria
+	dataEnfermeria         = None#PacienteDataEnfermeria
 	try:
 		dataEnfermeria = PacienteDataEnfermeria.objects.get(paciente__id=tmppaciente.id,fechacreacion=date.today())
 	except:
@@ -109,7 +113,7 @@ def estudioSPrevaloracion(request, paciente):
 	estudioSE1               = EstudioSocioE1
 	estudioSE2               = EstudioSocioE2
 	expediente               = Expediente
-	estructuraFamiliar       = EstructuraFamiliaESE1.objects
+	estructuraFamiliar       = None#EstructuraFamiliaESE1.objects
 	ingresos_egresosEstudio  = EstudioSocioE2IngresosEgresos
 	ingresos_egresos         = IngresosEgresos
 	barrerasViviendaEstudio  = BarreraArquitectonicaVivienda
