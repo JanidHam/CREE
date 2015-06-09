@@ -175,6 +175,10 @@
 		font-size: .7em;
 	}
 
+	.text-min-5 {
+		font-size: 1em;
+	}
+
 	.table-carnet {
 		height: 445px;
 	}

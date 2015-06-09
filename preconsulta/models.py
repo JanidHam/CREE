@@ -91,10 +91,11 @@ class HojaPrevaloracion(models.Model):
 class ServicioExpediente(models.Model):
 	expediente        = models.ForeignKey(Expediente)
 	servicio          = models.ForeignKey(ServicioCree)
-	is_active         = models.BooleanField(default=True)
 	hojaPrevaloracion = models.ForeignKey(HojaPrevaloracion)
 	fechaBaja         = models.DateField(blank=True)
-
+	clue              = models.CharField(max_length=10)
+	is_active         = models.BooleanField(default=True)
+	
 	def __unicode__(self):
 		return self.servicio.servicio + " - " + self.expediente.claveexpediente
 

@@ -4,7 +4,7 @@ from django.shortcuts import render, render_to_response, RequestContext, redirec
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
 from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1, ProgramaExpediente, PacienteDataEnfermeria, CartaConsetimiento
-from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica, MensajesEnfemeriaTicket, EstadoCivil, Parentesco, MensajesCartaConsentimiento
+from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica, MensajesEnfemeriaTicket, EstadoCivil, Parentesco, MensajesCartaConsentimiento, SeguridadSocial
 from .utils import getUpdateConsecutiveExpendiete
 from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos, validViewPermissionEnfemeria
 from django.contrib.auth.models import User, Group
@@ -147,13 +147,15 @@ def estudioSPrevaloracion(request, paciente):
 
 @validViewPermissionImprimirDocumentos
 def imprimirDocumentos(request, paciente):
-	paciente = get_object_or_404(Paciente, curp=paciente)
+	paciente    = get_object_or_404(Paciente, curp=paciente)
+	fechaActual = date.today()
 	"""
 	Primero se hace el query de los encabezados (El expediente, hojas de prevaloracion y frontal, estudios socioeconomicos), 
 	si no cuenta con alguno de ellos y si no se hicieron el mismo dia respondera con un error 404
 	"""
 	try:
 		expediente          = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
+		cartaConsentimiento = CartaConsetimiento.objects.get(expediente__id=expediente.id)
 		hojaPrevaloracion   = HojaPrevaloracion.objects.get(expediente__id=expediente.id)
 		serviciosExpediente = ServicioExpediente.objects.filter(expediente__id=expediente.id) #Los servicios con los que cuenta este expediente
 		programasExpediente = ProgramaExpediente.objects.filter(expediente__id=expediente.id) #Los programas con los que cuenta este expediente
@@ -166,6 +168,8 @@ def imprimirDocumentos(request, paciente):
 		estructuraFamiliar  = EstructuraFamiliaESE1.objects.filter(estudiose__id=estudioSE1.id)
 		
 		estudioSE2          = EstudioSocioE2.objects.get(estudiose__id=estudioSE1.id)
+
+		mensajeCartaC       = MensajesCartaConsentimiento.objects.get(is_active=True)
 	except:
 		raise Http404
 	#tempIE = estudioSE2.ingresos_egresos.all()
@@ -196,7 +200,8 @@ def imprimirDocumentos(request, paciente):
      'tenenciasVivienda' : tenenciasVivienda, 'construccionVivienda' : construccionVivienda,
      'barrerasVivienda' : barrerasVivienda, 'componentesViviendaE' : componentesViviendaE, 
      'serviciosViviendaE' : serviciosViviendaE, 'tenenciasViviendaE' : tenenciasViviendaE, 
-     'construccionViviendaE' : construccionViviendaE, 'barrerasViviendaE' : barrerasViviendaE, 'rows' : rows}
+     'construccionViviendaE' : construccionViviendaE, 'barrerasViviendaE' : barrerasViviendaE, 'rows' : rows,
+     'cartaConsentimiento': cartaConsentimiento, 'fechaActual': fechaActual, 'mensajeCartaC': mensajeCartaC}
 
 	return render_to_response('preconsulta/ImprimirDocumentos.html', contexto, context_instance=RequestContext(request))
 

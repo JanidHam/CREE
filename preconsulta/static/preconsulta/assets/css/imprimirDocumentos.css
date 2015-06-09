@@ -50,6 +50,10 @@ td {
 	border: 1px solid #000;
 }
 
+.border-bottom-soft {
+	border-bottom: 1px solid #000 !important;
+}
+
 .color-black {
 	color: #000 !important;
 }
