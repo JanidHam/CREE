@@ -114,6 +114,14 @@ class Parentesco(models.Model):
 
 	def __unicode__(self):
 		return self.parentesco
+
+class SeguridadSocial(models.Model):
+	descripcion = models.CharField(max_length=200)
+	clave       = models.CharField(max_length=10)
+	is_active   = models.BooleanField(default=True)
+
+	def __unicode__(self):
+		return self.descripcion + " " + self.clave
 #Fin de los catalogos del proceso de prevaloracion
 
 """

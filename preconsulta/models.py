@@ -168,7 +168,7 @@ class TarjetonTerapia(models.Model):
 
 class CartaConsetimiento(models.Model):
 	edad                    = models.IntegerField()
-	fechacreacion           = models.DateTimeField(auto_now_add=True)
+	fechacreacion           = models.DateField(auto_now_add=True)
 	#diagnostico            = models.TextField() no lleva diagnostico
 	#Responsable del paciente
 	nombreresponsable       = models.CharField(blank=True,max_length=150)
@@ -217,6 +217,7 @@ class EstudioSocioE1(models.Model):
 	motivoclasificacion    = models.TextField(blank=True)
 	#Relaciones con otras tablas	
 	clasificacion          = models.ForeignKey(ClasificacionEconomica, related_name='estudiosocioe1_clasificacion')
+	seguridad_social       = models.ForeignKey(SeguridadSocial, related_name='estudiosocioe1_seguridadsocial')
 	ocupacion              = models.ForeignKey(Ocupacion, related_name='estudiosocioe1_ocupacion')
 	escolaridad            = models.ForeignKey(Escolaridad, related_name='estudiosocioe1_escolaridad')
 	servicio               = models.ForeignKey(ServicioCree, related_name='estudiosocioe1_escolaridad')
