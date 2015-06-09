@@ -23,7 +23,7 @@
 				{% csrf_token %}
 				<div class="form-group">
 					<div class="col-lg-12">
-						<div class="col-lg-4">
+						<div class="col-lg-3">
 							<label for="clasificacionE" class="control-label">CLASIFICACIÓN ECONOMICA:</label>
 							<select class="form-control" id="clasificacionE" disabled>
 								{% for e in clasificacionEconomica %}
@@ -32,20 +32,28 @@
 
 							</select>
 						</div>
-						<div class="col-lg-4">
+						<div class="col-lg-3">
 							<label for="clasificacionNueva" class="control-label">CHECK PARA CAMBIAR LA CLASIFICACIÓN</label>
 							<div class="input-group">
 								<span class="input-group-addon add-on-white">
 									<input type="checkbox" aria-label="..." id="clasificacionNueva">
 								</span>
-								<input type="text" class="form-control" aria-label="..." placeholder="Al dar clic podra cambiar la clasificacion"  disabled>
+								<input type="text" class="form-control" aria-label="..." placeholder="Cambiar la clasificación" disabled>
 							</div>	
 						</div>
-						<div class="col-lg-4">
+						<div class="col-lg-3">
 							<label for="motivoEstudio" class="control-label">MOTIVO ESTUDIO:</label>
 							<select class="form-control" id="motivoEstudio">
 								{% for motivo in motivosEsutdio %}				
 									<option value="{{motivo.id}}" {% if estudioSE1.motivoestudio.id == e.id %}selected="true"{% endif %}> {{motivo.motivoestudio}} </option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="col-lg-3">
+							<label for="seguridadSocial" class="control-label">SEGURIDAD SOCIAL:</label>
+							<select class="form-control" id="seguridadSocial">
+								{% for s in seguridadSocial %}				
+									<option value="{{s.id}}" {% if estudioSE1.seguidad_social.id == s.id %}selected="true"{% endif %}> {{s.descripcion}} </option>
 								{% endfor %}
 							</select>
 						</div>

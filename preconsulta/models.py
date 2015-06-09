@@ -93,7 +93,7 @@ class ServicioExpediente(models.Model):
 	servicio          = models.ForeignKey(ServicioCree)
 	hojaPrevaloracion = models.ForeignKey(HojaPrevaloracion)
 	fechaBaja         = models.DateField(blank=True)
-	clue              = models.CharField(max_length=10)
+	clue              = models.CharField(blank=True, max_length=10)
 	is_active         = models.BooleanField(default=True)
 	
 	def __unicode__(self):

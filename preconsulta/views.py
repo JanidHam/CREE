@@ -110,6 +110,7 @@ def estudioSPrevaloracion(request, paciente):
 	clasificacionEconomica   = ClasificacionEconomica.objects.filter(is_active=True)
 	estadoCivil              = EstadoCivil.objects.filter(is_active=True)
 	parentesco               = Parentesco.objects.filter(is_active=True)
+	seguridadSocial          = SeguridadSocial.objects.filter(is_active=True) 
 	estudioSE1               = EstudioSocioE1
 	estudioSE2               = EstudioSocioE2
 	expediente               = Expediente
@@ -140,7 +141,7 @@ def estudioSPrevaloracion(request, paciente):
 		'clasificacionEconomica' : clasificacionEconomica, 'estudioSE1': estudioSE1, 'estudioSE2': estudioSE2,
 		'estructuraFamiliar': estructuraFamiliar, 'estadoCivil': estadoCivil, 'parentesco': parentesco,
 		'ingresos_egresosEstudio': ingresos_egresosEstudio, 'ingresos_egresos': ingresos_egresos, 'barrerasVivienda': barrerasVivienda,
-		'barrerasViviendaEstudio': barrerasViviendaEstudio
+		'barrerasViviendaEstudio': barrerasViviendaEstudio, 'seguridadSocial': seguridadSocial
 	}
 
 	return render_to_response('preconsulta/PrevaloracionEstudioS.html', contexto, context_instance=RequestContext(request))
@@ -323,6 +324,7 @@ def addEstudioSocioeconomico(request):
 					usuariocreacion_id     = u.perfil_usuario.id,#request.POST['usuario'],
 					motivoclasificacion    = request.POST['justificacionClasf'],
 					parentescoentrevistado = request.POST['parentescoEntrevistado'],
+					seguridad_social__id   = request.POST['seguridadSocial'],
 					)
 
 				for i in estructuraFamiliar:

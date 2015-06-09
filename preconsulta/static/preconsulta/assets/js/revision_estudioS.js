@@ -39,6 +39,7 @@ var $addEstructuraF = $('#addEstructuraFamiliar');
     $motivoEstudio              = $('#motivoEstudio'),
     $cantidadBanios             = $('#cantidadBanios'),
     $clasificacionE             = $('#clasificacionE'),
+    $seguridadSocial            = $('#seguridadSocial'),
     $diagnosticoPlanS           = $('#diagnosticoPlanS'),
     $cantidadRecamaras          = $('#cantidadRecamaras'),
     $nombreEntrevistado         = $('#nombreEntrevistado'),
@@ -98,6 +99,7 @@ function sendDataRevision() {
             clasifacionEconomica: $clasificacionE.val(),
             justificacionClasf: $textJustificacionC.val().toUpperCase(),
             parentescoEntrevistado : $parentescoEntrevistado.val(),
+            seguridadSocial: $seguridadSocial.val(),
     	}
         //$.post('guardar-encuesta-contestada/', { 'fecha': idinput.val(), 'tasks[]': tasks, 'tasksP[]': tasksPreguntas }, actualizar_encuestas);
         $.post('/preconsulta/agregar-estudio-socio-economico/', datosRevision , checkIsDataIsCorrect);
