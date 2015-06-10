@@ -278,111 +278,182 @@ def get_paciente(request):
 
 def addEstudioSocioeconomico(request):
 	if request.POST:
-		try:
-			with transaction.atomic():
-				mensaje    = "Error al crear los estudios socio economicos"
-				
-				paciente   = Paciente.objects.get(curp=request.POST['curp'])
-				expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
-				
-				estuidoTemp = EstudioSocioE1.objects.filter(expediente__id=expediente.id, fechaestudio=date.today())
-				if estuidoTemp:
-					mensaje = "Ya cuenta con un estudio socioeconomico el dia de hoy"
-					response = JsonResponse({'isOk' : mensaje})
-					return HttpResponse(response.content)				
+		clave = RepresentsInt(request.POST['claveEstudio'])
+		if clave > 0:
+			try:
+				with transaction.atomic():
+					mensaje = "Error al actualizar los estudios socio economicos."
 
-				estructuraFamiliar = request.POST.getlist('EstructuraF[]')
+					paciente           = Paciente.objects.get(curp=request.POST['curp'])
+					estudio1           = EstudioSocioE1.objects.get(id=clave)
+					estudio2           = EstudioSocioE2.objects.get(estudiose__id=estudio1.id)
+					estructuraFamiliar = EstructuraFamiliaESE1.objects.filter(estudiose__id=estudio1.id)
 
-				ingresos      = request.POST.getlist('ingresos[]')
-				egresos       = request.POST.getlist('egresos[]')
-				serviciosV    = request.POST.getlist('servicios[]')
-				componentesV  = request.POST.getlist('componentes[]')
-				construccionV = request.POST.getlist('construccion[]')
-				tenenciasV    = request.POST.getlist('tenencias[]')
-				barrerasIV    = request.POST.getlist('barrerasI[]')
-				barrerasEV    = request.POST.getlist('barrerasE[]')
+					estrucFamiliarNueva = request.POST.getlist('EstructuraF[]')
+					ingresos            = request.POST.getlist('ingresos[]')
+					egresos             = request.POST.getlist('egresos[]')
+					serviciosV          = request.POST.getlist('servicios[]')
+					componentesV        = request.POST.getlist('componentes[]')
+					construccionV       = request.POST.getlist('construccion[]')
+					tenenciasV          = request.POST.getlist('tenencias[]')
+					barrerasIV          = request.POST.getlist('barrerasI[]')
+					barrerasEV          = request.POST.getlist('barrerasE[]')
 
-				u = User.objects.get(username=request.user)
-				
-				estudio1 = EstudioSocioE1.objects.create(
-					edad                   = paciente.edad,
-					estadocivil            = request.POST['estadoCivil'],
-					consultorio            = CONSULTORIO,#request.POST['consultorio'],
-					nombreentevistado      = request.POST['nombreEntrevistado'],
-					apellidosentevistado   = request.POST['apellidoEntrevistado'],
-					calle                  = paciente.calle,
-					entrecalles            = paciente.entrecalles,
-					colonia                = paciente.colonia,
-					numerocasa             = paciente.numerocasa,
-					codigopostal           = paciente.codigopostal,
-					clasificacion_id       = request.POST['clasifacionEconomica'],
-					ocupacion_id           = paciente.ocupacion.id,
-					escolaridad_id         = paciente.escolaridad.id,
-					servicio_id            = 1,#request.POST['servicio'],
-					motivoestudio_id       = request.POST['motivoEstudio'],
-					expediente_id          = expediente.id,
-					usuariocreacion_id     = u.perfil_usuario.id,#request.POST['usuario'],
-					motivoclasificacion    = request.POST['justificacionClasf'],
-					parentescoentrevistado = request.POST['parentescoEntrevistado'],
-					seguridad_social_id   = request.POST['seguridadSocial'],
-					)
+					estudio1.edad                   = paciente.edad
+					estudio1.estadocivil            = request.POST['estadoCivil']
+					estudio1.nombreentevistado      = request.POST['nombreEntrevistado']
+					estudio1.apellidosentevistado   = request.POST['apellidoEntrevistado']
+					estudio1.calle                  = paciente.calle
+					estudio1.entrecalles            = paciente.entrecalles
+					estudio1.colonia                = paciente.colonia
+					estudio1.numerocasa             = paciente.numerocasa
+					estudio1.codigopostal           = paciente.codigopostal
+					estudio1.clasificacion_id       = request.POST['clasifacionEconomica']
+					estudio1.ocupacion_id           = paciente.ocupacion.id
+					estudio1.escolaridad_id         = paciente.escolaridad.id
+					estudio1.motivoestudio_id       = request.POST['motivoEstudio']
+					estudio1.motivoclasificacion    = request.POST['justificacionClasf']
+					estudio1.parentescoentrevistado = request.POST['parentescoEntrevistado']
+					estudio1.seguridad_social_id    = request.POST['seguridadSocial']
 
-				for i in estructuraFamiliar:
-					estructura = json.loads(i)
-					EstructuraFamiliaESE1.objects.create(
-						nombrefamiliar    = estructura['nombreF'],
-						apellidosfamiliar = estructura['apellidosF'],
-						parentesco        = estructura['parentescoF'],
-						estadocivil       = estructura['estadoCivilF'],
-						estudiose_id      = estudio1.id,
-						ocupacion_id      = estructura['ocupacionF'],
-						escolaridad_id    = estructura['escolaridadF'],
-						edad              = estructura['edadF'],
+					estudio2.excedente             = request.POST['excedente']
+					estudio2.datosignificativo     = request.POST['datosSignificativos']
+					estudio2.diagnosticoplansocial = request.POST['diagnosticoPlanS']
+					estudio2.cantidadbanios        = request.POST['cantidadBanios']
+					estudio2.cantidadrecamaras     = request.POST['cantidadRecamaras']
+					estudio2.vivienda_id           = request.POST['tipoVivienda']
+
+					estructuraFamiliar.delete()
+					
+					for estrucF in estrucFamiliarNueva:
+						estructura = json.loads(estrucF)
+						EstructuraFamiliaESE1.objects.create(
+							nombrefamiliar    = estructura['nombreF'],
+							apellidosfamiliar = estructura['apellidosF'],
+							parentesco        = estructura['parentescoF'],
+							estadocivil       = estructura['estadoCivilF'],
+							estudiose_id      = estudio1.id,
+							ocupacion_id      = estructura['ocupacionF'],
+							escolaridad_id    = estructura['escolaridadF'],
+							edad              = estructura['edadF'],
+							)
+
+					estudio1.save()
+					estudio2.save()
+
+					mensaje = "ok"
+			except ValueError as e:
+				logger.error(str(e))
+				mensaje = "Valor no valido, revisar los valores que se ingresan."
+			except:
+				logger.error(sys.exc_info()[0])
+				mensaje = "Error al actualizar los estudios socio economicos."
+		else:
+			try:
+				with transaction.atomic():
+					mensaje    = "Error al crear los estudios socio economicos"
+					
+					paciente   = Paciente.objects.get(curp=request.POST['curp'])
+					expediente = Expediente.objects.get(paciente__id=paciente.id, is_active=True)
+					
+					estuidoTemp = EstudioSocioE1.objects.filter(expediente__id=expediente.id, fechaestudio=date.today())
+					if estuidoTemp:
+						mensaje = "Ya cuenta con un estudio socioeconomico el dia de hoy"
+						response = JsonResponse({'isOk' : mensaje})
+						return HttpResponse(response.content)				
+
+					estructuraFamiliar = request.POST.getlist('EstructuraF[]')
+
+					ingresos      = request.POST.getlist('ingresos[]')
+					egresos       = request.POST.getlist('egresos[]')
+					serviciosV    = request.POST.getlist('servicios[]')
+					componentesV  = request.POST.getlist('componentes[]')
+					construccionV = request.POST.getlist('construccion[]')
+					tenenciasV    = request.POST.getlist('tenencias[]')
+					barrerasIV    = request.POST.getlist('barrerasI[]')
+					barrerasEV    = request.POST.getlist('barrerasE[]')
+
+					u = User.objects.get(username=request.user)
+					
+					estudio1 = EstudioSocioE1.objects.create(
+						edad                   = paciente.edad,
+						estadocivil            = request.POST['estadoCivil'],
+						consultorio            = CONSULTORIO,#request.POST['consultorio'],
+						nombreentevistado      = request.POST['nombreEntrevistado'],
+						apellidosentevistado   = request.POST['apellidoEntrevistado'],
+						calle                  = paciente.calle,
+						entrecalles            = paciente.entrecalles,
+						colonia                = paciente.colonia,
+						numerocasa             = paciente.numerocasa,
+						codigopostal           = paciente.codigopostal,
+						clasificacion_id       = request.POST['clasifacionEconomica'],
+						ocupacion_id           = paciente.ocupacion.id,
+						escolaridad_id         = paciente.escolaridad.id,
+						servicio_id            = 1,#request.POST['servicio'],
+						motivoestudio_id       = request.POST['motivoEstudio'],
+						expediente_id          = expediente.id,
+						usuariocreacion_id     = u.perfil_usuario.id,#request.POST['usuario'],
+						motivoclasificacion    = request.POST['justificacionClasf'],
+						parentescoentrevistado = request.POST['parentescoEntrevistado'],
+						seguridad_social_id   = request.POST['seguridadSocial'],
 						)
 
-				estudio2 = EstudioSocioE2.objects.create(
-					deficit               = request.POST['deficit'],
-					excedente             = request.POST['excedente'],
-					datosignificativo     = request.POST['datosSignificativos'],
-					diagnosticoplansocial = request.POST['diagnosticoPlanS'],
-					cantidadbanios        = request.POST['cantidadBanios'],
-					cantidadrecamaras     = request.POST['cantidadRecamaras'],
-					estudiose_id          = estudio1.id,
-					#usuariocreacion_id   = 1,
-					vivienda_id           = request.POST['tipoVivienda']
-					)
+					for i in estructuraFamiliar:
+						estructura = json.loads(i)
+						EstructuraFamiliaESE1.objects.create(
+							nombrefamiliar    = estructura['nombreF'],
+							apellidosfamiliar = estructura['apellidosF'],
+							parentesco        = estructura['parentescoF'],
+							estadocivil       = estructura['estadoCivilF'],
+							estudiose_id      = estudio1.id,
+							ocupacion_id      = estructura['ocupacionF'],
+							escolaridad_id    = estructura['escolaridadF'],
+							edad              = estructura['edadF'],
+							)
 
-				for i in ingresos:
-					ingreso = json.loads(i)
-					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=ingreso['id'], estudio_id=estudio2.id, monto=ingreso['valor'])
-				for i in egresos:
-					egreso = json.loads(i)
-					EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=egreso['id'], estudio_id=estudio2.id, monto=egreso['valor'])
-				for i in serviciosV:
-					estudio2.serviciovivienda.add(i)
-				for i in componentesV:
-					estudio2.componentevivienda.add(i)
-				for i in construccionV:
-					estudio2.construccionvivienda.add(i)
-				for i in tenenciasV:
-					estudio2.tenenciavivienda.add(i)
-				for i in barrerasIV:
-					estudio2.barreravivienda.add(i)
-				for i in barrerasEV:
-					estudio2.barreravivienda.add(i)
+					estudio2 = EstudioSocioE2.objects.create(
+						deficit               = request.POST['deficit'],
+						excedente             = request.POST['excedente'],
+						datosignificativo     = request.POST['datosSignificativos'],
+						diagnosticoplansocial = request.POST['diagnosticoPlanS'],
+						cantidadbanios        = request.POST['cantidadBanios'],
+						cantidadrecamaras     = request.POST['cantidadRecamaras'],
+						estudiose_id          = estudio1.id,
+						#usuariocreacion_id   = 1,
+						vivienda_id           = request.POST['tipoVivienda']
+						)
 
-				cabezarasLocalidades = ("CAMPECHE")
-				expediente.clue = getClueExpediente(paciente.localidad, cabezarasLocalidades, estudio1.seguridad_social.clave)
-				expediente.save()
+					for i in ingresos:
+						ingreso = json.loads(i)
+						EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=ingreso['id'], estudio_id=estudio2.id, monto=ingreso['valor'])
+					for i in egresos:
+						egreso = json.loads(i)
+						EstudioSocioE2IngresosEgresos.objects.create(ingreso_egreso_id=egreso['id'], estudio_id=estudio2.id, monto=egreso['valor'])
+					for i in serviciosV:
+						estudio2.serviciovivienda.add(i)
+					for i in componentesV:
+						estudio2.componentevivienda.add(i)
+					for i in construccionV:
+						estudio2.construccionvivienda.add(i)
+					for i in tenenciasV:
+						estudio2.tenenciavivienda.add(i)
+					for i in barrerasIV:
+						estudio2.barreravivienda.add(i)
+					for i in barrerasEV:
+						estudio2.barreravivienda.add(i)
 
-				mensaje = "ok"
+					cabezarasLocalidades = ("CAMPECHE")
+					expediente.clue = getClueExpediente(paciente.localidad, cabezarasLocalidades, estudio1.seguridad_social.clave)
+					expediente.save()
 
-		except ValueError as e:
-			logger.error(str(e))
-			mensaje = "Valor no valido, revisar los valores que se ingresan."
-		except:
-			logger.error(sys.exc_info()[0])
-			mensaje = "Error al crear los estudios socio economicos."
+					mensaje = "ok"
+
+			except ValueError as e:
+				logger.error(str(e))
+				mensaje = "Valor no valido, revisar los valores que se ingresan."
+			except:
+				logger.error(sys.exc_info()[0])
+				mensaje = "Error al crear los estudios socio economicos."
 
 		response = JsonResponse({'isOk' : mensaje})
 		return HttpResponse(response.content)
