@@ -863,54 +863,46 @@
     						<h5>{{paciente.calle}} {{paciente.numerocasa}} {{paciente.entrecalles}} </h5>
     					</div>
     				</div>
-    				<div class="col-sm-12">
-    					<div class="col-sm-12 border-bottom-soft">
-    						<div class="col-sm-4 text-center">
-    							<h5>{{paciente.colonia}}</h5>
-    						</div>
-    						<div class="col-sm-4 text-center">
-    							<h5>{{paciente.codigopostal}}</h5>
-    						</div>
-    						<div class="col-sm-4 text-center">
-    							<h5>
-    								{% if paciente.telefonocasa %}
-										{{ paciente.telefonocasa }}
-									{% elif paciente.telefonocelular %}
-										{{ paciente.telefonocelular }}
-									{% else %}
-										No cuenta con Telefono
-									{% endif %}
-    							</h5>
-    						</div>
+    				<div class="col-sm-12 text-center">
+    					<div class="col-sm-2">
+    						<h5>Colonia:</h5>
     					</div>
-    					<div class="col-sm-12">
-    						<div class="col-sm-4 text-center">
-    							<h5>Colonia</h5>
-    						</div>
-    						<div class="col-sm-4 text-center">
-    							<h5>C.P.</h5>
-    						</div>
-    						<div class="col-sm-4 text-center">
-    							<h5>Teléfono</h5>
-    						</div>
+    					<div class="col-sm-2 border-bottom-soft">
+    						<h5>{{paciente.colonia}}</h5>
+    					</div>
+    					<div class="col-sm-2">
+    						<h5>C.P.:</h5>
+    					</div>
+    					<div class="col-sm-2 border-bottom-soft">
+    						<h5>{{paciente.codigopostal}}</h5>
+    					</div>
+    					<div class="col-sm-2">
+    						<h5>Teléfono:</h5>
+    					</div>
+    					<div class="col-sm-2 border-bottom-soft">
+    						<h5>
+								{% if paciente.telefonocasa %}
+									{{ paciente.telefonocasa }}
+								{% elif paciente.telefonocelular %}
+									{{ paciente.telefonocelular }}
+								{% else %}
+									No cuenta con Telefono
+								{% endif %}
+    						</h5>
     					</div>
     				</div>
     				<div class="col-sm-12">
-    					<div class="col-sm-12 border-bottom-soft">
-    						<div class="col-sm-6 text-center">
-    							<h5>{{paciente.localidad}}</h5>
-    						</div>
-    						<div class="col-sm-6 text-center">
-    							<h5>{{paciente.municipio.descripcion}}, {{paciente.estadoprocedente.descripcion}}</h5>
-    						</div>
+    					<div class="col-sm-2 text-center">
+    						<h5>Localidad:</h5>
     					</div>
-    					<div class="col-sm-12">
-    						<div class="col-sm-6 text-center">
-    							<h5>Localidad</h5>
-    						</div>
-    						<div class="col-sm-6 text-center">
-    							<h5>Municipio</h5>
-    						</div>
+    					<div class="col-sm-4">
+    						<h5>{{paciente.localidad}}</h5>
+    					</div>
+    					<div class="col-sm-2 text-center">
+    						<h5>Municipio:</h5>
+    					</div>
+    					<div class="col-sm-4">
+    						<h5>{{paciente.municipio.descripcion}}, {{paciente.estadoprocedente.descripcion}}</h5>
     					</div>
     				</div>
     			</div>
@@ -981,7 +973,7 @@
     					<div class="col-sm-2 without-padding without-margin">
     						<h5>Domicilio:</h5>
     					</div>
-    					<div class="col-sm-8 border-bottom-soft">
+    					<div class="col-sm-8 border-bottom-soft text-center">
     						<h5>{{ cartaConsentimiento.domicilioresponsable }}</h5>
     					</div>
     				</div>
@@ -989,21 +981,47 @@
     					<div class="col-sm-2">
     						<h5>Colonia:</h5>
     					</div>
-    					<div class="col-sm-2 border-bottom-soft">
+    					<div class="col-sm-2">
     						<h5>{{ cartaConsentimiento.coloniaresponsable }}</h5>
     					</div>
     					<div class="col-sm-2">
     						<h5>C.P.:</h5>
     					</div>
-    					<div class="col-sm-2 border-bottom-soft">
+    					<div class="col-sm-2">
     						<h5>{{ cartaConsentimiento.codigopostalresponsable }}</h5>
     					</div>
     					<div class="col-sm-2">
     						<h5>Teléfono:</h5>
     					</div>
-    					<div class="col-sm-2 border-bottom-soft">
+    					<div class="col-sm-2">
     						<h5>{{ cartaConsentimiento.telefonoresponsable }}</h5>
     					</div>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="col-sm-12">
+    			<div class="col-sm-4">
+    				<div class="col-sm-12">
+    					<h6 class="text-center"><strong>FIRMA USUARIO</strong></h6>		
+    				</div>
+    				<div class="col-sm-12 border-top-soft">
+    					<h6 class="text-center">{{paciente.nombre}} {{paciente.apellidoP}} {{paciente.apellidoM}}</h6>
+    				</div>
+    			</div>
+    			<div class="col-sm-4">
+    				<div class="col-sm-12">
+    					<h6 class="text-center"><strong>FIRMA MÉDICO</strong></h6>		
+    				</div>
+    				<div class="col-sm-12 border-top-soft">
+    					<h6 class="text-center">{{ cartaConsentimiento.doctor.user.first_name }} {{ cartaConsentimiento.doctor.user.last_name }}</h6>
+    				</div>
+    			</div>
+    			<div class="col-sm-4">
+    				<div class="col-sm-12">
+    					<h6 class="text-center"><strong>FIRMA RESPONSABLE</strong></h6>		
+    				</div>
+    				<div class="col-sm-12 border-top-soft">
+    					<h6 class="text-center">{{ cartaConsentimiento.nombreresponsable }} {{ cartaConsentimiento.apellidosresponsable }}</h6>
     				</div>
     			</div>
     		</div>
@@ -1244,7 +1262,7 @@
 							</div>
 						</div>
 						<div class="col-sm-12 without-padding margin-bottom-5">
-								<p class="without-margin color-black">&nbsp;Expediente: <strong>{{ expediente.claveexpediente }}</strong>&nbsp;&nbsp;Clue: <strong>{{ paciente.clue }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;Curp: <strong>{{ paciente.curp }}</strong>
+								<p class="without-margin color-black">&nbsp;Expediente: <strong>{{ expediente.claveexpediente }}</strong>&nbsp;&nbsp;Clue: <strong>{{ expediente.clue }}</strong>&nbsp;&nbsp;&nbsp;&nbsp;Curp: <strong>{{ paciente.curp }}</strong>
 						</div>
 						<div class="col-sm-12 without-padding margin-bottom-5">
 							<div class="col-sm-8 without-padding">

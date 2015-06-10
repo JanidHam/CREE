@@ -42,11 +42,12 @@ class Paciente(models.Model):
 class Expediente(models.Model):
 	claveexpediente = models.CharField(unique=True, max_length=50)
 	paciente        = models.ForeignKey(Paciente, related_name='expediente_paciente')
-	is_active       = models.BooleanField(default=True)
 	fechacreacion   = models.DateField(auto_now_add=True)
 	fechaalta       = models.DateField(blank=True)
+	clue            = models.CharField(blank=True, max_length=10)
 	servicios       = models.ManyToManyField(ServicioCree, through='ServicioExpediente')
 	programas       = models.ManyToManyField(ProgramaCree, through='ProgramaExpediente')
+	is_active       = models.BooleanField(default=True)
 	iscincomil      = models.BooleanField(default=False)
 	#fechaalta = models.DateField(auto_now=True)
 	def __unicode__(self):
@@ -93,7 +94,6 @@ class ServicioExpediente(models.Model):
 	servicio          = models.ForeignKey(ServicioCree)
 	hojaPrevaloracion = models.ForeignKey(HojaPrevaloracion)
 	fechaBaja         = models.DateField(blank=True)
-	clue              = models.CharField(blank=True, max_length=10)
 	is_active         = models.BooleanField(default=True)
 	
 	def __unicode__(self):

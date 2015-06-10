@@ -8,9 +8,12 @@ class pacienteAdmin(admin.ModelAdmin):
 class hojaPrevaloracionAdmin(admin.ModelAdmin):
 	list_display = ('expediente', 'fechacreacion', 'doctor', 'psicologo')
 
+class ExpedienteAdmin(admin.ModelAdmin):
+	list_display = ('claveexpediente', 'paciente', 'clue', 'fechacreacion', 'is_active', 'iscincomil')
+
 # Register your models here.
 admin.site.register(Paciente, pacienteAdmin)
-admin.site.register(Expediente)
+admin.site.register(Expediente, ExpedienteAdmin)
 admin.site.register(CartaConsetimiento)
 admin.site.register(EstudioSocioE2)
 admin.site.register(EstudioSocioE1)

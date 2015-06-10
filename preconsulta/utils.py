@@ -19,6 +19,6 @@ def getUpdateConsecutiveExpendiete():
 def getClueExpediente(localidad, lista, claveSeguridadSocial):
 
 	if localidad in lista:
-		return "%d-%s" %(1, claveSeguridadSocial)
-	else:
 		return "%d-%s" %(0, claveSeguridadSocial)
+	else:
+		return "%d-%s" %(1, claveSeguridadSocial)

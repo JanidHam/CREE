@@ -53,7 +53,7 @@
 							<label for="seguridadSocial" class="control-label">SEGURIDAD SOCIAL:</label>
 							<select class="form-control" id="seguridadSocial">
 								{% for s in seguridadSocial %}				
-									<option value="{{s.id}}" {% if estudioSE1.seguidad_social.id == s.id %}selected="true"{% endif %}> {{s.descripcion}} </option>
+									<option value="{{s.id}}" {% if estudioSE1.seguridad_social.id == s.id %}selected="true"{% endif %}> {{s.descripcion}} </option>
 								{% endfor %}
 							</select>
 						</div>
