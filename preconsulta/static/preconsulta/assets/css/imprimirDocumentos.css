@@ -64,7 +64,12 @@ td {
 
 .caratula-dif-left {
 	height: 158px;
-	width: 318px;
+	width: 270px;
+}
+
+.caratula-cree-center {
+	height: 158px;
+	width: 170px;
 }
 
 .img-cree-hfrontral {
@@ -104,6 +109,14 @@ td {
 
 .margin-top {
 	margin-top: 10px !important;
+}
+
+.margin-top-bg {
+	margin-top: 50px !important;
+}
+
+.margin-top-huge {
+	margin-top: 150px !important;
 }
 
 .without-margin {

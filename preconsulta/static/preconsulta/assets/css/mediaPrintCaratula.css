@@ -27,7 +27,7 @@
 	}
 
 	.padding-to-fit-rigth {
-		margin-right: 600px;
+		margin-right: 800px;
 	}
 
 	.border-soft {
@@ -96,6 +96,10 @@
 
 	.marginB {
 		margin-bottom: 3px;
+	}
+
+	.size-caratula {
+		width: 1000px !important;
 	}
 
 	.to-bottom {

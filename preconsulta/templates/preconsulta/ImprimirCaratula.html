@@ -24,10 +24,52 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="Caratula">
-    	<div class="col-sm-12 bckg-white border-soft padding-to-fit-rigth">
-    			<div class="col-sm-5 border-soft padding-to-fit-rigth">
-    				<img class="caratula-dif-left" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}"/>
-    			</div>
+    	<div class="col-sm-12 bckg-white size-caratula">
+        <div class="col-sm-12">
+          <div class="col-sm-5">
+            <img class="caratula-dif-left" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}"/>
+          </div>
+          <div class="col-sm-2">
+            <img class="caratula-cree-center" src="{% static "preconsulta/images/favicon.png" %}"/>
+          </div>
+          <div class="col-sm-5">
+            <h1 class="border-bottom-soft text-center margin-top-bg"><strong>{{expediente.claveexpediente}}</strong></h1>
+            <h3 class="text-center">REGISTRO</h3>
+          </div>
+        </div>
+        <div class="col-sm-12 margin-top-huge">
+          <div class="col-sm-12">
+            <h1 class="text-center"><strong>EXPEDIENTE CLÍNICO</strong></h1>
+          </div>
+          <div class="col-sm-12 border-bottom-soft">
+            <div class="col-sm-4">
+              <h2 class="text-center"><strong>{{paciente.apellidoP}}</strong></h2>
+            </div>
+            <div class="col-sm-4">
+              <h2 class="text-center"><strong>{{paciente.apellidoM}}</strong></h2>
+            </div>
+            <div class="col-sm-4">
+              <h2 class="text-center"><strong>{{paciente.nombre}}</strong></h2>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="col-sm-4">
+              <h4 class="text-center"><strong>APELLIDO PATERNO</strong></h4>
+            </div>
+            <div class="col-sm-4">
+              <h4 class="text-center"><strong>APELLIDO MATERNO</strong></h4>
+            </div>
+            <div class="col-sm-4">
+              <h4 class="text-center"><strong>NOMBRE(S)</strong></h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 margin-top-huge">
+            <div class="col-sm-12 goright">
+              <h2 class=""><strong>Clasificación: {{estudioSE1.clasificacion}}</strong></h2>
+            </div>
+          </div>
+        </div>
     	</div>
     </div>
   </div>
