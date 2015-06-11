@@ -23,6 +23,7 @@
     <li role="presentation"><a href="#EstduioSE1" aria-controls="EstduioSE1" role="tab" data-toggle="tab">Estudio S.E. 1</a></li>
     <li role="presentation"><a href="#EstduioSE2" aria-controls="EstduioSE2" role="tab" data-toggle="tab">Estudio S.E. 2</a></li>
     <li role="presentation"><a href="#CartaConsentimiento" aria-controls="CartaConsentimiento" role="tab" data-toggle="tab">Carta Consentimiento</a></li>
+    <li role="presentation"><a href="#ContraPortaExpediente" aria-controls="ContraPortaExpediente" role="tab" data-toggle="tab">ContraPorta Exp.</a></li>
     <li role="presentation"><a href="#Carnet" aria-controls="Carnet" role="tab" data-toggle="tab">Carnet</a></li>
   </ul>
 
@@ -33,11 +34,11 @@
     		<div class="col-sm-12 main-border">
     			<div class="col-sm-12">
     				<div class="col-sm-3">
-						<img class="center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" style="width: 100px;"/>
+						<img class="center-block dif-Hprevaloracion" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}"/>
     				</div>
     				<div class="col-sm-6">
-    					<h4 class="text-center"><strong>CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</strong></h4>
-    					<h4 class="text-center"><strong>HOJA DE PREVALORACION</strong></h4>
+    					<h4 class="text-center"><strong>CENTRO DE REHABILITACIÓN Y EDUCACIÓN ESPECIAL DE CAMPECHE</strong></h4>
+    					<h4 class="text-center"><strong>HOJA DE PREVALORACIÓN</strong></h4>
     				</div>
     				<div class="col-sm-3">
 						<img class="center-block" src="{% static "preconsulta/images/favicon.png" %}" style="width: 70px; height: 80px;"/>
@@ -1023,6 +1024,177 @@
     				<div class="col-sm-12 border-top-soft">
     					<h6 class="text-center">{{ cartaConsentimiento.nombreresponsable }} {{ cartaConsentimiento.apellidosresponsable }}</h6>
     				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="ContraPortaExpediente">
+    	<div class="col-sm-12 bckg-white">
+    		<div class="col-sm-12">
+    			<img class="center-block dif-Hprevaloracion" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}"/>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-6 goleft">
+    				<p class="without-margin">SISTEMA NACIONAL PARA EL DESARROLLO</p>
+    				<p>INTEGRAL DE LA FAMILIA</p>
+    			</div>
+    			<div class="col-sm-6 goright">
+    				<p class="without-margin">ARCHIVO GENERAL</p>
+    				<p>DEL SNDIF</p>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-12 text-center border-soft">
+    				<h3 class="without-margin"><strong>PORTADA DE EXPEDIENTE</strong></h3>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class=""><strong>1. UNIDAD ADMINISTRATIVA</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">DIRECCIÓN GENERAL DE REHABILITACIÓN Y ASISTENCIA SOCIAL</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class=""><strong>2. ÁREA GENERADORA:</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">CREE DE CAMPECHE</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class=""><strong>3. TÍTULO</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">EXPEDIENTE CLÍNICO</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class=""><strong>4. CLASIFICACIÓN</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">{{estudioSE1.clasificacion}}</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft goright">
+    				<h6 class="without-margin"><strong>FONDO:</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="without-margin">SISTEMA NACIONAL DIF</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft goright">
+    				<h6 class="without-margin"><strong>SECCIÓN:</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="without-margin">17S DISCAPACIDAD Y POBLACIÓN EN DESAMPARO</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft goright">
+    				<h6 class="without-margin"><strong>SERIE:<br><br></strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="without-margin">17S.3 ATENCIÓN A POBLACIÓN EN CENTROS NACIONALES Y UNIDADES OPERATIVAS</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft goright">
+    				<h6 class="without-margin"><strong>SUBSERIE:</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="without-margin">17S.3.1 EXPEDIENTE CLÍNICO</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class=""><strong>5. NÚMERO DE EXPEDIENTE</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">L.XXX-17S.3.1<strong>{{expediente.claveexpediente}}</strong></h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft goright">
+    				<h6 class="without-margin"><strong>NOMBRE DEL PACIENTE:</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="without-margin">{{paciente.nombre}} {{paciente.apellidoP}} {{paciente.apellidoM}}</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class=""><strong>6. FECHAS:</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">Apertura: {{expediente.fechacreacion}} Cierre:</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class="without-margin"><strong>7. RESUMEN DEL CONTENIDO: <br><br><br><br><br><br><br><br><br><br><br><br> </strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="without-margin">HOJA FRONTAL</h6>
+    				<h6 class="without-margin">HOJA PREVALORACIÓN</h6>
+    				<h6 class="without-margin">HOJA DE CONSENTIMIENTO INFORMADO</h6>
+    				<h6 class="without-margin">HISTORIA CLÍNICA</h6>
+    				<h6 class="without-margin">NOTA MÉDICA</h6>
+    				<h6 class="without-margin">TERAPIA FÍSICA</h6>
+    				<h6 class="without-margin">TERAPIA DE LENGUAJE</h6>
+    				<h6 class="without-margin">TERAPIA OCUPACIONAL</h6>
+    				<h6 class="without-margin">NOTA DE PSICOLOGÍA</h6>
+    				<h6 class="without-margin">HOJA DE ALTA</h6>
+    				<h6 class="without-margin">REFERENCIA MÉDICA</h6>
+    				<h6 class="without-margin">DOCUMENTACIÓN PERSONAL (IFE, COMP. DOMICILIO Y CURP)</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class="without-margin"><strong>8. VALOR DOCUMENTAL: <br><br><br></strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="without-margin">ADMINISTRATIVO:</h6>
+    				<h6 class="without-margin">LEGAL:</h6>
+    				<h6 class="without-margin">CONTABLE:</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class=""><strong>9. VIGENCIA DOCUMENTAL</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">ARCHIVO DE TRAMITE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARCHIVO CONCENTRAICÓN: <strong>5 AÑOS</strong></h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12 color-black">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class=""><strong>10. VALORACIÓN HISTÓRICA:</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">NO TIENE</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class="color-black"><strong>11. NÚMERO DE LEGAJOS:</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">&nbsp;</h6>
+    			</div>
+    		</div>
+    		<div class="col-sm-12">
+    			<div class="col-sm-4 border-soft">
+    				<h6 class="color-black"><strong>12. NÚMERO DE FOJAS:</strong></h6>
+    			</div>
+    			<div class="col-sm-8 border-soft">
+    				<h6 class="">&nbsp;</h6>
     			</div>
     		</div>
     	</div>
