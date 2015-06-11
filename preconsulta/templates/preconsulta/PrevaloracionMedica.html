@@ -117,7 +117,8 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="parentescoResponsable" class="control-label">PARENTESCO RESPONSABLE:</label>
-                        <select class="form-control" id="parentescoResponsable" name="parentescoResponsable">	
+                        <select class="form-control" id="parentescoResponsable" name="parentescoResponsable">
+                        	<option value=""></option>
 							{% for p in parentesco %}
 								<option value="{{p.parentesco}}"> {{p.parentesco}} </option>
 							{% endfor %}
