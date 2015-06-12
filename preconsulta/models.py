@@ -1,3 +1,4 @@
+
 from django.db import models
 from userprofiles.models import UserProfile
 from catalogos.models import *
@@ -35,6 +36,7 @@ class Paciente(models.Model):
 	usuariocreacion  = models.ForeignKey(UserProfile, related_name='paciente_usuario')
 	#creadopor       = models.CharField(max_length=255)
 	fechacreacion    = models.DateField(auto_now_add=True)#el auto_now_add sirve para poner la fecha de creacion sin el add se pone la fecha en la que se modifica
+	fechavisita      = models.DateField(auto_now_add=True)
 
 	def __unicode__(self):
 		return self.curp + " - " + self.nombre + " " + self.apellidoP
@@ -140,7 +142,7 @@ class HojaReferencia(models.Model):
 
 class HistoriaClinica(models.Model):
 	edad                  = models.IntegerField()
-	fechacreacion         = models.DateTimeField(auto_now=True)
+	fechacreacion         = models.DateTimeField(auto_now_add=True)
 	interrogatorio        = models.IntegerField()
 	motivoconsulta        = models.TextField()
 	AHF                   = models.TextField()
@@ -160,7 +162,7 @@ class HistoriaClinica(models.Model):
 
 class TarjetonTerapia(models.Model):
 	edad                 = models.IntegerField()
-	fechacreacion        = models.DateTimeField(auto_now=True)
+	fechacreacion        = models.DateTimeField(auto_now_add=True)
 	doctor               = models.ForeignKey(UserProfile, related_name='tarjetonterapia_doctor')
 	fechaingresoterapias = models.DateField(auto_now_add=True)
 	diagnostico          = models.TextField()
