@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'preconsulta',
     'userprofiles',
     'catalogos',
-    'django_extensions',
+    #'django_extensions',
     'sorl.thumbnail',   
 )
 
@@ -70,7 +70,7 @@ WSGI_APPLICATION = 'CREE.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'CREE',
+        'NAME': 'cree',
         'USER': 'root',
         'PASSWORD': 'rootu',
         'HOST': '127.0.0.1',        
@@ -90,11 +90,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-#MEDIA_ROOT = '/opt/media/CREE'
+MEDIA_ROOT = '/opt/media/cree/'
 MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-STATIC_ROOT = '/opt/statics/CREE/'
+STATIC_ROOT = '/opt/statics/cree/'
 STATIC_URL = '/static/'
