@@ -71,7 +71,7 @@
 						<p class="without-margin color-black">FECHA</p>						
 					</div>
 					<div class="col-sm-5 text-center border-soft">
-						<p class="without-margin color-black">OCUPACION</p>
+						<p class="without-margin color-black">OCUPACIÓN</p>
 					</div>
 				</div>
 				<div class="col-sm-12 without-padding">
@@ -117,7 +117,7 @@
 						<p class="without-margin color-black">DOMICILIO</p>
 					</div>
 					<div class="col-sm-4 text-center border-soft">
-						<p class="without-margin color-black">TELEFONO</p>
+						<p class="without-margin color-black">TELÉFONO</p>
 					</div>
 				</div>
 				<div class="col-sm-12 without-padding">
@@ -131,7 +131,7 @@
 							{% elif paciente.telefonocelular %}
 								{{ paciente.telefonocelular }}
 							{% else %}
-								No cuenta con Telefono
+								No cuenta con Teléfono
 							{% endif %}
 						</strong></p>
 					</div>
@@ -143,19 +143,19 @@
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.motivoconsulta }}</strong></p>
 				</div>
 				<div class="col-sm-12 without-padding bckg-gray">
-					<p class="without-margin color-black border-soft">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ</p>
+					<p class="without-margin color-black border-soft">DIAGNÓSTICO NOSOLOGICO Y DE INVALIDEZ</p>
 				</div>
 				<div class="col-sm-12 without-padding">
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.diagnosticonosologico }}</strong></p>
 				</div>
 				<div class="col-sm-12 without-padding bckg-gray">
-					<p class="without-margin color-black border-soft">PSICOLOGIA</p>
+					<p class="without-margin color-black border-soft">PSICOLOGÍA</p>
 				</div>
 				<div class="col-sm-12 without-padding">
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.psicologia }}</strong></p>
 				</div>
 				<div class="col-sm-12 without-padding bckg-gray">
-					<p class="without-margin color-black border-soft">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)</p>
+					<p class="without-margin color-black border-soft">DIAGNÓSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)</p>
 				</div>
 				<div class="col-sm-12 without-padding">
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.diagnosticonosologico2 }}</strong></p>
@@ -183,7 +183,7 @@
 					{% endfor %}
 				</div>
 				<div class="col-sm-12 without-padding bckg-gray">
-					<p class="without-margin color-black border-soft">CANALIZACION A: (EXTRAINSTITUCIONAL)</p>
+					<p class="without-margin color-black border-soft">CANALIZACIÓN A: (EXTRAINSTITUCIONAL)</p>
 				</div>
 				<div class="col-sm-12 without-padding">
 					<p class="without-margin color-black border-soft text-center"><strong>{{ hojaPrevaloracion.canalizacion }}</strong></p>
@@ -212,7 +212,7 @@
 				</div>
 				
 				<div class="col-sm-12 text-center to-bottom">
-					<h4><strong>NOMBRE, FIRMA Y NUMERO DE CREDENCIAL DEL MÉDICO:</strong></h4>
+					<h4><strong>NOMBRE, FIRMA Y NÚMERO DE CREDENCIAL DEL MÉDICO:</strong></h4>
 					<div class="col-sm-6 text-center">
 						<br/>
 						<br/>
@@ -233,13 +233,13 @@
     			<div class="col-sm-12 without-padding">
     				<div class="col-sm-6">
 						<img class="center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" style="width: 100px;"/>
-						<h4 class="text-center"><strong>CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</strong></h4>
+						<h4 class="text-center"><strong>CENTRO DE REHABILITACIÓN Y EDUCACIÓN ESPECIAL DE CAMPECHE</strong></h4>
     				</div>
     				
     				<div class="col-sm-6 main-border-wihtoutHeight">
     					<img class="img-cree-hfrontral" src="{% static "preconsulta/images/cree-campeche-t.png" %}"/>
     					<div class="col-sm-10">
-    						<p class="without-margin color-black"><strong>NOMBRE Y NUMERO DE EXPEDIENTE</strong></p>
+    						<p class="without-margin color-black"><strong>NOMBRE Y NÚMERO DE EXPEDIENTE</strong></p>
     						<p class="without-margin color-black"> {{ paciente.nombre}} {{ paciente.apellidoP }} {{ paciente.apellidoM}} {{ expediente.claveexpediente}} </p>
     					</div>
     					
@@ -261,7 +261,7 @@
     					</div>
 						
     					<div class="col-sm-12">
-    						<p class="without-margin color-black"><strong>CENTRO DE REHABILITACION</strong></p>
+    						<p class="without-margin color-black"><strong>CENTRO DE REHABILITACIÓN</strong></p>
     						<p class="without-margin color-black">CREE CAMPECHE</p>
     					</div>
     				</div>
@@ -273,8 +273,8 @@
 						<thead>
 							<tr>
 								<th><strong>FECHA</strong></th>
-								<th><strong>DIAGNOSTICO NOSOLOGICO CON CLAVE CIE10 Y DIAGNOSTICO DE DISCAPACIDAD</strong></th>
-								<th><strong>NOMBRE Y N°. DE CREDENCIAL DEL MEDICO TRATANTE</strong></th>
+								<th><strong>DIAGNÓSTICO NOSOLOGICO CON CLAVE CIE10 Y DIAGNÓSTICO DE DISCAPACIDAD</strong></th>
+								<th><strong>NOMBRE Y N°. DE CREDENCIAL DEL MÉDICO TRATANTE</strong></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -300,7 +300,7 @@
 						<img class="center-block" src="{% static "preconsulta/images/DIF-Hprevaloracion.jpg" %}" style="width: 100px;"/>
     				</div>
     				<div class="col-sm-6">
-    					<h4 class="text-center"><strong>CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</strong></h4>
+    					<h4 class="text-center"><strong>CENTRO DE REHABILITACIÓN Y EDUCACIÓN ESPECIAL DE CAMPECHE</strong></h4>
     				</div>
     				<div class="col-sm-3">
 						<img class="center-block" src="{% static "preconsulta/images/cree-campeche-t.png" %}" style="width: 85px; height: 75px;"/>
@@ -320,7 +320,7 @@
 	    				<p class="without-margin color-black"><strong>No. EXPEDIENTE</strong></p>
     				</div>
     				<div class="col-sm-2 border-soft">
-	    				<p class="without-margin color-black"><strong>CLASIFICACION</strong></p>
+	    				<p class="without-margin color-black"><strong>CLASIFICACIÓN</strong></p>
     				</div>
     			</div>
     			<div class="col-sm-12 without-padding">
@@ -342,7 +342,7 @@
 	    				<p class="without-margin color-black"><strong>EDAD</strong></p>
     				</div>
     				<div class="col-sm-2 border-soft">
-	    				<p class="without-margin color-black"><strong>GENERO</strong></p>
+	    				<p class="without-margin color-black"><strong>GÉNERO</strong></p>
     				</div>
     				<div class="col-sm-2 border-soft">
 	    				<p class="without-margin color-black"><strong>EDO. CIVIL</strong></p>
@@ -384,7 +384,7 @@
 	    				<p class="without-margin color-black"><strong>ESCOLARIDAD</strong></p>
     				</div>
     				<div class="col-sm-4 border-soft">
-	    				<p class="without-margin color-black"><strong>OCUPACION</strong></p>
+	    				<p class="without-margin color-black"><strong>OCUPACIÓN</strong></p>
     				</div>
     				<div class="col-sm-4 border-soft">
 	    				<p class="without-margin color-black"><strong>TEL. CELULAR</strong></p>
@@ -402,7 +402,7 @@
 							{% if paciente.telefonocelular %}
 								{{ paciente.telefonocelular }}
 							{% else %}
-								No cuenta con Telefono celular
+								No cuenta con Teléfono celular
 							{% endif %}
 	    				</p>
     				</div>
@@ -424,14 +424,14 @@
 	    					{% if paciente.telefonocasa %}
 								{{ paciente.telefonocasa }}
 							{% else %}
-								No cuenta con Telefono de casa
+								No cuenta con Teléfono de casa
 							{% endif %}
 	    				</p>
     				</div>
     			</div>
     			<div class="col-sm-12 bckg-gray without-padding">
     				<div class="col-sm-12 border-soft">
-    					<p class="without-margin color-black"><strong>UBICACION ENTRE CALLES</strong></p>
+    					<p class="without-margin color-black"><strong>UBICACIÓN ENTRE CALLES</strong></p>
     				</div>
     			</div>
     			<div class="col-sm-12 without-padding">
@@ -444,7 +444,7 @@
     					<p class="without-margin color-black"><strong>LOCALIDAD Y MUNICIPIO</strong></p>
     				</div>
     				<div class="col-sm-4 border-soft">
-    					<p class="without-margin color-black"><strong>CODIGO POSTAL</strong></p>
+    					<p class="without-margin color-black"><strong>CÓDIGO POSTAL</strong></p>
     				</div>
     			</div>
     			<div class="col-sm-12 without-padding">
@@ -509,7 +509,7 @@
     			</div>
     			<div class="col-sm-12 bckg-gray without-padding">
     				<div class="col-sm-12 border-soft">
-    					<p class="without-margin color-black"><strong>DIAGNOSTICO Y PLAN SOCIAL</strong></p>
+    					<p class="without-margin color-black"><strong>DIAGNÓSTICO Y PLAN SOCIAL</strong></p>
     				</div>
     			</div>
     			<div class="col-sm-12 without-padding">
@@ -536,7 +536,7 @@
     					<p class="without-margin color-black"><strong>ESTADO CIVIL</strong></p>
     				</div>
     				<div class="col-sm-4 border-soft">
-    					<p class="without-margin color-black"><strong>OCUPACION ESCOLARIDAD</strong></p>
+    					<p class="without-margin color-black"><strong>OCUPACIÓN ESCOLARIDAD</strong></p>
     				</div>
 	    		</div>
     			{% for estructuraF in estructuraFamiliar %}
@@ -560,7 +560,7 @@
     			{% endfor %}
     			
 				<div class="col-sm-12 text-center to-bottom">
-					<h4><strong>NOMBRE, FIRMA Y NUMERO DE CREDENCIAL DEL EMPLEADO:</strong></h4>
+					<h4><strong>NOMBRE, FIRMA Y NÚMERO DE CREDENCIAL DEL EMPLEADO:</strong></h4>
 					<div class="col-sm-12">
 						<br/>
 						<br/>
@@ -574,7 +574,7 @@
     	<div class="col-sm-12 bckg-white">
     		<div class="col-sm-12 main-border">
     			<div class="col-sm-12">
-    				<h5 class="text-center"><strong>SITUACION ECONOMICA</strong></h5>
+    				<h5 class="text-center"><strong>SITUACIÓN ECONÓMICA</strong></h5>
     			</div>
     			<div class="col-sm-12">
 					<div class="col-sm-4">
@@ -639,7 +639,7 @@
 					</div>
 				</div>
 				<div class="col-sm-12">
-    				<h5 class="text-center"><strong>CARACTERISTICAS DE LA VIVIENDA - {{ estudioSE2.vivienda.vivienda }}</strong></h5>
+    				<h5 class="text-center"><strong>CARACTERÍSTICAS DE LA VIVIENDA - {{ estudioSE2.vivienda.vivienda }}</strong></h5>
     			</div>
     			<div class="col-sm-12">
     				<div class="col-sm-4">
@@ -714,7 +714,7 @@
     			<div class="col-sm-12">
 					<div class="col-sm-4">
 						<div class="panel panel-default">
-							<div class="panel-heading">Construccion de la Vivienda</div>
+							<div class="panel-heading">Construcción de la Vivienda</div>
 							<div class="panel-body">			
 								{% for construccion in construccionViviendaE %}
 								<div class="input-group">
@@ -887,7 +887,7 @@
 								{% elif paciente.telefonocelular %}
 									{{ paciente.telefonocelular }}
 								{% else %}
-									No cuenta con Telefono
+									No cuenta con Teléfono
 								{% endif %}
     						</h5>
     					</div>
@@ -1405,11 +1405,11 @@
 							</tr>
 						</tbody>
 					</table>
-					<p class="without-margin color-black text-min">EN CASA DE NO ASISTIR A SU CONSULTA O SERVICIO, FAVOR DE AVISAR 24 HRS. ANTES A LOS TELEFONOS 8161310, 8162169 OPC. 5. DIRECCION: CALLE 7 S/N AREA DEL FOVI, CAMPECHE, CAMPECHE. QUEJAS Y/O SUGERENCIAS: informacion_cree@hotmail.com</p>
+					<p class="without-margin color-black text-min">EN CASO DE NO ASISTIR A SU CONSULTA O SERVICIO, FAVOR DE AVISAR 24 HRS. ANTES A LOS TELEFONOS 8161310, 8162169 OPC. 5. DIRECCIÓN: CALLE 7 S/N AREA DEL FOVI, CAMPECHE, CAMPECHE. QUEJAS Y/O SUGERENCIAS: informacion_cree@hotmail.com</p>
 					<!--<p class="without-margin color-black text-min">QUEJAS Y/O SUGERENCIAS: informacion_cree@hotmail.com</p>-->
 				</div>
 				<div class="col-sm-6 without-padding">
-					<h3 class="text-center">CENTRO DE REHABILITACION Y EDUCACION ESPECIAL DE CAMPECHE</h3>
+					<h3 class="text-center">CENTRO DE REHABILITACIÓN Y EDUCACIÓN ESPECIAL DE CAMPECHE</h3>
 					<h4 class="text-center">CARNET DE CITAS</h4>
 					<div class="col-sm-12 border-soft without-padding">
 						<div class="col-sm-12 without-padding margin-bottom-5">
@@ -1420,7 +1420,7 @@
 								<p class="without-margin color-black">Edad: <strong>{{ paciente.edad }}</strong></p>
 							</div>
 							<div class="col-sm-2 without-padding">
-								<p class="without-margin color-black">Genero: 
+								<p class="without-margin color-black">Género: 
 									<strong>
 										{% if paciente.genero == 1 %}
 											H
@@ -1441,7 +1441,7 @@
 								<p class="without-margin color-black">&nbsp;Municipio: <strong>{{ paciente.estadoprocedente.descripcion }}-{{ paciente.municipio.descripcion}}</strong></p>
 							</div>
 							<div class="col-sm-4">
-								<p class="without-margin color-black">Clasificacion: <strong>{{ estudioSE1.clasificacion }}</strong></p>
+								<p class="without-margin color-black">Clasificación: <strong>{{ estudioSE1.clasificacion }}</strong></p>
 							</div>
 						</div>
 					</div>

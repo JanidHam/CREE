@@ -46,19 +46,19 @@
 <div class="row mt color-black" id="form">
 	<div class="col-lg-12">
 		<div class="form-panel">
-			<h4 class="mb">Formulario revision psicologica</h4>
+			<h4 class="mb">Formulario revisión psicologica</h4>
 			<form class="form-horizontal tasi-form" role="form">
 				{% csrf_token %}
 				<div class="form-group">
 					<div class="col-lg-12">
-						<label for="psicologia" class="control-label">PSICOLOGIA:</label>
-						<textarea class="form-control text-uppercase" id="psicologia" placeholder="PSICOLOGIA" rows="5">{% if hojaPrevaloracion %}{{ hojaPrevaloracion.psicologia }}{% endif %}</textarea>
+						<label for="psicologia" class="control-label">PSICOLOGÍA:</label>
+						<textarea class="form-control text-uppercase" id="psicologia" placeholder="PSICOLOGÍA" rows="5">{% if hojaPrevaloracion %}{{ hojaPrevaloracion.psicologia }}{% endif %}</textarea>
 					</div>					
 				</div>
 				<div class="form-group">
 					<div class="col-lg-12">
-						<label for="diagnosticoNosologicoBreve" class="control-label">DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.):</label>
-						<input type="text" class="form-control text-uppercase" id="diagnosticoNosologicoBreve" placeholder="DIAGNOSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)" value="{% if hojaPrevaloracion %}{{ hojaPrevaloracion.diagnosticonosologico2 }}{% endif %}">
+						<label for="diagnosticoNosologicoBreve" class="control-label">DIAGNÓSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.):</label>
+						<input type="text" class="form-control text-uppercase" id="diagnosticoNosologicoBreve" placeholder="DIAGNÓSTICO NOSOLOGICO Y DE INVALIDEZ (BREVE RESEÑA DEL P.A.)" value="{% if hojaPrevaloracion %}{{ hojaPrevaloracion.diagnosticonosologico2 }}{% endif %}">
 					</div>					
 				</div>
 				<h4 class="mb">CITA A: (SERVICIOS DEL CREE)</h4>
