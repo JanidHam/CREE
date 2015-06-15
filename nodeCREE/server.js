@@ -66,6 +66,10 @@ io.on('connection', function(socket) {
 		}		
 	});
 
+	socket.on('update_paciente_print', function(data) {
+		io.emit('show_paciente_to_print', data)
+	});
+
 	socket.on('addPsicologiaHojaPrevaloracion', function(data) {
 		var values = querystring.stringify(data);
 		var options = {

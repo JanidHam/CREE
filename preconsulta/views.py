@@ -446,6 +446,9 @@ def addEstudioSocioeconomico(request):
 					expediente.clue = getClueExpediente(paciente.localidad, cabezarasLocalidades, estudio1.seguridad_social.clave)
 					expediente.save()
 
+					paciente.imprimir = True
+					paciente.save()
+
 					mensaje = "ok"
 
 			except ValueError as e:
@@ -455,7 +458,7 @@ def addEstudioSocioeconomico(request):
 				logger.error(sys.exc_info()[0])
 				mensaje = "Error al crear los estudios socio economicos."
 
-		response = JsonResponse({'isOk' : mensaje})
+		response = JsonResponse({'isOk' : mensaje, 'curp': paciente.curp})
 		return HttpResponse(response.content)
 	else:
 		raise Http404

@@ -287,7 +287,12 @@ function getBarrerasExternasVivienda() {
 function checkIsDataIsCorrect(data) {
     var data = JSON.parse(data);
     console.log(data);
-    if (data.isOk == "ok") {  
+    if (data.isOk == "ok") {
+        if ($claveEstudio.val() == 'None') {
+            try {
+                socket.emit('update_paciente_print', data)
+            } catch(err) { }
+        }
         window.location.href = "/preconsulta/";
     } else {
         alert(data.isOk);

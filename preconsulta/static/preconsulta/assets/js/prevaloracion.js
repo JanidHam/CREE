@@ -153,6 +153,13 @@ function updateEstatusPaciente(data) {
   } 
 }
 
+function updateToPrint(data) {
+  console.log("para imprimir")
+  console.log(data)
+  var $paciente = $('#' + data.curp).children().last()
+  $paciente.append('<i class="fa fa-print"></i>')
+}
+
 function show_hideForm() {
 	$form.slideToggle();
 	return false;
@@ -410,8 +417,10 @@ $curpInput.focusout( fillDataCurp )
 
 $('#paciente-curp').focusout( fillDataCurpToEditPaciente )
 
-socket.on('mostrar_paciente', showPaciente );
+socket.on('mostrar_paciente', showPaciente )
 
-socket.on('correspondio_paciente', updateEstatusPaciente );
+socket.on('correspondio_paciente', updateEstatusPaciente )
+
+socket.on('show_paciente_to_print', updateToPrint )
 
 socket.on('update_paciente_reloadpage', pacienteUpdateCorrectReloadPage)
