@@ -168,6 +168,9 @@
                 </div>
                 <div class="col-lg-6 goright">
                     {{paciente.municipio.descripcion}}
+                    {% if paciente.imprimir %}
+                        <i class="fa fa-print"></i>
+                    {% endif %}
                     {# {{paciente.estadoprocedente.descripcion}} - {{paciente.municipio.descripcion}} #}
                 </div>
             {# <p class="gorigth"> {{paciente.estadoprocendete.descripcion}}</p> #}

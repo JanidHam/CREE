@@ -33,6 +33,7 @@ class Paciente(models.Model):
 	#Otros datos
 	#correspondio    = models.BooleanField()
 	correspondio     = models.NullBooleanField()
+	imprimir         = models.BooleanField(default=False)
 	usuariocreacion  = models.ForeignKey(UserProfile, related_name='paciente_usuario')
 	#creadopor       = models.CharField(max_length=255)
 	fechacreacion    = models.DateField(auto_now_add=True)#el auto_now_add sirve para poner la fecha de creacion sin el add se pone la fecha en la que se modifica
