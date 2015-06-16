@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, Http404
 from .models import Paciente, HojaPrevaloracion, Expediente, HojaFrontal, ServicioExpediente, EstudioSocioE1, EstudioSocioE2, EstudioSocioE2IngresosEgresos, EstructuraFamiliaESE1, ProgramaExpediente, PacienteDataEnfermeria, CartaConsetimiento
 from catalogos.models import Municipio, Estado, Ocupacion, Escolaridad, Referidopor, ServicioCree, ProgramaCree, MotivoEstudioSE, IngresosEgresos, TipoVivienda, ComponenteVivienda, ServicioVivienda, TenenciaVivienda, ConstruccionVivienda, BarreraArquitectonicaVivienda, ClasificacionEconomica, MensajesEnfemeriaTicket, EstadoCivil, Parentesco, MensajesCartaConsentimiento, SeguridadSocial
-from .utils import getUpdateConsecutiveExpendiete, getClueExpediente
+from .utils import getUpdateConsecutiveExpendiete, getClueExpediente, listCabezerasLocalidades
 from .decorators import redirect_view, validViewPermissionRevisionMedica, validViewPermissionRevisionPsicologica, validViewPermissionTrabajoSocial, validViewPermissionImprimirDocumentos, validViewPermissionEnfemeria
 from django.contrib.auth.models import User, Group
 from datetime import date, datetime
@@ -442,7 +442,7 @@ def addEstudioSocioeconomico(request):
 					for i in barrerasEV:
 						estudio2.barreravivienda.add(i)
 
-					cabezarasLocalidades = ("CAMPECHE")
+					cabezarasLocalidades = listCabezerasLocalidades()
 					expediente.clue = getClueExpediente(paciente.localidad, cabezarasLocalidades, estudio1.seguridad_social.clave)
 					expediente.save()
 

@@ -22,3 +22,8 @@ def getClueExpediente(localidad, lista, claveSeguridadSocial):
 		return "%d-%s" %(0, claveSeguridadSocial)
 	else:
 		return "%d-%s" %(1, claveSeguridadSocial)
+
+def listCabezerasLocalidades():
+	listLocalidades = ("CALAKMUL", "CALKINI", "CAMPECHE", "CARMEN", "CHAMPOTON", "ESCARCEGA", "HECELCHAKAN",
+						"HOPELCHEN", "PALIZADA", "TENABO", "CANDELARIA")
+	return listLocalidades
