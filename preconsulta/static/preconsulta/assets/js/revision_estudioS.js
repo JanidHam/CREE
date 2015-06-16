@@ -56,8 +56,12 @@ var $addEstructuraF = $('#addEstructuraFamiliar');
 //Funciones
 
 function addEstructuraFamiliar() {
-
-	$('#form-estructura').clone().prependTo('#estructura-familiar');	
+    
+    var newRowEstructuraF = $('#estrucClone').clone()
+    newRowEstructuraF.removeAttr('id')
+    newRowEstructuraF.removeClass('hide')
+    $('#form-estructura').prepend(newRowEstructuraF)
+	//$('#form-estructura').clone().prependTo('#estructura-familiar');
 
     //$estructuraFNombre = $('input:text[name=nombreFamiliar]');
 
