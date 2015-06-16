@@ -685,7 +685,8 @@ def addHojaPrevaloracion(request):
 							codigopostalresponsable = request.POST['codigopostalResponsable'],
 							telefonoresponsable     = request.POST['telefonoResponsable'],
 							doctor_id               = u.perfil_usuario.id,
-							expediente_id           = expediente.id
+							expediente_id           = expediente.id,
+							diagnostico             = request.POST['diagnosticoNosologico']
 							)
 
 						correspondio = True

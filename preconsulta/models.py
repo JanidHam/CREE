@@ -173,7 +173,7 @@ class TarjetonTerapia(models.Model):
 class CartaConsetimiento(models.Model):
 	edad                    = models.IntegerField()
 	fechacreacion           = models.DateField(auto_now_add=True)
-	#diagnostico            = models.TextField() no lleva diagnostico
+	diagnostico             = models.TextField(blank=True)
 	#Responsable del paciente
 	nombreresponsable       = models.CharField(blank=True,max_length=150)
 	apellidosresponsable    = models.CharField(blank=True,max_length=150)
