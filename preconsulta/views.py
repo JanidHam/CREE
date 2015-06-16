@@ -506,12 +506,12 @@ def addPsicologiaHojaPrevaloracion(request):
 						)
 				try:
 					hojaFront                       = HojaFrontal.objects.get(expediente__id=expediente.id, fechacreacion=date.today(), usuario__id=hojaPrev.psicologo.id)
-					hojaFront.diagnosticonosologico = request.POST['psicologia']
+					hojaFront.diagnosticonosologico = request.POST['diagnosticoNosologicoBreve']
 					hojaFront.save()
 				except:
 					HojaFrontal.objects.create(
 						edad                  = paciente.edad,
-						diagnosticonosologico = request.POST['psicologia'],
+						diagnosticonosologico = request.POST['diagnosticoNosologicoBreve'],
 						usuario_id            = u.perfil_usuario.id,
 						expediente_id         = expediente.id
 					)
