@@ -189,9 +189,9 @@ def imprimirDocumentos(request, paciente):
 	barrerasVivienda        = BarreraArquitectonicaVivienda.objects.filter(is_active=True).exclude(id__in=[b.id for b in barrerasViviendaE])
 	
 	deficitExcedente        = estudioSE2.excedente - estudioSE2.deficit
-	dificit = None
-	if deficitExcedente > 0:
-		dificit = True
+	deficit = None
+	if deficitExcedente < 0:
+		deficit = True
 
 	rowsVacios              = 20 - len(serviciosExpediente)
 	rows                    = list()
@@ -208,7 +208,7 @@ def imprimirDocumentos(request, paciente):
      'serviciosViviendaE' : serviciosViviendaE, 'tenenciasViviendaE' : tenenciasViviendaE, 
      'construccionViviendaE' : construccionViviendaE, 'barrerasViviendaE' : barrerasViviendaE, 'rows' : rows,
      'cartaConsentimiento': cartaConsentimiento, 'fechaActual': fechaActual, 'mensajeCartaC': mensajeCartaC,
-     'deficitExcedente': deficitExcedente, 'dificit': dificit}
+     'deficitExcedente': deficitExcedente, 'deficit': deficit}
 
 	return render_to_response('preconsulta/ImprimirDocumentos.html', contexto, context_instance=RequestContext(request))
 
