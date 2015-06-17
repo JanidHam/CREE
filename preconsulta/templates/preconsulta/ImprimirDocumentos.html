@@ -629,14 +629,17 @@
 						</div>
 					</div>
 					<div class="col-sm-3">
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="..." placeholder="DEFICIT"  disabled>
-							<span class="input-group-addon color-white">${{ estudioSE2.deficit }}</span>
-						</div><!-- /input-group -->
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="..." placeholder="EXCEDENTE"  disabled>
-							<span class="input-group-addon color-white">${{ estudioSE2.excedente }}</span>
-						</div><!-- /input-group -->
+						{% if deficit %}
+							<div class="input-group">
+								<input type="text" class="form-control" aria-label="..." placeholder="DEFICIT"  disabled>
+								<span class="input-group-addon color-white">${{ deficitExcedente }}</span>
+							</div><!-- /input-group -->	
+						{% else %}
+							<div class="input-group">
+								<input type="text" class="form-control" aria-label="..." placeholder="EXCEDENTE"  disabled>
+								<span class="input-group-addon color-white">${{ deficitExcedente }}</span>
+							</div><!-- /input-group -->
+						{% endif %}
 					</div>
 				</div>
 				<div class="col-sm-12">
