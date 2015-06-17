@@ -119,9 +119,17 @@ function validEstudio() {
         if ($apellidoEntrevistado.val() !== '') {
             if ($cantidadBanios.val() !== '') {
                 if ($cantidadRecamaras.val() !== '') {
-                    return true;
+                    if (validIsNumber($cantidadRecamaras.val())) {
+                        if (validIsNumber($cantidadBanios.val())) {
+                            return true;    
+                        } else {
+                            alert("La 'Cantidad de Baños' debe ser un número.");
+                        }
+                    } else {
+                        alert("La 'Cantidad de Recámaras' debe ser un número.");
+                    }
                 } else {
-                    alert("La 'Cantidad de Recamaras' no puede ir vacia.");
+                    alert("La 'Cantidad de Recámaras' no puede ir vacia.");
                 } 
             } else {
                     alert("La 'Cantidad de Baños' no puede ir vacia.");
@@ -135,13 +143,21 @@ function validEstudio() {
     return false;
 }
 
+function validIsNumber(value) {
+  var pattern = /^\d+$/
+  return pattern.test(value)
+}
+
 function getTotalIngresos() {
     var tempTotal = 0
     for (var i = 0; i < $ingresos.length; i++) {
-        if ($ingresos[i].value !== "")
+        if ($ingresos[i].value !== "" && validIsNumber($ingresos[i].value)) {
             tempTotal += parseInt($ingresos[i].value)
-        else
-            console.log('no es numero')
+        }
+        else {
+            $ingresos[i].value = ""
+            //console.log($ingresos[i])
+        }
     }
     $excedente.val(tempTotal)
     //console.log($excedente.val())
@@ -150,10 +166,13 @@ function getTotalIngresos() {
 function getTotalEgresos() {
     var tempTotal = 0
     for (var i = 0; i < $egresos.length; i++) {
-        if ($egresos[i].value !== "")
+        if ($egresos[i].value !== "" && validIsNumber($egresos[i].value)) {
             tempTotal += parseInt($egresos[i].value)
-        else
-            console.log('no es numero')
+        }
+        else {
+            $egresos[i].value = ""
+            //console.log($egresos[i].value)
+        }
     }
     $deficit.val(tempTotal)
     //console.log($deficit.val())
